@@ -5808,13 +5808,13 @@
       "legend": {
         "alignAsTable": false,
         "avg": false,
-        "current": false,
+        "current": true,
         "max": false,
         "min": false,
         "rightSide": false,
         "show": true,
         "total": false,
-        "values": false
+        "values": true
       },
       "lines": true,
       "linewidth": 1,
@@ -6042,13 +6042,13 @@
       "hiddenSeries": false,
       "id": 22,
       "legend": {
-        "avg": false,
+        "avg": true,
         "current": false,
         "max": false,
         "min": false,
         "show": true,
         "total": false,
-        "values": false
+        "values": true
       },
       "lines": true,
       "linewidth": 1,
@@ -6326,13 +6326,13 @@
       "hiddenSeries": false,
       "id": 36,
       "legend": {
-        "avg": false,
+        "avg": true,
         "current": false,
         "max": false,
         "min": false,
         "show": true,
         "total": false,
-        "values": false
+        "values": true
       },
       "lines": true,
       "linewidth": 1,
@@ -6914,13 +6914,14 @@
       "hiddenSeries": false,
       "id": 42,
       "legend": {
-        "avg": false,
+        "alignAsTable": false,
+        "avg": true,
         "current": false,
-        "max": false,
+        "max": true,
         "min": false,
         "show": true,
         "total": false,
-        "values": false
+        "values": true
       },
       "lines": true,
       "linewidth": 1,
@@ -6970,7 +6971,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "select mean(q) from (SELECT (mean(\"U_A-B\") -  mean(\"M_U_AB\")) /  mean(\"M_U_AB\") *100 as q FROM \"Huawei\" WHERE (\"U_A-B\" > 10) AND $timeFilter GROUP BY time($__interval) fill(null)) GROUP BY time(30m)",
+          "query": "select mean(q) from (SELECT (mean(\"U_A-B\") -  mean(\"M_U_AB\")) /  mean(\"M_U_AB\") *100 as q FROM \"Huawei\" WHERE (\"U_A-B\" > 10) AND $timeFilter GROUP BY time($__interval) fill(null)) GROUP BY time(10m)",
           "rawQuery": true,
           "refId": "B",
           "resultFormat": "time_series",
@@ -7066,7 +7067,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "select mean(q) from (SELECT (mean(\"U_A-B\") -  mean(\"M_U_AB\"))  * mean(\"I_A\") as q FROM \"Huawei\" WHERE (\"U_A-B\" > 10) AND $timeFilter GROUP BY time($__interval) ) GROUP BY time(30m)",
+          "query": "select mean(q) from (SELECT (mean(\"U_A-B\") -  mean(\"M_U_AB\"))  * mean(\"I_A\") as q FROM \"Huawei\" WHERE (\"I_A\" > 15) AND $timeFilter GROUP BY time($__interval) ) GROUP BY time(10m)",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -7111,7 +7112,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "select mean(q) from (SELECT (mean(\"U_A-B\") -  mean(\"M_U_AB\"))  / mean(\"I_A\") * 1000 as q FROM \"Huawei\" WHERE (\"I_A\" > 10) AND $timeFilter GROUP BY time($__interval) fill(null)) GROUP BY time(30m)",
+          "query": "select mean(q) from (SELECT (mean(\"U_A-B\") -  mean(\"M_U_AB\"))  / mean(\"I_A\") * 1000 as q FROM \"Huawei\" WHERE (\"I_A\" > 15) AND $timeFilter GROUP BY time($__interval) fill(null)) GROUP BY time(10m)",
           "rawQuery": true,
           "refId": "D",
           "resultFormat": "time_series",
@@ -7903,5 +7904,5 @@
   "timezone": "",
   "title": "Solar",
   "uid": "dtVwFFPWz",
-  "version": 50
+  "version": 53
 }

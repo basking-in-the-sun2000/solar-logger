@@ -1,5 +1,5 @@
 import config
-from modbustcp import connect_bus, read_registers
+from modbustcp import connect_bus, read_registers, close_bus
 import time
 import datetime
 import solcast
@@ -485,6 +485,15 @@ def main():
 
                 daily['Temp'] = tmax
                 tmax = 0
+
+                s = 'SELECT cumulative_sum(integral("power90")) /3600 * 0.82  as power90, cumulative_sum(integral("power10")) /3600 * 0.82  as power10, cumulative_sum(integral("power")) /3600 * 0.82  as power FROM "forcast" WHERE time > now() -22h group by time(1d)'
+
+                zeros = flux_client.query(s, database=config.influxdb_database)
+                m = list(zeros.get_points(measurement="forcast"))
+
+                daily['f_power90'] = m[0]['power90']
+                daily['f_power10'] = m[0]['power10']
+                daily['f_power'] = m[0]['power']
 
                 print(midnight)
                 print(c_gen)
