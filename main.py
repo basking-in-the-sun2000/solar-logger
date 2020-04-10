@@ -176,8 +176,11 @@ def write_influx(flux_client, measurement, iden, db, t = 0):
 
 def forcast():
     global flux_client
-    r1 = solcast.get_rooftop_forcasts(config.site_UUID)
-
+    try:
+		r1 = solcast.get_rooftop_forcasts(config.site_UUID)
+	except:
+		print("solcast off-line")
+		return time.time() + 15 * 60
 
     for x in r1.content['forecasts']:
         dt = x['period_end'] 
@@ -556,7 +559,10 @@ def main():
 
 while True: 
     print("starting")
-    main()
+    try:
+    	main()
+    except:
+    	print("something went wrong")
     close_bus(client)
     flux_client.close()
     del flux_client
