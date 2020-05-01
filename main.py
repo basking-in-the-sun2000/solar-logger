@@ -513,9 +513,15 @@ def main():
                 zeros = flux_client.query(s, database=config.influxdb_database)
                 m = list(zeros.get_points(measurement="forcast"))
 
-                daily['f_power90'] = m[0]['power90']
-                daily['f_power10'] = m[0]['power10']
                 daily['f_power'] = m[0]['power']
+                try:
+                    daily['f_power90'] = m[0]['power90']
+                    daily['f_power10'] = m[0]['power10']
+                except:
+                    daily['f_power90'] = m[0]['power']
+                    daily['f_power10'] = m[0]['power']
+                    
+                
                 
                 if config.debug:
                     print(midnight)
