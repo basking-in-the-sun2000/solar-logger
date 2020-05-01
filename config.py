@@ -1,4 +1,4 @@
-inverter_ip = "192.168.xx.xx"
+inverter_ip = ""
 inverter_port = 502
 # Slave Defaults
 # Sungrow: 0x01
@@ -22,10 +22,13 @@ offset_a = -0.5
 offset_b = 1.5
 latitude = lat
 longitude = longitude
-forcast_capacity = 365 * 24
+forcast_capacity = 10 # in kW
 tilt = my_tilt
-azimuth = 180 
+azimuth = 180   # 0 north, 180 south
 time_zone = 'your timezone'
 solcast_api = "your_key"
-install_date = "20yymmdd"
+install_date = "20yy-mm-dd"
 site_UUID = "xxxx-xxxx-xxxx-xxxx"
+soltun = True # also skipped if solfor not equals 1
+solfor = 1 # 0 off, 1 rooftop, 2 world pv power
+debug = True

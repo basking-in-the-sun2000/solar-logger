@@ -56,8 +56,9 @@ def call_function(method_name, values):
     try:
         return method(values)
     except:
-        print("error in call_function")
-        print(method_name, values)
+        if config.debug:
+            print("error in call_function")
+            print(method_name, values)
 
 #       close_bus(client)
 #       gc.collect()
@@ -95,7 +96,8 @@ def do_map(client, config, inverter):
             except:
                 time.sleep(0.3)
                 k += 1
-                print("trying to recover", register, k)
+                if config.debug:
+                    print("trying to recover", register, k)
                 if k > 3:
                     return True
 
@@ -166,21 +168,32 @@ def write_influx(flux_client, measurement, iden, db, t = 0):
         try:
             target=flux_client.write_points(metrics, database=db)
             if not target:
-                print(vars(target))
+                if config.debug:
+                    print(vars(target))
+#                   print(metrics)
             return target
         except:
             ok = False
-            print("error")
-            print(metrics)
+            if config.debug:
+                print("error")
+                print(metrics)
             return False
 
 def forcast():
     global flux_client
+    print("in forcast")
     try:
-		r1 = solcast.get_rooftop_forcasts(config.site_UUID)
-	except:
-		print("solcast off-line")
-		return time.time() + 15 * 60
+        if (config.solfor == 1):
+            r1 = solcast.get_rooftop_forcasts(config.site_UUID)
+        elif (config.solfor == 2):
+            r1 = solcast.get_wpv_power_forecasts(config.latitude, config.longitude, config.forcast_capacity, 
+                                                 tilt=config.tilt, azimuth=config.azimuth, install_date = config.install_date, hours = 48)
+        else:
+            return int(time.time() + 24 * 3600)
+
+    except:
+        print("solcast off-line")
+        return int(time.time() + 15 * 60)
 
     for x in r1.content['forecasts']:
         dt = x['period_end'] 
@@ -188,42 +201,16 @@ def forcast():
         dt = dt.astimezone(pytz.timezone(config.time_zone))
         dt = time.mktime(dt.timetuple())
 
+    if (config.solfor == 1):
         measurement = {'power': float(x['pv_estimate']), 'power10': float(x['pv_estimate10']), 'power90': float(x['pv_estimate90']) }
+    elif (config.solfor == 2):
+        measurement = {'power': float(x['pv_estimate'])}
 
-        write_influx(flux_client, measurement, "forcast", config.influxdb_database, int(dt) * 1000000000)
-
-    forcast_time = float(time.strftime("%H"))
-    if (8 <= forcast_time < 16):
-        forcast_time = 2 - (forcast_time % 2)
-    else:
-        forcast_time = 4 - (forcast_time % 4)
-
-    forcast_time *= 3600
-    forcast_time = int(time.mktime(time.strptime(time.strftime('%Y-%m-%d %H:00:00', time.localtime(time.time()+forcast_time)), "%Y-%m-%d %H:%M:%S")))
-
-    print("next forcast " + time.ctime(forcast_time))
-
-    return forcast_time
-
-def forcast_pv_power():
-    global flux_client
-    r1 = solcast.get_pv_power_forecasts(config.latitude, config.longitude, config.forcast_capacity, 
-                                        tilt=config.tilt, azimuth=config.azimuth, install_date = config.install_date,
-                                        api_key= config.solcast_api)
-
-
-    for x in r1.forecasts:
-
-        dt = x['period_end'] #- x['period']
-        dt = dt.replace(tzinfo=pytz.timezone('UTC'))
-        dt = dt.astimezone(pytz.timezone(config.time_zone))
-        dt = time.mktime(dt.timetuple())
-
-        measurement = {'power': float(x['pv_estimate']) }
 
         write_influx(flux_client, measurement, "forcast", config.influxdb_database, int(dt) * 1000000000)
 
 
+    print("done getting forcast")
     forcast_time = float(time.strftime("%H"))
     if (8 <= forcast_time < 16):
         forcast_time = 2 - (forcast_time % 2)
@@ -238,8 +225,14 @@ def forcast_pv_power():
     return forcast_time
 
 def send_measurements(midnight, flux_client):
+    if (not config.soltun) or (config.solfor != 1):
+        return
     slices = 5
     s = ('SELECT mean("P_active") as "power" FROM "%s"  WHERE time >= %s and time <= %s GROUP BY time(%sm) fill(none)') % (config.model, str(midnight*1000000000), str((midnight + 24 * 3600 )*1000000000), slices)
+
+    if config.debug:
+        print(s)
+        print(time.ctime(midnight))
 
     zeros=flux_client.query(s, database=config.influxdb_database)
 
@@ -250,13 +243,19 @@ def send_measurements(midnight, flux_client):
         if i['power'] == 0:
             continue
         temp = {}
-        temp['total_power'] = str(round(i['power'],3))
+        temp['total_power'] = str(round(i['power'], 3))
         j = int(time.mktime(time.strptime(i["time"], "%Y-%m-%dT%H:%M:%SZ")))
         temp['period_end'] = time.strftime('%Y-%m-%dT%H:%M:%SZ', time.localtime(j + 60 * slices))
         temp['period'] = 'PT'+str(slices)+'M'
         measurements.append(temp)
 
-    roof = solcast.post_rooftop_measurements(config.site_UUID, measurements)
+#   print(measurements)
+    try:
+        roof = solcast.post_rooftop_measurements(config.site_UUID, measurements)
+    except:
+        print("solcast not receiving tuning")
+        if config.debug:
+            print(vars(roof))
 
 
 def fill_blanks(flux_client, midnight):
@@ -304,7 +303,8 @@ def fill_blanks(flux_client, midnight):
         except:
             continue
             
-        print("filled "+str(k)+" daily blanks")
+        if config.debug:
+            print("filled "+str(k)+" daily blanks")
 
 
 def main():
@@ -331,16 +331,25 @@ def main():
 
     inverter_file = config.model
     inverter = __import__(inverter_file)
+     
+    if config.debug:
+        print("got it")
+    
+    inverter_ip = inverter.inv_address()
+    if inverter_ip != "":
+        config.inverter_ip = inverter_ip
+        
+    print(config.inverter_ip)
 
     client = connect_bus(ip=config.inverter_ip, 
-                        PortN = config.inverter_port,
-                        timeout = config.timeout)
+                         PortN = config.inverter_port,
+                         timeout = config.timeout)
 
     try:
         flux_client = InfluxDBClient(host=config.influxdb_ip,
-                                    port=config.influxdb_port,
-                                    username=config.influxdb_user,
-                                    password=config.influxdb_password)
+                                     port=config.influxdb_port,
+                                     username=config.influxdb_user,
+                                     password=config.influxdb_password)
 
 
                 # config.influxdb_database                  
@@ -398,8 +407,12 @@ def main():
     m = list(zeros.get_points(measurement=config.model+"_info"))
 
     try:
+        if config.debug:
+            print(m[0])
         min_ins = m[0]['Insulation']
     except:
+        if config.debug:
+            print(s)
         min_ins = 1000
 
     midnight = int(time.mktime(time.strptime(time.strftime( "%m/%d/%Y ") + " 23:59:59", "%m/%d/%Y %H:%M:%S"))) + 1
@@ -412,7 +425,8 @@ def main():
 
     forcast_time = forcast()
 
-    print("loop")
+    if config.debug:
+        print("loop")
 
     ok = True
     
@@ -427,10 +441,13 @@ def main():
             j = 0
             while do_map(client, config, inverter):
                 j += 1
-                print("map looping")
+                if config.debug:
+                    print(time.ctime(), register)
+                    print("map looping")
                 time.sleep(10)
                 if j > 10:
-                    print("map infinite loop")
+                    if config.debug:
+                        print("map infinite loop")
                     ok = False
                 if not ok:
                     return -1
@@ -444,24 +461,26 @@ def main():
                 write_influx(flux_client, info, config.model + "_info", config.influxdb_database)               
                 info_time = current_time
 
-                print(info)
-                print(y_exp)
-                print(c_exp)
-                print(y_tot)
-                print(c_tot)
-                print(y_gen)
-                print(c_gen)
-                print(c_peak)
-                print(c_start)
-                print(c_stop)
-                print(tmax)
-                print(min_ins)
+                if config.debug:
+                    print(info)
+                    print(y_exp)
+                    print(c_exp)
+                    print(y_tot)
+                    print(c_tot)
+                    print(y_gen)
+                    print(c_gen)
+                    print(c_peak)
+                    print(c_start)
+                    print(c_stop)
+                    print(tmax)
+                    print(min_ins)
 
 
             if (status != last_status):
                 write_influx(flux_client, status, config.model + "_stat", config.influxdb_database)             
                 last_status = status
-                print(status)
+                if config.debug:
+                    print(status)
 
             x = config.scan_interval - (float(time.strftime("%S")) % config.scan_interval)
 
@@ -488,7 +507,7 @@ def main():
 
                 daily['Temp'] = tmax
                 tmax = 0
-
+                
                 s = 'SELECT cumulative_sum(integral("power90")) /3600 * 0.82  as power90, cumulative_sum(integral("power10")) /3600 * 0.82  as power10, cumulative_sum(integral("power")) /3600 * 0.82  as power FROM "forcast" WHERE time > now() -22h group by time(1d)'
 
                 zeros = flux_client.query(s, database=config.influxdb_database)
@@ -497,11 +516,12 @@ def main():
                 daily['f_power90'] = m[0]['power90']
                 daily['f_power10'] = m[0]['power10']
                 daily['f_power'] = m[0]['power']
-
-                print(midnight)
-                print(c_gen)
-                print(y_gen)
-                print(c_peak)
+                
+                if config.debug:
+                    print(midnight)
+                    print(c_gen)
+                    print(y_gen)
+                    print(c_peak)
 
                 if y_exp != 0 and y_tot != 0:
                     daily['P_Load'] = c_gen - (c_exp - y_exp) + (c_tot - y_tot)
@@ -523,13 +543,15 @@ def main():
                 daily['Shutdown'] = c_stop
 
                 write_influx(flux_client, daily, config.model + "_daily", config.influxdb_longterm, (midnight - 24 * 3600) * 1000000000)
-
-                print(daily)
+                
+                if config.debug:
+                    print(time.ctime(midnight - 24 * 3600))
+                    print(daily)
 
                 send_measurements(midnight - 24 * 3600, flux_client)
-                
-                midnight = int(time.mktime(time.strptime(time.strftime( "%m/%d/%Y ") + " 23:59:59", "%m/%d/%Y %H:%M:%S"))) + 1
 
+                midnight = int(time.mktime(time.strptime(time.strftime( "%m/%d/%Y ") + " 23:59:59", "%m/%d/%Y %H:%M:%S"))) + 1
+                
             if (int(time.time()) > forcast_time):
                 forcast_time = forcast()
 
@@ -560,11 +582,11 @@ def main():
 while True: 
     print("starting")
     try:
-    	main()
+        main()
+        close_bus(client)
+        flux_client.close()
+        del flux_client
     except:
-    	print("something went wrong")
-    close_bus(client)
-    flux_client.close()
-    del flux_client
+        print("something went wrong")
 
     print("done")

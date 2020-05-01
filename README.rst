@@ -51,6 +51,9 @@ Description of files
 
 
 
+Setup
+After installing influxdb, grafana, the required python packages and grafana plugins, you might want to change the config.py values to suit your installation.
+
 Operation
 Running it shouldn't need much if all the requirements are satisfied
 

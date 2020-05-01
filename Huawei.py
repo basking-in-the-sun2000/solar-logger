@@ -1,3 +1,7 @@
+import socket
+import time
+import config
+
 _register_map =  {
     'Model':      {'addr': '30000', 'registers': 15, 'name': 'Model',                            'scale': 1,    'type': 'str',  'units': ''    , 'use': 'info',  'method': 'hold'},  
     'SN':         {'addr': '30015', 'registers': 10, 'name': 'Serial Number',                    'scale': 1,    'type': 'str',  'units': ''    , 'use': 'info',  'method': 'hold'},  
@@ -251,4 +255,39 @@ def status(register, value):
         s = s[:-3]
     return s
     
-    
+def inv_address():
+    udp_message = bytes([0x5a, 0x5a, 0x5a, 0x5a, 0x00, 0x41,
+                         0x3a, 0x04, 0xc0, 0xa8, 0x00, 0x05])
+
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+    sock.settimeout(3.0)
+    sock.bind(("", 6600))
+    time.sleep(5)
+    sock.sendto(udp_message, ('<broadcast>', 6600))
+    i = 0
+    while True:
+        try:
+            time.sleep(1)
+            data, addr = sock.recvfrom(1024)
+        except socket.timeout:
+            if config.debug:
+                print('--> resend')
+            sock.sendto(udp_message, ('<broadcast>', 6600))
+            time.sleep(2)
+            i = i + 1
+            if i < 5:
+                time.sleep(5)
+                continue
+            else:
+                if config.debug:
+                    print("can't find inverter")
+                if (config.inverter_ip != ""):
+                    return config.inverter_ip
+                    
+        if len(data) == 30:
+            addr = str(addr[0])
+            if config.debug:
+                print("inverter address: " + addr)
+            return(addr)
