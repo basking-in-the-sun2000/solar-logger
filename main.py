@@ -201,11 +201,10 @@ def forcast():
         dt = dt.astimezone(pytz.timezone(config.time_zone))
         dt = time.mktime(dt.timetuple())
 
-    if (config.solfor == 1):
-        measurement = {'power': float(x['pv_estimate']), 'power10': float(x['pv_estimate10']), 'power90': float(x['pv_estimate90']) }
-    elif (config.solfor == 2):
-        measurement = {'power': float(x['pv_estimate'])}
-
+        if (config.solfor == 1):
+            measurement = {'power': float(x['pv_estimate']), 'power10': float(x['pv_estimate10']), 'power90': float(x['pv_estimate90']) }
+        elif (config.solfor == 2):
+            measurement = {'power': float(x['pv_estimate'])}
 
         write_influx(flux_client, measurement, "forcast", config.influxdb_database, int(dt) * 1000000000)
 
@@ -584,8 +583,7 @@ def main():
         except:
             ok = False
             return -1
-
-while True: 
+while True:
     print("starting")
     try:
         main()

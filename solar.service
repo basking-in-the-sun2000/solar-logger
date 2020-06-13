@@ -1,0 +1,12 @@
+[Unit]
+ Description=Solar logger
+ After=multi-user.target
+
+ [Service]
+ Type=idle
+ StandardOutput=file:/home/**me**/Documents/logs/solar.log
+ ExecStart=/usr/bin/python3 /home/**me**/Documents/raspberry_pi_logger/main.py
+ User=**me**
+
+ [Install]
+ WantedBy=multi-user.target

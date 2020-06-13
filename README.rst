@@ -59,9 +59,21 @@ Running it shouldn't need much if all the requirements are satisfied
 
 cd to the directory with the code
 python3 main.py
+If everything is working, you can get it running as a service and will autostart after booting. See below
 
-It should be able to run in the background by adding an ampersand (&) at the end. Been running it off a raspberry pi 4 and has behaved well.  Influx is a bit demanding, up to 40% of the cpu
+Been running it off a raspberry pi 4 and has behaved well.  Influx is a bit demanding, up to 40% of the cpu
 
+
+To start the logger as a service,
+1) cd to the directory with the code
+cp solar.service /lib/systemd/system/solar.service
+change **me** to where you 
+2) sudo systemctl enable solar.service
+3) sudo systemctl start solar.service
+4) check it 
+sudo systemctl status solar.service
+
+You should have the log file at 
 
 Notes
 It uses solcast.com, so you need to create an account (free) and a rooftop site. It pulls the forecast several times during the day, but only sends the measurements at midnight. 
