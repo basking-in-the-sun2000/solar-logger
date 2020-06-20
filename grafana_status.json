@@ -46,6 +46,26 @@
         },
         {
           "alias": "",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 0,
+          "mappingType": 1,
+          "pattern": "Fault",
+          "thresholds": [
+            "1",
+            "2"
+          ],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "",
           "align": "right",
           "colorMode": null,
           "colors": [
@@ -221,44 +241,6 @@
           "tags": []
         },
         {
-          "alias": "Alarm1",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "none"
-              ],
-              "type": "fill"
-            }
-          ],
-          "hide": false,
-          "measurement": "Huawei_stat",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "G",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "Alarm1"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "first"
-              }
-            ]
-          ],
-          "tags": []
-        },
-        {
           "alias": "State2",
           "groupBy": [
             {
@@ -389,6 +371,8 @@
   },
   "timepicker": {
     "refresh_intervals": [
+      "5s",
+      "10s",
       "30s",
       "1m",
       "5m",
@@ -402,5 +386,5 @@
   "timezone": "",
   "title": "Status",
   "uid": "UjSVubzRk",
-  "version": 5
+  "version": 6
 }

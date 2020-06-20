@@ -823,7 +823,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT cumulative_sum(integral(\"power90\")) * 0.87  /3600   FROM \"forcast\" WHERE $timeFilter GROUP BY time(1m) fill(linear)",
+          "query": "SELECT cumulative_sum(integral(\"power90\")) * 0.98 /3600   FROM \"forcast\" WHERE $timeFilter GROUP BY time(1m) fill(linear)",
           "rawQuery": true,
           "refId": "E",
           "resultFormat": "time_series",
@@ -862,7 +862,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT cumulative_sum(integral(\"power\"))   /3600 * 0.87  FROM \"forcast\" WHERE $timeFilter GROUP BY time(1m) fill(linear)",
+          "query": "SELECT cumulative_sum(integral(\"power\"))   /3600 * 0.98  FROM \"forcast\" WHERE $timeFilter GROUP BY time(1m) fill(linear)",
           "rawQuery": true,
           "refId": "C",
           "resultFormat": "time_series",
@@ -901,7 +901,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT cumulative_sum(integral(\"power10\"))   /3600 * 0.87  FROM \"forcast\" WHERE $timeFilter GROUP BY time(1m) fill(linear)",
+          "query": "SELECT cumulative_sum(integral(\"power10\"))   /3600 * 0.98  FROM \"forcast\" WHERE $timeFilter GROUP BY time(1m) fill(linear)",
           "rawQuery": true,
           "refId": "D",
           "resultFormat": "time_series",
@@ -1069,7 +1069,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT (integral(\"power\"))   /1800  FROM \"forcast\" WHERE $timeFilter GROUP BY time(1m) fill(linear)",
+          "query": "SELECT (integral(\"power90\"))   /1800  FROM \"forcast\" WHERE $timeFilter GROUP BY time(1m) fill(linear)",
           "rawQuery": true,
           "refId": "B",
           "resultFormat": "time_series",
@@ -1609,7 +1609,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "select p from (SELECT (last(\"M_P\")  /1000  - last(\"P_active\")) as p FROM \"Huawei\" WHERE time > now() - 10m GROUP BY time(1m) fill(null))",
+          "query": "select p from (SELECT (last(\"M_P\")  /1000  - last(\"P_active\")) as p FROM \"Huawei\" ) limit 1",
           "rawQuery": true,
           "refId": "D",
           "resultFormat": "time_series",
@@ -1657,7 +1657,7 @@
         "enable_bgColor_overrides": false,
         "enable_clickable_cells": false,
         "enable_textColor": true,
-        "enable_textColor_overrides": false,
+        "enable_textColor_overrides": true,
         "enable_time_based_thresholds": false,
         "enable_transform": false,
         "enable_transform_overrides": false,
@@ -1674,8 +1674,8 @@
         "row_col_wrapper": "_",
         "row_name": "_0_",
         "textColors": "red|orange|gold|lime",
-        "textColors_overrides": "0->red|2->green|1->yellow",
-        "thresholds": "27,31,35",
+        "textColors_overrides": "0->white",
+        "thresholds": "26,31,35",
         "time_based_thresholds": [],
         "tooltipTemplate": "Series : _series_ <br/>Row Name : _row_name_ <br/>Col Name : _col_name_ <br/>Value : _value_",
         "transform_values": "_value_|_value_|_value_",
@@ -1714,7 +1714,7 @@
           "enable_bgColor_overrides": false,
           "enable_clickable_cells": false,
           "enable_textColor": true,
-          "enable_textColor_overrides": false,
+          "enable_textColor_overrides": true,
           "enable_time_based_thresholds": false,
           "enable_transform": false,
           "enable_transform_overrides": false,
@@ -1731,7 +1731,7 @@
           "row_col_wrapper": "_",
           "row_name": "_0_",
           "textColors": "red|orange|green|gold",
-          "textColors_overrides": "0->red|2->green|1->yellow",
+          "textColors_overrides": "0->white",
           "thresholds": "4.5,6.5,8.5",
           "time_based_thresholds": [],
           "tooltipTemplate": "Series : _series_ <br/>Row Name : _row_name_ <br/>Col Name : _col_name_ <br/>Value : _value_",
@@ -2559,7 +2559,7 @@
       "valueName": "current"
     },
     {
-      "activePatternIndex": 3,
+      "activePatternIndex": 10,
       "cacheTimeout": null,
       "datasource": null,
       "debug_mode": false,
@@ -2831,7 +2831,7 @@
           "enable_bgColor_overrides": false,
           "enable_clickable_cells": false,
           "enable_textColor": true,
-          "enable_textColor_overrides": false,
+          "enable_textColor_overrides": true,
           "enable_time_based_thresholds": false,
           "enable_transform": false,
           "enable_transform_overrides": false,
@@ -2848,7 +2848,7 @@
           "row_col_wrapper": "_",
           "row_name": "_0_",
           "textColors": "orange|green|red",
-          "textColors_overrides": "0->red|2->green|1->yellow",
+          "textColors_overrides": "0->white",
           "thresholds": "300,400",
           "time_based_thresholds": [],
           "tooltipTemplate": "Series : _series_ <br/>Row Name : _row_name_ <br/>Col Name : _col_name_ <br/>Value : _value_",
@@ -2871,7 +2871,7 @@
           "enable_bgColor_overrides": false,
           "enable_clickable_cells": false,
           "enable_textColor": true,
-          "enable_textColor_overrides": false,
+          "enable_textColor_overrides": true,
           "enable_time_based_thresholds": false,
           "enable_transform": false,
           "enable_transform_overrides": false,
@@ -2888,7 +2888,7 @@
           "row_col_wrapper": "_",
           "row_name": "_0_",
           "textColors": "orange|green|red",
-          "textColors_overrides": "0->red|2->green|1->yellow",
+          "textColors_overrides": "0->white",
           "thresholds": "200,240",
           "time_based_thresholds": [],
           "tooltipTemplate": "Series : _series_ <br/>Row Name : _row_name_ <br/>Col Name : _col_name_ <br/>Value : _value_",
@@ -2911,7 +2911,7 @@
           "enable_bgColor_overrides": false,
           "enable_clickable_cells": false,
           "enable_textColor": true,
-          "enable_textColor_overrides": false,
+          "enable_textColor_overrides": true,
           "enable_time_based_thresholds": false,
           "enable_transform": false,
           "enable_transform_overrides": false,
@@ -2928,7 +2928,7 @@
           "row_col_wrapper": "_",
           "row_name": "_0_",
           "textColors": "orange|green|red",
-          "textColors_overrides": "0->red|2->green|1->yellow",
+          "textColors_overrides": "0->white",
           "thresholds": "110,138",
           "time_based_thresholds": [],
           "tooltipTemplate": "Series : _series_ <br/>Row Name : _row_name_ <br/>Col Name : _col_name_ <br/>Value : _value_",
@@ -3031,7 +3031,7 @@
           "enable_bgColor_overrides": false,
           "enable_clickable_cells": false,
           "enable_textColor": true,
-          "enable_textColor_overrides": false,
+          "enable_textColor_overrides": true,
           "enable_time_based_thresholds": false,
           "enable_transform": false,
           "enable_transform_overrides": false,
@@ -3048,8 +3048,8 @@
           "row_col_wrapper": "_",
           "row_name": "_0_",
           "textColors": "orange|green|orange",
-          "textColors_overrides": "0->red|2->green|1->yellow",
-          "thresholds": "59.5,60.5",
+          "textColors_overrides": "0->white",
+          "thresholds": "59.8,60.2",
           "time_based_thresholds": [],
           "tooltipTemplate": "Series : _series_ <br/>Row Name : _row_name_ <br/>Col Name : _col_name_ <br/>Value : _value_",
           "transform_values": "_value_|_value_|_value_",
@@ -3121,7 +3121,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT  last(\"M_P\") FROM \"Huawei\" WHERE $timeFilter GROUP BY time(1s) fill(null) ",
+          "query": "SELECT  last(\"P_accum\") FROM \"Huawei\" WHERE $timeFilter GROUP BY time(1s) fill(null) ",
           "rawQuery": true,
           "refId": "P",
           "resultFormat": "time_series",
@@ -3726,7 +3726,7 @@
       "type": "yesoreyeram-boomtable-panel"
     },
     {
-      "activePatternIndex": 6,
+      "activePatternIndex": 2,
       "cacheTimeout": null,
       "datasource": null,
       "defaultPattern": {
@@ -3895,7 +3895,7 @@
           "row_name": "_0_",
           "textColors": "red|orange|white|green",
           "textColors_overrides": "0->red|2->green|1->yellow",
-          "thresholds": "-1500,-750,0",
+          "thresholds": "-1000,-500,0",
           "time_based_thresholds": [],
           "tooltipTemplate": "Series : _series_ <br/>Row Name : _row_name_ <br/>Col Name : _col_name_ <br/>Value : _value_",
           "transform_values": "_value_|_value_|_value_",
@@ -5407,6 +5407,7 @@
     {
       "aliasColors": {
         "Grid": "semi-dark-orange",
+        "Solcast": "semi-dark-purple",
         "daily": "light-green",
         "expected": "dark-red",
         "export": "semi-dark-green",
@@ -5472,7 +5473,7 @@
           "pointradius": 4,
           "points": true,
           "yaxis": 2,
-          "zindex": 3
+          "zindex": 2
         },
         {
           "alias": "load",
@@ -5483,7 +5484,8 @@
           "alias": "self",
           "lines": false,
           "points": true,
-          "yaxis": 2
+          "yaxis": 2,
+          "zindex": 1
         },
         {
           "alias": "expected",
@@ -5495,6 +5497,12 @@
           "bars": true,
           "lines": false,
           "zindex": -1
+        },
+        {
+          "alias": "Solcast",
+          "lines": false,
+          "points": true,
+          "zindex": 3
         }
       ],
       "spaceLength": 10,
@@ -5736,6 +5744,46 @@
             ]
           ],
           "tags": []
+        },
+        {
+          "alias": "Solcast",
+          "datasource": "InfluxDB lt",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei_daily",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT (\"f_power\") FROM \"Huawei_daily\" WHERE time > now() - 31d",
+          "rawQuery": true,
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "f_power"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
         }
       ],
       "thresholds": [],
@@ -5783,6 +5831,603 @@
     },
     {
       "aliasColors": {
+        "Grid": "semi-dark-orange",
+        "daily": "light-green",
+        "expected": "dark-red",
+        "export": "semi-dark-green",
+        "load": "dark-yellow",
+        "peak": "semi-dark-blue",
+        "radiance": "super-light-yellow",
+        "self": "super-light-blue",
+        "solcast": "semi-dark-red",
+        "solcast90": "dark-red",
+        "trend": "light-purple"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "-- Mixed --",
+      "decimals": 1,
+      "description": "",
+      "fill": 0,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 17
+      },
+      "hiddenSeries": false,
+      "hideTimeOverride": true,
+      "id": 45,
+      "interval": "",
+      "legend": {
+        "alignAsTable": false,
+        "avg": true,
+        "current": false,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 2,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "alias": "daily",
+          "bars": true,
+          "lines": false,
+          "zindex": -2
+        },
+        {
+          "alias": "/solcast/",
+          "dashLength": 4,
+          "dashes": true,
+          "lines": true,
+          "spaceLength": 3,
+          "zindex": -3
+        },
+        {
+          "alias": "peak",
+          "lines": false,
+          "pointradius": 4,
+          "points": true,
+          "yaxis": 2,
+          "zindex": 3
+        },
+        {
+          "alias": "load",
+          "linewidth": 3,
+          "zindex": 3
+        },
+        {
+          "alias": "self",
+          "lines": false,
+          "points": true,
+          "yaxis": 2
+        },
+        {
+          "alias": "expected",
+          "lines": false,
+          "points": true
+        },
+        {
+          "alias": "export",
+          "bars": true,
+          "lines": false,
+          "zindex": -1
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "daily",
+          "datasource": "InfluxDB lt",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT mean(\"P_daily\") FROM \"Huawei_daily\" group by time(30d) fill(none)",
+          "rawQuery": true,
+          "refId": "G",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "export",
+          "datasource": "InfluxDB lt",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT mean(\"P_Exp\") as export FROM \"Huawei_daily\" group by time(30d) fill(none)",
+          "rawQuery": true,
+          "refId": "H",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "load",
+          "datasource": "InfluxDB lt",
+          "groupBy": [
+            {
+              "params": [
+                "1d"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei_daily",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT mean(\"P_Load\") FROM \"Huawei_daily\" group by time(30d) fill(none)",
+          "rawQuery": true,
+          "refId": "E",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "P_Load"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "first"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "peak",
+          "datasource": "InfluxDB lt",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT mean(\"P_peak\") FROM \"Huawei_daily\" group by time(30d) fill(none)",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "Grid",
+          "datasource": "InfluxDB lt",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT mean(\"P_Grid\") FROM \"Huawei_daily\" group by time(30d) fill(none)",
+          "rawQuery": true,
+          "refId": "D",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "solcast",
+          "datasource": "InfluxDB lt",
+          "groupBy": [
+            {
+              "params": [
+                "30d"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei_daily",
+          "orderByTime": "ASC",
+          "policy": "autogen",
+          "query": "SELECT mean(\"f_power\") FROM \"Huawei_daily\"  GROUP BY time(30d) fill(none)",
+          "rawQuery": true,
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "f_power"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "solcast90",
+          "datasource": "InfluxDB lt",
+          "groupBy": [
+            {
+              "params": [
+                "30d"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei_daily",
+          "orderByTime": "ASC",
+          "policy": "autogen",
+          "query": "SELECT mean(\"f_power90\") FROM \"Huawei_daily\"  GROUP BY time(30d) fill(none)",
+          "rawQuery": true,
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "f_power"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": "1y",
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "daily production (monthly)",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "decimals": null,
+          "format": "kwatth",
+          "label": "",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "decimals": 1,
+          "format": "kwatt",
+          "label": "",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": true,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {
+        "Export": "semi-dark-green",
+        "Load": "super-light-red",
+        "balance sum": "semi-dark-purple",
+        "daily": "semi-dark-yellow",
+        "irradiance": "super-light-green",
+        "radiance": "super-light-yellow"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "-- Mixed --",
+      "description": "",
+      "fill": 0,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 24
+      },
+      "hiddenSeries": false,
+      "hideTimeOverride": true,
+      "id": 44,
+      "interval": "1d",
+      "legend": {
+        "alignAsTable": false,
+        "avg": true,
+        "current": true,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "irradiance",
+          "datasource": "InfluxDB lt",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei_daily",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT (\"P_daily\") / (\"P_peak\") FROM \"Huawei_daily\" WHERE $timeFilter",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "P_daily"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "irradiance fixed",
+          "datasource": "InfluxDB lt",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei_daily",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT (\"P_daily\") / 8.76 FROM \"Huawei_daily\" WHERE $timeFilter",
+          "rawQuery": true,
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "P_daily"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": "31d",
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "irradiance",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "h",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {
         "Export": "semi-dark-green",
         "Load": "super-light-red",
         "balance sum": "semi-dark-purple",
@@ -5796,10 +6441,10 @@
       "fill": 0,
       "fillGradient": 0,
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 12,
         "x": 12,
-        "y": 17
+        "y": 24
       },
       "hiddenSeries": false,
       "hideTimeOverride": true,
@@ -6037,7 +6682,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 24
+        "y": 32
       },
       "hiddenSeries": false,
       "id": 22,
@@ -6315,13 +6960,14 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
+      "decimals": 1,
       "fill": 0,
       "fillGradient": 1,
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 24
+        "y": 32
       },
       "hiddenSeries": false,
       "id": 36,
@@ -6390,7 +7036,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT moving_average(mean(\"M_A-U\"), 5) FROM \"Huawei\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
+          "query": "SELECT moving_average(mean(\"M_A-U\"), 5) FROM \"Huawei\" WHERE $timeFilter GROUP BY time($__interval) fill(none)",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -6427,7 +7073,7 @@
             },
             {
               "params": [
-                "null"
+                "none"
               ],
               "type": "fill"
             }
@@ -6470,7 +7116,7 @@
             },
             {
               "params": [
-                "null"
+                "none"
               ],
               "type": "fill"
             }
@@ -6513,7 +7159,7 @@
             },
             {
               "params": [
-                "null"
+                "none"
               ],
               "type": "fill"
             }
@@ -6562,7 +7208,7 @@
             },
             {
               "params": [
-                "null"
+                "none"
               ],
               "type": "fill"
             }
@@ -6605,7 +7251,7 @@
             },
             {
               "params": [
-                "null"
+                "none"
               ],
               "type": "fill"
             }
@@ -6680,7 +7326,11 @@
       }
     },
     {
-      "aliasColors": {},
+      "aliasColors": {
+        "A_g": "dark-orange",
+        "B_g": "dark-blue",
+        "reactive": "semi-dark-purple"
+      },
       "bars": false,
       "dashLength": 10,
       "dashes": false,
@@ -6691,7 +7341,361 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 32
+        "y": 40
+      },
+      "hiddenSeries": false,
+      "id": 43,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": true,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "alias": "reactive",
+          "yaxis": 2
+        },
+        {
+          "alias": "reactive grid",
+          "yaxis": 2
+        },
+        {
+          "alias": "A",
+          "yaxis": 2
+        },
+        {
+          "alias": "B",
+          "yaxis": 2
+        },
+        {
+          "alias": "A_g",
+          "dashLength": 1,
+          "dashes": true,
+          "spaceLength": 3,
+          "yaxis": 2
+        },
+        {
+          "alias": "B_g",
+          "dashLength": 1,
+          "dashes": true,
+          "spaceLength": 3,
+          "yaxis": 2
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "AB",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "U_A-B"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "A",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "U_A"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "B",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "U_B"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "reactive",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "D",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "P_reactive"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              },
+              {
+                "params": [
+                  "*1000"
+                ],
+                "type": "math"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "A_g",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "E",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "M_A-U"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "U_A",
+              "operator": ">",
+              "value": "0"
+            }
+          ]
+        },
+        {
+          "alias": "B_g",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "F",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "M_B-U"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "U_B",
+              "operator": ">",
+              "value": "0"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Voltages",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "volt",
+          "label": null,
+          "logBase": 1,
+          "max": "250",
+          "min": "220",
+          "show": true
+        },
+        {
+          "decimals": null,
+          "format": "locale",
+          "label": null,
+          "logBase": 1,
+          "max": "145",
+          "min": "125",
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 0,
+      "fillGradient": 1,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 40
       },
       "hiddenSeries": false,
       "id": 37,
@@ -6896,6 +7900,178 @@
       }
     },
     {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 0,
+      "fillGradient": 1,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 48
+      },
+      "hiddenSeries": false,
+      "id": 39,
+      "interval": "",
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "alias": "inverter",
+          "yaxis": 1
+        },
+        {
+          "alias": "PV_U",
+          "yaxis": 2
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "c",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT min(\"M_A-I\") - mean(\"I_A\") + (min(\"M_C-I\") ) FROM \"Huawei\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "M_A-I"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "b",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT min(\"M_A-I\") - mean(\"I_A\") + (min(\"M_B-I\") - mean(\"I_A\")) FROM \"Huawei\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
+          "rawQuery": true,
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "M_A-I"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "currents",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "decimals": null,
+          "format": "none",
+          "label": "",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "decimals": null,
+          "format": "short",
+          "label": "",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
       "aliasColors": {
         "reactive": "semi-dark-purple"
       },
@@ -6909,7 +8085,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 32
+        "y": 48
       },
       "hiddenSeries": false,
       "id": 42,
@@ -6944,7 +8120,7 @@
           "alias": "wiring resistance  (mΩ)"
         },
         {
-          "alias": "Voltage diff (%)",
+          "alias": "Voltage diff",
           "yaxis": 2
         }
       ],
@@ -6953,7 +8129,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "Voltage diff (%)",
+          "alias": "Voltage diff",
           "groupBy": [
             {
               "params": [
@@ -7169,7 +8345,7 @@
         },
         {
           "decimals": 2,
-          "format": "locale",
+          "format": "percent",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -7194,11 +8370,10 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 40
+        "y": 56
       },
       "hiddenSeries": false,
-      "id": 39,
-      "interval": "",
+      "id": 24,
       "legend": {
         "avg": false,
         "current": false,
@@ -7222,10 +8397,6 @@
         {
           "alias": "inverter",
           "yaxis": 1
-        },
-        {
-          "alias": "PV_U",
-          "yaxis": 2
         }
       ],
       "spaceLength": 10,
@@ -7233,7 +8404,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "c",
+          "alias": "grid",
           "groupBy": [
             {
               "params": [
@@ -7251,28 +8422,26 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT min(\"M_A-I\") - mean(\"I_A\") + (min(\"M_C-I\") ) FROM \"Huawei\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
-          "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
             [
               {
                 "params": [
-                  "M_A-I"
+                  "M_Freq"
                 ],
                 "type": "field"
               },
               {
                 "params": [],
-                "type": "mean"
+                "type": "last"
               }
             ]
           ],
           "tags": []
         },
         {
-          "alias": "b",
+          "alias": "inverter",
           "groupBy": [
             {
               "params": [
@@ -7290,32 +8459,36 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT min(\"M_A-I\") - mean(\"I_A\") + (min(\"M_B-I\") - mean(\"I_A\")) FROM \"Huawei\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
-          "rawQuery": true,
           "refId": "B",
           "resultFormat": "time_series",
           "select": [
             [
               {
                 "params": [
-                  "M_A-I"
+                  "Frequency"
                 ],
                 "type": "field"
               },
               {
                 "params": [],
-                "type": "mean"
+                "type": "last"
               }
             ]
           ],
-          "tags": []
+          "tags": [
+            {
+              "key": "Frequency",
+              "operator": ">",
+              "value": "0"
+            }
+          ]
         }
       ],
       "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "currents",
+      "title": "Frequency",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -7332,11 +8505,11 @@
       "yaxes": [
         {
           "decimals": null,
-          "format": "none",
+          "format": "hertz",
           "label": "",
           "logBase": 1,
-          "max": null,
-          "min": null,
+          "max": "60.2",
+          "min": "59.8",
           "show": true
         },
         {
@@ -7351,7 +8524,7 @@
       ],
       "yaxis": {
         "align": false,
-        "alignLevel": null
+        "alignLevel": 60
       }
     },
     {
@@ -7366,7 +8539,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 40
+        "y": 56
       },
       "hiddenSeries": false,
       "id": 32,
@@ -7543,182 +8716,14 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
+      "decimals": 1,
       "fill": 0,
       "fillGradient": 1,
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 48
-      },
-      "hiddenSeries": false,
-      "id": 24,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
-      "options": {
-        "dataLinks": []
-      },
-      "percentage": false,
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [
-        {
-          "alias": "inverter",
-          "yaxis": 1
-        }
-      ],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "alias": "grid",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "Huawei",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "M_Freq"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "last"
-              }
-            ]
-          ],
-          "tags": []
-        },
-        {
-          "alias": "inverter",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "Huawei",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "B",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "Frequency"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "last"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "Frequency",
-              "operator": ">",
-              "value": "0"
-            }
-          ]
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Frequency",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "decimals": null,
-          "format": "hertz",
-          "label": "",
-          "logBase": 1,
-          "max": "60.2",
-          "min": "59.8",
-          "show": true
-        },
-        {
-          "decimals": null,
-          "format": "short",
-          "label": "",
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": 60
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": null,
-      "fill": 0,
-      "fillGradient": 1,
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 48
+        "y": 64
       },
       "hiddenSeries": false,
       "id": 41,
@@ -7793,7 +8798,7 @@
               },
               {
                 "params": [],
-                "type": "max"
+                "type": "mean"
               }
             ]
           ],
@@ -7868,7 +8873,7 @@
           "show": true
         },
         {
-          "decimals": null,
+          "decimals": 1,
           "format": "kwatt",
           "label": "",
           "logBase": 1,
@@ -7904,5 +8909,5 @@
   "timezone": "",
   "title": "Solar",
   "uid": "dtVwFFPWz",
-  "version": 53
+  "version": 87
 }

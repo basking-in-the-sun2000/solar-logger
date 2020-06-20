@@ -9,6 +9,8 @@ from influxdb import InfluxDBClient
 #import sys
 import gc # Garbage Collector
 import solcast
+import os
+from os import path
 
 
 def to_str(s):
@@ -194,27 +196,35 @@ def forcast():
     except:
         print("solcast off-line")
         return int(time.time() + 15 * 60)
+                
+    try:
+        for x in r1.content['forecasts']:
+            dt = x['period_end'] 
+            dt = dt.replace(tzinfo=pytz.timezone('UTC'))
+            dt = dt.astimezone(pytz.timezone(config.time_zone))
+            dt = time.mktime(dt.timetuple())
 
-    for x in r1.content['forecasts']:
-        dt = x['period_end'] 
-        dt = dt.replace(tzinfo=pytz.timezone('UTC'))
-        dt = dt.astimezone(pytz.timezone(config.time_zone))
-        dt = time.mktime(dt.timetuple())
+            if (config.solfor == 1):
+                measurement = {'power': float(x['pv_estimate']), 'power10': float(x['pv_estimate10']), 'power90': float(x['pv_estimate90']) }
+            elif (config.solfor == 2):
+                measurement = {'power': float(x['pv_estimate'])}
 
-        if (config.solfor == 1):
-            measurement = {'power': float(x['pv_estimate']), 'power10': float(x['pv_estimate10']), 'power90': float(x['pv_estimate90']) }
-        elif (config.solfor == 2):
-            measurement = {'power': float(x['pv_estimate'])}
+            write_influx(flux_client, measurement, "forcast", config.influxdb_database, int(dt) * 1000000000)
 
-        write_influx(flux_client, measurement, "forcast", config.influxdb_database, int(dt) * 1000000000)
+    #       print(time.ctime(dt),"\t", measurement)
 
-
-    print("done getting forcast")
+        print("done getting forcast")
+        
+    except AttributeError:
+        return int(time.time() + 12 * 3600)
+    except:
+        return int(time.time() + 24 * 3600)
+           
     forcast_time = float(time.strftime("%H"))
-    if (8 <= forcast_time < 16):
+    if (8 <= forcast_time <= 20):
         forcast_time = 2 - (forcast_time % 2)
     else:
-        forcast_time = 4 - (forcast_time % 4)
+        forcast_time = 12 - (forcast_time % 12)
 
     forcast_time *= 3600
     forcast_time = int(time.mktime(time.strptime(time.strftime('%Y-%m-%d %H:00:00', time.localtime(time.time()+forcast_time)), "%Y-%m-%d %H:%M:%S")))
