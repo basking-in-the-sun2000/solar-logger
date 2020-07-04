@@ -1,6 +1,6 @@
 import os as _os
 
-api_key = "SLCCl9FGV8srxkUe1WAdigqilCHsDLsV"
+api_key = ""
 
 from .pv_power_forecasts import PvPowerForecasts as get_pv_power_forecasts
 from .pv_power_estimated_actuals import PvPowerEstimatedActuals as get_pv_power_estimated_actuals

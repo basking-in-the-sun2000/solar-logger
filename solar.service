@@ -7,6 +7,7 @@
  StandardOutput=file:/home/**me**/Documents/logs/solar.log
  ExecStart=/usr/bin/python3 /home/**me**/Documents/raspberry_pi_logger/main.py
  User=**me**
+ Nice=-10
 
  [Install]
  WantedBy=multi-user.target
