@@ -35,7 +35,7 @@ Description of files
 
 -modbustcp utility for modbus
 
--last_adjustment allows to adjust the total energy balance (exported - from_grid + adj)
+-last_adjustment allows to adjust the total energy balance (exported - from_grid + adj). Just fill the values (date and deviation in kWh)
 
 -Huawei contains the inverter's registers, status constants
 
@@ -68,13 +68,13 @@ Been running it off a raspberry pi 4 and has behaved well.  Influx is a bit dema
 To start the logger as a service,
 1) cd to the directory with the code
 cp solar.service /lib/systemd/system/solar.service
-change **me** to where you 
+change **me** to you 
 2) sudo systemctl enable solar.service
 3) sudo systemctl start solar.service
 4) check it 
 sudo systemctl status solar.service
 
-You should have the log file at 
+You should have the log file at ~/Documents/log/solar.log (unless you changed the location)
 
 Notes
 It uses solcast.com, so you need to create an account (free) and a rooftop site. It pulls the forecast several times during the day, but only sends the measurements at midnight. 

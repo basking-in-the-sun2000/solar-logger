@@ -4,8 +4,9 @@
 
  [Service]
  Type=idle
- StandardOutput=file:/home/**me**/Documents/logs/solar.log
- ExecStart=/usr/bin/python3 /home/**me**/Documents/raspberry_pi_logger/main.py
+ WorkingDirectory=/home/**me**/Documents/raspberry_pi_logger
+ ExecStart=/usr/bin/python3 -u main.py
+ StandardOutput=append:/home/**me**/Documents/logs/solar.log
  User=**me**
  Nice=-10
 

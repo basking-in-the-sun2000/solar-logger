@@ -1,8 +1,5 @@
 inverter_ip = ""
 inverter_port = 502
-# Slave Defaults
-# Sungrow: 0x01
-# SMA: 3
 slave = 0x00
 model = "Huawei"
 location = "main"
@@ -32,4 +29,6 @@ install_date = "20yy-mm-dd"
 site_UUID = "xxxx-xxxx-xxxx-xxxx"
 soltun = True # also skipped if solfor not equals 1
 solfor = 1 # 0 off, 1 rooftop, 2 world pv power
+supla_api = ""
+supla_dev_id = 0
 debug = True
