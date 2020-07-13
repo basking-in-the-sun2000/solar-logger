@@ -20,9 +20,6 @@ _register_map =  {
     'Time3?':     {'addr': '32160', 'registers': 2,  'name': 'some time 3',                      'scale': 1,    'type': 'U32',  'units': 's'   , 'use': 'ext',   'method': 'hold'},  
     'Time4?':     {'addr': '35113', 'registers': 2,  'name': 'some time 4',                      'scale': 1,    'type': 'U32',  'units': 's'   , 'use': 'ext',   'method': 'hold'},  
     'Time5?':     {'addr': '40500', 'registers': 2,  'name': 'some time 5',                      'scale': 1,    'type': 'U32',  'units': 's'   , 'use': 'ext',   'method': 'hold'},  
-    'Optim_tot':  {'addr': '37200', 'registers': 1,  'name': 'Number of optimizers',             'scale': 1,    'type': 'U16',  'units': ''    , 'use': 'info',  'method': 'hold'},  
-    'Optim_on':   {'addr': '37201', 'registers': 1,  'name': 'Number of online optimizers',      'scale': 1,    'type': 'U16',  'units': ''    , 'use': 'info',  'method': 'hold'},  
-    'Optim_opt':  {'addr': '37202', 'registers': 1,  'name': 'Optimizer Feature data',           'scale': 1,    'type': 'U16',  'units': ''    , 'use': 'info',  'method': 'hold'},  
     'State1':     {'addr': '32000', 'registers': 1,  'name': 'Status 1',                         'scale': 1,    'type': 'Bit16','units': ''    , 'use': 'stat',  'method': 'hold'},  
     'State2':     {'addr': '32002', 'registers': 1,  'name': 'Status 2',                         'scale': 1,    'type': 'Bit16','units': ''    , 'use': 'stat',  'method': 'hold'},  
     'State3':     {'addr': '32003', 'registers': 2,  'name': 'Status 3',                         'scale': 1,    'type': 'Bit32','units': ''    , 'use': 'stat',  'method': 'hold'},  
@@ -71,6 +68,12 @@ _register_map =  {
     'M_C-P':      {'addr': '37136', 'registers': 2,  'name': 'Active Grid C power',              'scale': 1,    'type': 'I32',  'units': 'W'   , 'use': 'data',  'method': 'hold'},  
     'M_PTot':     {'addr': '37121', 'registers': 2,  'name': 'Grid Accumulated Energy',          'scale': 100,  'type': 'U32',  'units': 'kWh' , 'use': 'data',  'method': 'hold'}
 }
+
+if (config.has_optim) :
+    _register_map.update({
+        'Optim_tot':  {'addr': '37200', 'registers': 1,  'name': 'Number of optimizers',             'scale': 1,    'type': 'U16',  'units': ''    , 'use': 'info',  'method': 'hold'},  
+        'Optim_on':   {'addr': '37201', 'registers': 1,  'name': 'Number of online optimizers',      'scale': 1,    'type': 'U16',  'units': ''    , 'use': 'info',  'method': 'hold'},  
+        'Optim_opt':  {'addr': '37202', 'registers': 1,  'name': 'Optimizer Feature data',           'scale': 1,    'type': 'U16',  'units': ''    , 'use': 'info',  'method': 'hold'}})
 
 _status_map = {
     0x0000: 'Standby: initializing',
@@ -271,7 +274,9 @@ def inv_address():
         try:
             time.sleep(1)
             data, addr = sock.recvfrom(1024)
-        except socket.timeout:
+#        except socket.timeout:
+        except Exception as e:
+            print("huaweil inv_address error: %s" % str(e))
             if config.debug:
                 print('--> resend')
             sock.sendto(udp_message, ('<broadcast>', 6600))

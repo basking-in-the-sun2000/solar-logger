@@ -36,6 +36,7 @@ Description of files
 -modbustcp utility for modbus
 
 -last_adjustment allows to adjust the total energy balance (exported - from_grid + adj). Just fill the values (date and deviation in kWh)
+	- There is a adjustment in the config file (extra_load) to allow you to have a daily adjustment (this isn't used for hourly, but only for the daily values)
 
 -Huawei contains the inverter's registers, status constants
 
@@ -74,7 +75,10 @@ change **me** to you
 4) check it 
 sudo systemctl status solar.service
 
-You should have the log file at ~/Documents/log/solar.log (unless you changed the location)
+You should have the log file at ~/var/log/solar/solar.log (unless you changed the location). but you need to create the folde first
+sudo mkdir /var/log/solar
+sudo chown ***me***:***me*** /var/log/solar  (use your user's name rather than ***me***)
+
 
 Notes
 It uses solcast.com, so you need to create an account (free) and a rooftop site. It pulls the forecast several times during the day, but only sends the measurements at midnight. 

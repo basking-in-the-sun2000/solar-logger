@@ -21,6 +21,12 @@
     {
       "cacheTimeout": null,
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "flowchartsData": {
         "flowcharts": [
           {
@@ -54,7 +60,6 @@
       "id": 18,
       "links": [],
       "newFlag": false,
-      "options": {},
       "rulesData": {
         "rulesData": [
           {
@@ -484,7 +489,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT \"Fault\"  FROM \"Huawei_stat\" where \"status\" != null order by time desc limit 1",
+          "query": "SELECT \"Fault\"  FROM \"Huawei_stat\" where 'Status' != null order by time desc limit 1",
           "rawQuery": true,
           "refId": "B",
           "resultFormat": "time_series",
@@ -523,7 +528,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT \"State1\"  FROM \"Huawei_stat\" where \"status\" != null order by time desc limit 1",
+          "query": "SELECT \"State1\"  FROM \"Huawei_stat\" where 'Status' != null order by time desc limit 1",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -562,7 +567,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT \"State2\"  FROM \"Huawei_stat\" where \"status\" != null order by time desc limit 1",
+          "query": "SELECT \"State2\"  FROM \"Huawei_stat\" where 'Status' != null order by time desc limit 1",
           "rawQuery": true,
           "refId": "C",
           "resultFormat": "time_series",
@@ -601,7 +606,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT  \"State3\"  FROM \"Huawei_stat\" where \"status\" != null order by time desc limit 1",
+          "query": "SELECT  \"State3\"  FROM \"Huawei_stat\" where 'Status' != null order by time desc limit 1",
           "rawQuery": true,
           "refId": "D",
           "resultFormat": "time_series",
@@ -640,7 +645,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT  \"Status\"  FROM \"Huawei_stat\" where \"status\" != null order by time desc limit 1",
+          "query": "SELECT  \"Status\"  FROM \"Huawei_stat\" where 'Status' != null order by time desc limit 1",
           "rawQuery": true,
           "refId": "E",
           "resultFormat": "time_series",
@@ -725,6 +730,12 @@
       "dashes": false,
       "datasource": "-- Mixed --",
       "decimals": 2,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 5,
       "gridPos": {
@@ -844,6 +855,47 @@
           "tags": []
         },
         {
+          "alias": "Daily total",
+          "datasource": "InfluxDB",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "hide": false,
+          "measurement": "Huawei",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT mean(\"P_daily\") FROM \"Huawei\" WHERE $timeFilter GROUP BY time($__interval) fill(previous)",
+          "rawQuery": true,
+          "refId": "G",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "P_daily"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
           "alias": "exp production",
           "datasource": "InfluxDB",
           "groupBy": [
@@ -920,48 +972,6 @@
             ]
           ],
           "tags": []
-        },
-        {
-          "alias": "Daily total",
-          "datasource": "InfluxDB",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "hide": false,
-          "measurement": "Huawei",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT mean(\"P_daily\") FROM \"Huawei\" WHERE $timeFilter GROUP BY time($__interval) fill(previous)",
-          "rawQuery": true,
-          "refId": "G",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "P_daily"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "last"
-              }
-            ]
-          ],
-          "tags": [],
-          "tz": "UTC"
         },
         {
           "datasource": "Sun and Moon",
@@ -1135,7 +1145,7 @@
           "label": null,
           "logBase": 1,
           "max": null,
-          "min": "-10",
+          "min": "-15",
           "show": false
         },
         {
@@ -1156,6 +1166,12 @@
     {
       "cacheTimeout": null,
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "flowchartsData": {
         "flowcharts": [
           {
@@ -1189,7 +1205,6 @@
       "id": 10,
       "links": [],
       "newFlag": false,
-      "options": {},
       "rulesData": {
         "rulesData": [
           {
@@ -1676,7 +1691,15 @@
         "textColors": "red|orange|gold|lime",
         "textColors_overrides": "0->white",
         "thresholds": "26,31,35",
-        "time_based_thresholds": [],
+        "time_based_thresholds": [
+          {
+            "enabledDays": "Sun,Mon,Tue,Wed,Thu,Fri,Sat",
+            "from": "0000",
+            "name": "Early morning of everyday",
+            "threshold": "70,90",
+            "to": "0530"
+          }
+        ],
         "tooltipTemplate": "Series : _series_ <br/>Row Name : _row_name_ <br/>Col Name : _col_name_ <br/>Value : _value_",
         "transform_values": "_value_|_value_|_value_",
         "transform_values_overrides": "0->down|1->up",
@@ -1684,6 +1707,12 @@
       },
       "default_title_for_rows": "Metric",
       "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "font_size": "11px",
       "gridPos": {
         "h": 4,
@@ -1698,7 +1727,6 @@
       "non_matching_cells_color_bg": "",
       "non_matching_cells_color_text": "",
       "non_matching_cells_text": "",
-      "options": {},
       "patterns": [
         {
           "bgColors": "red|orange|green",
@@ -1985,16 +2013,23 @@
       "timeFrom": null,
       "timeShift": null,
       "title": "",
+      "transparent": true,
       "type": "yesoreyeram-boomtable-panel"
     },
     {
       "cacheTimeout": null,
       "circleBackground": false,
       "colorBackground": false,
-      "colorValue": false,
+      "colorValue": true,
       "datasource": null,
       "decimals": 1,
       "defaultColor": "rgb(117, 117, 117)",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "kwatth",
       "gauge": {
         "maxValue": 30,
@@ -2027,7 +2062,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -2137,13 +2171,27 @@
           "tags": []
         }
       ],
-      "thresholds": [],
+      "thresholds": [
+        {
+          "color": "#F2495C",
+          "value": -23
+        },
+        {
+          "color": "#73BF69",
+          "value": -22
+        },
+        {
+          "color": "rgb(255, 255, 255)",
+          "value": 0
+        }
+      ],
       "timeFrom": null,
       "timeShift": null,
       "title": "From grid",
       "tooltip": {
         "show": false
       },
+      "transparent": true,
       "type": "blackmirror1-singlestat-math-panel",
       "valueFontSize": "70%",
       "valueMappingColorBackground": "#767171",
@@ -2154,10 +2202,16 @@
       "cacheTimeout": null,
       "circleBackground": false,
       "colorBackground": false,
-      "colorValue": false,
+      "colorValue": true,
       "datasource": null,
       "decimals": 1,
       "defaultColor": "rgb(117, 117, 117)",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "kwatth",
       "gauge": {
         "maxValue": 100,
@@ -2190,7 +2244,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -2300,13 +2353,27 @@
           "tags": []
         }
       ],
-      "thresholds": [],
+      "thresholds": [
+        {
+          "color": "rgb(255, 255, 255)",
+          "value": 0
+        },
+        {
+          "color": "#C8F2C2",
+          "value": 22
+        },
+        {
+          "color": "#73BF69",
+          "value": 23
+        }
+      ],
       "timeFrom": null,
       "timeShift": null,
       "title": "Export",
       "tooltip": {
         "show": false
       },
+      "transparent": true,
       "type": "blackmirror1-singlestat-math-panel",
       "valueFontSize": "70%",
       "valueMappingColorBackground": "#767171",
@@ -2322,18 +2389,24 @@
     {
       "cacheTimeout": null,
       "circleBackground": false,
-      "colorBackground": false,
-      "colorValue": false,
+      "colorBackground": true,
+      "colorValue": true,
       "datasource": null,
       "decimals": 1,
       "defaultColor": "rgb(117, 117, 117)",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "kwatth",
       "gauge": {
-        "maxValue": 30,
-        "minValue": 0,
+        "maxValue": 50,
+        "minValue": -50,
         "show": false,
         "thresholdLabels": false,
-        "thresholdMarkers": false
+        "thresholdMarkers": true
       },
       "gridPos": {
         "h": 4,
@@ -2344,7 +2417,7 @@
       "id": 33,
       "interval": null,
       "links": [],
-      "mappingType": 1,
+      "mappingType": 2,
       "mappingTypes": [
         {
           "name": "value to text",
@@ -2359,18 +2432,11 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
       "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
+      "rangeMaps": [],
       "sortOrder": "asc",
       "sortOrderOptions": [
         {
@@ -2545,21 +2611,41 @@
           "tags": []
         }
       ],
-      "thresholds": [],
+      "thresholds": [
+        {
+          "color": "#F2495C",
+          "value": -1
+        },
+        {
+          "color": "rgb(255, 255, 255)",
+          "value": 0
+        },
+        {
+          "color": "#73BF69",
+          "value": 1
+        }
+      ],
       "timeFrom": null,
       "timeShift": null,
       "title": "Grid Balance",
       "tooltip": {
         "show": false
       },
+      "transparent": true,
       "type": "blackmirror1-singlestat-math-panel",
       "valueFontSize": "70%",
       "valueMappingColorBackground": "#767171",
-      "valueMaps": [],
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "",
+          "value": ""
+        }
+      ],
       "valueName": "current"
     },
     {
-      "activePatternIndex": 10,
+      "activePatternIndex": -3,
       "cacheTimeout": null,
       "datasource": null,
       "debug_mode": false,
@@ -2603,7 +2689,13 @@
         "valueName": "current"
       },
       "default_title_for_rows": "Metric",
-      "font_size": "11px",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "font_size": "10.5px",
       "gridPos": {
         "h": 13,
         "w": 4,
@@ -2614,7 +2706,6 @@
       "id": 6,
       "interval": "",
       "links": [],
-      "options": {},
       "patterns": [
         {
           "bgColors": "green|orange|red",
@@ -3723,10 +3814,11 @@
       "timeFrom": null,
       "timeShift": null,
       "title": "Inverter",
+      "transparent": true,
       "type": "yesoreyeram-boomtable-panel"
     },
     {
-      "activePatternIndex": 2,
+      "activePatternIndex": -3,
       "cacheTimeout": null,
       "datasource": null,
       "defaultPattern": {
@@ -3769,7 +3861,13 @@
         "valueName": "current"
       },
       "default_title_for_rows": "Metric",
-      "font_size": "11px",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "font_size": "10.5px",
       "gridPos": {
         "h": 13,
         "w": 4,
@@ -3780,7 +3878,6 @@
       "hide_headers": true,
       "id": 8,
       "links": [],
-      "options": {},
       "patterns": [
         {
           "bgColors": "green|orange|red",
@@ -4794,6 +4891,7 @@
       "timeFrom": null,
       "timeShift": null,
       "title": "Grid",
+      "transparent": true,
       "type": "yesoreyeram-boomtable-panel"
     },
     {
@@ -4813,6 +4911,12 @@
       "dashes": false,
       "datasource": "-- Mixed --",
       "decimals": 2,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 2,
       "fillGradient": 5,
       "gridPos": {
@@ -4925,7 +5029,7 @@
             },
             {
               "params": [
-                "linear"
+                "null"
               ],
               "type": "fill"
             }
@@ -4973,7 +5077,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT last(\"M_P\")  / 1000 FROM \"Huawei\" WHERE $timeFilter GROUP BY time($__interval) fill(linear)",
+          "query": "SELECT last(\"M_P\")  / 1000 FROM \"Huawei\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
           "rawQuery": true,
           "refId": "B",
           "resultFormat": "time_series",
@@ -5019,7 +5123,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT last(\"M_P\")  / 1000 - last(\"P_active\") FROM \"Huawei\" WHERE $timeFilter GROUP BY time($__interval) fill(linear)",
+          "query": "SELECT last(\"M_P\")  / 1000 - last(\"P_active\") FROM \"Huawei\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
           "rawQuery": true,
           "refId": "F",
           "resultFormat": "time_series",
@@ -5057,7 +5161,7 @@
             },
             {
               "params": [
-                "linear"
+                "null"
               ],
               "type": "fill"
             }
@@ -5095,7 +5199,7 @@
             },
             {
               "params": [
-                "linear"
+                "null"
               ],
               "type": "fill"
             }
@@ -5141,7 +5245,7 @@
             },
             {
               "params": [
-                "linear"
+                "null"
               ],
               "type": "fill"
             }
@@ -5185,7 +5289,7 @@
             },
             {
               "params": [
-                "linear"
+                "null"
               ],
               "type": "fill"
             }
@@ -5422,6 +5526,12 @@
       "dashes": false,
       "datasource": "-- Mixed --",
       "decimals": 1,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 0,
       "fillGradient": 0,
       "gridPos": {
@@ -5849,6 +5959,12 @@
       "datasource": "-- Mixed --",
       "decimals": 1,
       "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 0,
       "fillGradient": 0,
       "gridPos": {
@@ -6266,6 +6382,12 @@
       "dashes": false,
       "datasource": "-- Mixed --",
       "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 0,
       "fillGradient": 0,
       "gridPos": {
@@ -6438,6 +6560,12 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "-- Mixed --",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 0,
       "fillGradient": 0,
       "gridPos": {
@@ -6558,7 +6686,7 @@
           "measurement": "Huawei_daily",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "select cumulative_sum(diff) as diff from (SELECT  first(\"P_Grid\") as diff FROM \"Huawei_daily\"   GROUP BY time(1d) fill(null)) ",
+          "query": "select cumulative_sum(diff) as diff from (SELECT  first(\"P_Grid\") as diff FROM \"Huawei_daily\"   GROUP BY time(1d) fill(0)) ",
           "rawQuery": true,
           "refId": "B",
           "resultFormat": "time_series",
@@ -6602,7 +6730,7 @@
           "measurement": "Huawei_daily",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "select cumulative_sum(diff) as balance from (SELECT first(\"P_Exp\") as diff FROM \"Huawei_daily\"   GROUP BY time(1d) fill(null)) ",
+          "query": "select cumulative_sum(diff) as balance from (SELECT first(\"P_Exp\") as diff FROM \"Huawei_daily\"   GROUP BY time(1d) fill(0)) ",
           "rawQuery": true,
           "refId": "C",
           "resultFormat": "time_series",
@@ -6676,6 +6804,12 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 0,
       "fillGradient": 1,
       "gridPos": {
@@ -6961,6 +7095,12 @@
       "dashes": false,
       "datasource": null,
       "decimals": 1,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 0,
       "fillGradient": 1,
       "gridPos": {
@@ -7335,6 +7475,12 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 0,
       "fillGradient": 1,
       "gridPos": {
@@ -7689,6 +7835,12 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 0,
       "fillGradient": 1,
       "gridPos": {
@@ -7905,6 +8057,12 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 0,
       "fillGradient": 1,
       "gridPos": {
@@ -8079,6 +8237,12 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 0,
       "fillGradient": 1,
       "gridPos": {
@@ -8364,6 +8528,12 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 0,
       "fillGradient": 1,
       "gridPos": {
@@ -8533,6 +8703,12 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -8717,6 +8893,12 @@
       "dashes": false,
       "datasource": null,
       "decimals": 1,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 0,
       "fillGradient": 1,
       "gridPos": {
@@ -8889,7 +9071,7 @@
     }
   ],
   "refresh": "15s",
-  "schemaVersion": 22,
+  "schemaVersion": 25,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -8909,5 +9091,5 @@
   "timezone": "",
   "title": "Solar",
   "uid": "dtVwFFPWz",
-  "version": 87
+  "version": 105
 }

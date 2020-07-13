@@ -25,15 +25,18 @@ def read_registers(client, UnitID, data):
         ns = time.time()
         while (time.time() - ns < 1.5):
             try:
-                j = result.registers[nb - 1]
-                break
-            except:
+                if not result.isError():
+                    j = result.registers[nb - 1]
+                    break
+            except Exception as e:
+                print("mdobus read_registers error 1: %s" % str(e))
+                time.sleep(0.2)
                 if 'exception_code' in vars(result):
                     break
-                time.sleep(0.05)
                 continue
         time.sleep(0.025)
         return result
-    except:
+    except Exception as e:
+        print("mdobus read_registers error: %s" % str(e))
         return -1
         

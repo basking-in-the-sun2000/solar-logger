@@ -6,7 +6,7 @@
  Type=idle
  WorkingDirectory=/home/**me**/Documents/raspberry_pi_logger
  ExecStart=/usr/bin/python3 -u main.py
- StandardOutput=append:/home/**me**/Documents/logs/solar.log
+ StandardOutput=append:/var/log/solar/solar.log
  User=**me**
  Nice=-10
 
