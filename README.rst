@@ -29,7 +29,7 @@ Description of files
 
 -scanner2 will display the values of the registers listed in regs
 
--roofs_add_forcast will add the next few days forcasts from solcast to influxdb
+-roofs_add_forecast will add the next few days forecasts from solcast to influxdb
 
 -fill_measurements sends the recorded data from the inverter to solcast
 
@@ -40,9 +40,9 @@ Description of files
 
 -Huawei contains the inverter's registers, status constants
 
--fill_blanks takes the data from the inverter (influxdb) and writes daily summaries
+-fill_blanks takes the data from the inverter (influxdb) and writes daily summaries. It now uses the 5m data (logger_ds), unlike the equivalent in the main file use 30s data from that day
 
--config has the constant values for your site.
+-config.default has the constant values for your site. It copies this onto config.py if you don't have one
 
 -main is the code that runs all the time to gather and store data onto the database (influxdb)
 
@@ -85,7 +85,7 @@ It uses solcast.com, so you need to create an account (free) and a rooftop site.
 
 Also updates the daily summary data at midnight. In case you missed that time, there are tools that allow you to send data to solcast or update the daily db
 
-After tuning (sending your data), they claim I'm getting 0.97 correlation of the data. There is a adjustment factor in the Energy pane of grafana, for 0.98 (solcast tuning has improved the forcasts a lot!). I'm hoping with use it will improve. The time period is hardwired to 5 minutes, not sure it makes much difference if you use 10m or even 30m. However, since we are only sending data for the active production once a day, it sounded as a reasonable value.
+After tuning (sending your data), they claim I'm getting 0.97 correlation of the data. There is a adjustment factor in the Energy pane of grafana, for 0.98 (solcast tuning has improved the forecasts a lot!). I'm hoping with use it will improve. The time period is hardwired to 5 minutes, not sure it makes much difference if you use 10m or even 30m. However, since we are only sending data for the active production once a day, it sounded as a reasonable value.
 
 Also in grafana, there are several limits that show values in different colors. You can adjust these to suit your site. The solcast forecasts include all 3 sets. These are the regular, the 10th percentile (low scenario), and 90th percentile (high scenario) estimates. If you rather, you can delete the ones that don't suit you.
 

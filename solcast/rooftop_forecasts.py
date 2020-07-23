@@ -8,7 +8,7 @@ import requests
 from solcast.base import Base
 
 
-class RooftopForcasts(Base):
+class RooftopForecasts(Base):
     end_point = 'rooftop_sites/{}/forecasts'
 
     def __init__(self, resource_id, *args, **kwargs):

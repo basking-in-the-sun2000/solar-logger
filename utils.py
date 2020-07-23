@@ -5,18 +5,25 @@ from influxdb import InfluxDBClient
 
 def fill_blanks(flux_client, midnight):
     k = 0
-    s = ('SELECT first("P_Exp") as "P_Exp" FROM "%s_daily" where time < %s group by time(1d)') % (config.model, str((midnight - 24 * 3600) * 1000000000))
-    zeros=flux_client.query(s, database=config.influxdb_longterm)
-    daily = list(zeros.get_points(measurement=config.model + "_daily"))
+    s = ("SELECT last(P_daily) as P_daily FROM %s where time < %s group by time(1d) tz('%s');") % (config.model, str((midnight - 24 * 3600) * 1000000000), config.time_zone)
+    zeros=flux_client.query(s, epoch='ns', database=config.influxdb_downsampled)
+    daily = list(zeros.get_points(measurement=config.model))
     print("starting")
     for i in daily:
-        if not ((i['P_Exp'] == None) or (i['P_Exp'] == 0)):
+        if ((i['P_daily'] == None) or (i['P_daily'] == 0)):
             continue
 
-        j = (int(time.mktime(time.strptime(i['time'], "%Y-%m-%dT%H:%M:%SZ"))))
-        s = ('SELECT first(M_PTot) as M_PTot_first, last(M_PTot) as M_PTot_last, first(M_PExp) as M_PExp_first, last(M_PExp) as M_PExp_last, first(P_accum) as P_accum_first, last(P_accum) as P_accum_last, max(P_daily) as P_daily, max(P_peak) as P_peak, max(Temp) as Temp  FROM "%s" where time > %s and time < %s and time < %s') % (config.model, str(j * 1000000000), str((j + 24 *3600) * 1000000000), str((midnight - 24 * 3600) * 1000000000))
+        s = ('SELECT first(P_Exp) as P_Exp FROM %s_daily where time < %s and time > %s group by time(1d);') % (config.model, str(i['time']), str(i['time'] - 3600 * 24 * 1000000000) )
+        zeros=flux_client.query(s, database=config.influxdb_longterm)
+        q = list(zeros.get_points(measurement=config.model))
+        if len(q) > 0:
+            continue
+            
+#        j = (int(time.mktime(time.strptime(i['time'], "%Y-%m-%dT%H:%M:%SZ"))))
+        s = ('SELECT first(M_PTot) as M_PTot_first, last(M_PTot) as M_PTot_last, first(M_PExp) as M_PExp_first, last(M_PExp) as M_PExp_last, first(P_accum) as P_accum_first, last(P_accum) as P_accum_last, max(P_daily) as P_daily, max(P_peak) as P_peak, max(Temp) as Temp  FROM "%s" where time < %s and time > %s and time < %s') % (config.model, str(i['time']), str(i['time'] - 24 *3600 * 1000000000), str((midnight - 24 * 3600) * 1000000000))
+        
         try:
-            zeros=flux_client.query(s, database=config.influxdb_database)
+            zeros=flux_client.query(s, database=config.influxdb_downsampled)
             m = list(zeros.get_points(measurement=config.model))
             if (len(m) > 0 and len(m[0]) > 0):
                 daily1 = {}
@@ -27,9 +34,13 @@ def fill_blanks(flux_client, midnight):
                         print(daily1['P_Grid'])
                         print(float(m[0]['M_PTot_last'] - m[0]['M_PTot_first']))
                         print(config.extra_load * 24 / 1000)
+                else:
+                    daily1['P_Grid'] = config.extra_load * 24 / 1000 # bit weird adding a load to the grid when no meter
 
                 if m[0]['M_PExp_last'] > 0 and m[0]['M_PExp_first'] > 0:
                     daily1['P_Exp'] = float(m[0]['M_PExp_last'] - m[0]['M_PExp_first'])
+                else:
+                    daily1['P_Exp'] = 0 # no meter
 
                 if m[0]['P_daily'] > 0:
                     daily1['P_daily'] = float(m[0]['P_daily'])
@@ -44,12 +55,41 @@ def fill_blanks(flux_client, midnight):
 
                 if daily1['P_Exp'] < daily1['P_daily'] / 3 and daily1['P_Exp'] != 0:
                     continue
+                s = ('SELECT last(Start) as Start, last(Shutdown) as Shutdown from %s_info where time < %s and time > %s') % (config.model, str(i['time'] + 4 * 3600 * 1000000000), str(i['time'] - (24 * 3600 - 1) * 1000000000))
+                zeros=flux_client.query(s, database=config.influxdb_database)
+                q = list(zeros.get_points(measurement=config.model+"_info"))
+                if len(q) > 0:
+                    daily1["sunrise"] = q[0]["Start"]
+                    daily1["sunset"] = q[0]["Shutdown"]
+                else:
+                    s = ('SELECT first(P_active) from %s where P_active > 0 and time < %s and time > %s') % (config.model, str(i['time']), str(i['time'] - 24 * 3600 * 1000000000))
+                    zeros=flux_client.query(s, epoch="s", database=config.influxdb_downsampled)
+                    q = list(zeros.get_points(measurement=config.model))
+                    daily1["sunrise"] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(q[0]["time"]))
+                    
+                    s = ('SELECT last(P_active) from %s where P_active > 0 and time < %s and time > %s') % (config.model, str(i['time']), str(i['time'] - 24 * 3600 * 1000000000))
+                    zeros=flux_client.query(s, epoch="s", database=config.influxdb_downsampled)
+                    q = list(zeros.get_points(measurement=config.model))
+                    daily1["sunset"] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(q[0]["time"]))
+
+
+                    
+                s = ('SELECT cumulative_sum(integral("power90")) /3600  as power90, cumulative_sum(integral("power10")) /3600  as power10, cumulative_sum(integral("power")) /3600  as power FROM "forcast" WHERE time < %s and time > %s group by time(1d)') % (str(i['time']), str(i['time'] - 24 * 3600 * 1000000000))
+                zeros = flux_client.query(s, database=config.influxdb_database)
+                q = list(zeros.get_points(measurement="forcast"))
+                
+                if len(q) > 0:
+                    daily1['power'] = float(q[0]['power'])
+                    daily1['power10'] = float(q[0]['power10'])
+                    daily1['power90'] = float(q[0]['power90'])
 
                 k += 1
                 if config.debug:
                     print(i["time"])
+                    print(time.ctime(i['time'] / 1000000000 - 24 * 3600))
                     print((daily1))
-                write_influx(flux_client, daily1, config.model+"_daily", config.influxdb_longterm, (j * 1000000000))
+
+                write_influx(flux_client, daily1, config.model+"_daily", config.influxdb_longterm, i['time'] - 24 * 3600 * 1000000000)
 
         except Exception as e:
             print("fill_blanks error: %s" % str(e))

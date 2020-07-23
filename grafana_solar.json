@@ -732,7 +732,8 @@
       "decimals": 2,
       "fieldConfig": {
         "defaults": {
-          "custom": {}
+          "custom": {},
+          "links": []
         },
         "overrides": []
       },
@@ -762,10 +763,8 @@
       "lines": true,
       "linewidth": 1,
       "nullPointMode": "null",
-      "options": {
-        "dataLinks": []
-      },
       "percentage": false,
+      "pluginVersion": "7.1.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -893,7 +892,8 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "tz": "UTC"
         },
         {
           "alias": "exp production",
@@ -4913,7 +4913,8 @@
       "decimals": 2,
       "fieldConfig": {
         "defaults": {
-          "custom": {}
+          "custom": {},
+          "links": []
         },
         "overrides": []
       },
@@ -4943,10 +4944,8 @@
       "lines": true,
       "linewidth": 1,
       "nullPointMode": "null",
-      "options": {
-        "dataLinks": []
-      },
       "percentage": false,
+      "pluginVersion": "7.1.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -5528,7 +5527,8 @@
       "decimals": 1,
       "fieldConfig": {
         "defaults": {
-          "custom": {}
+          "custom": {},
+          "links": []
         },
         "overrides": []
       },
@@ -5558,10 +5558,8 @@
       "lines": true,
       "linewidth": 2,
       "nullPointMode": "null",
-      "options": {
-        "dataLinks": []
-      },
       "percentage": false,
+      "pluginVersion": "7.1.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -5574,6 +5572,7 @@
         },
         {
           "alias": "radiance",
+          "legend": false,
           "lines": true,
           "zindex": -3
         },
@@ -5961,7 +5960,8 @@
       "description": "",
       "fieldConfig": {
         "defaults": {
-          "custom": {}
+          "custom": {},
+          "links": []
         },
         "overrides": []
       },
@@ -5991,10 +5991,8 @@
       "lines": true,
       "linewidth": 2,
       "nullPointMode": "null",
-      "options": {
-        "dataLinks": []
-      },
       "percentage": false,
+      "pluginVersion": "7.1.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -6381,10 +6379,12 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "-- Mixed --",
+      "decimals": 1,
       "description": "",
       "fieldConfig": {
         "defaults": {
-          "custom": {}
+          "custom": {},
+          "links": []
         },
         "overrides": []
       },
@@ -6414,10 +6414,8 @@
       "lines": true,
       "linewidth": 1,
       "nullPointMode": "null",
-      "options": {
-        "dataLinks": []
-      },
       "percentage": false,
+      "pluginVersion": "7.1.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -6562,7 +6560,8 @@
       "datasource": "-- Mixed --",
       "fieldConfig": {
         "defaults": {
-          "custom": {}
+          "custom": {},
+          "links": []
         },
         "overrides": []
       },
@@ -6592,10 +6591,8 @@
       "lines": true,
       "linewidth": 1,
       "nullPointMode": "null",
-      "options": {
-        "dataLinks": []
-      },
       "percentage": false,
+      "pluginVersion": "7.1.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -6806,7 +6803,8 @@
       "datasource": null,
       "fieldConfig": {
         "defaults": {
-          "custom": {}
+          "custom": {},
+          "links": []
         },
         "overrides": []
       },
@@ -6832,10 +6830,8 @@
       "lines": true,
       "linewidth": 1,
       "nullPointMode": "null",
-      "options": {
-        "dataLinks": []
-      },
       "percentage": false,
+      "pluginVersion": "7.1.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -7097,7 +7093,8 @@
       "decimals": 1,
       "fieldConfig": {
         "defaults": {
-          "custom": {}
+          "custom": {},
+          "links": []
         },
         "overrides": []
       },
@@ -7123,10 +7120,8 @@
       "lines": true,
       "linewidth": 1,
       "nullPointMode": "null",
-      "options": {
-        "dataLinks": []
-      },
       "percentage": false,
+      "pluginVersion": "7.1.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -7477,7 +7472,8 @@
       "datasource": null,
       "fieldConfig": {
         "defaults": {
-          "custom": {}
+          "custom": {},
+          "links": []
         },
         "overrides": []
       },
@@ -7503,10 +7499,8 @@
       "lines": true,
       "linewidth": 1,
       "nullPointMode": "null",
-      "options": {
-        "dataLinks": []
-      },
       "percentage": false,
+      "pluginVersion": "7.1.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -7837,7 +7831,8 @@
       "datasource": null,
       "fieldConfig": {
         "defaults": {
-          "custom": {}
+          "custom": {},
+          "links": []
         },
         "overrides": []
       },
@@ -7864,21 +7859,24 @@
       "lines": true,
       "linewidth": 1,
       "nullPointMode": "null",
-      "options": {
-        "dataLinks": []
-      },
       "percentage": false,
+      "pluginVersion": "7.1.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
       "seriesOverrides": [
         {
-          "alias": "inverter",
-          "yaxis": 1
-        },
-        {
           "alias": "PV_U",
           "yaxis": 2
+        },
+        {
+          "alias": "inverter",
+          "fill": 3,
+          "fillGradient": 5
+        },
+        {
+          "alias": "meter",
+          "fill": 0
         }
       ],
       "spaceLength": 10,
@@ -8059,7 +8057,8 @@
       "datasource": null,
       "fieldConfig": {
         "defaults": {
-          "custom": {}
+          "custom": {},
+          "links": []
         },
         "overrides": []
       },
@@ -8086,10 +8085,8 @@
       "lines": true,
       "linewidth": 1,
       "nullPointMode": "null",
-      "options": {
-        "dataLinks": []
-      },
       "percentage": false,
+      "pluginVersion": "7.1.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -8239,7 +8236,8 @@
       "datasource": null,
       "fieldConfig": {
         "defaults": {
-          "custom": {}
+          "custom": {},
+          "links": []
         },
         "overrides": []
       },
@@ -8266,10 +8264,8 @@
       "lines": true,
       "linewidth": 1,
       "nullPointMode": "null",
-      "options": {
-        "dataLinks": []
-      },
       "percentage": false,
+      "pluginVersion": "7.1.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -8530,7 +8526,8 @@
       "datasource": null,
       "fieldConfig": {
         "defaults": {
-          "custom": {}
+          "custom": {},
+          "links": []
         },
         "overrides": []
       },
@@ -8556,10 +8553,8 @@
       "lines": true,
       "linewidth": 1,
       "nullPointMode": "null",
-      "options": {
-        "dataLinks": []
-      },
       "percentage": false,
+      "pluginVersion": "7.1.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -8705,7 +8700,8 @@
       "datasource": null,
       "fieldConfig": {
         "defaults": {
-          "custom": {}
+          "custom": {},
+          "links": []
         },
         "overrides": []
       },
@@ -8731,10 +8727,8 @@
       "lines": true,
       "linewidth": 1,
       "nullPointMode": "null",
-      "options": {
-        "dataLinks": []
-      },
       "percentage": false,
+      "pluginVersion": "7.1.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -8895,7 +8889,8 @@
       "decimals": 1,
       "fieldConfig": {
         "defaults": {
-          "custom": {}
+          "custom": {},
+          "links": []
         },
         "overrides": []
       },
@@ -8922,10 +8917,8 @@
       "lines": true,
       "linewidth": 1,
       "nullPointMode": "null",
-      "options": {
-        "dataLinks": []
-      },
       "percentage": false,
+      "pluginVersion": "7.1.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -9071,7 +9064,7 @@
     }
   ],
   "refresh": "15s",
-  "schemaVersion": 25,
+  "schemaVersion": 26,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -9091,5 +9084,5 @@
   "timezone": "",
   "title": "Solar",
   "uid": "dtVwFFPWz",
-  "version": 105
+  "version": 110
 }

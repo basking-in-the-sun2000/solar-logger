@@ -1,3 +1,8 @@
+import os
+if not os.path.exists("config.py"):
+    import shutil
+    shutil.copy2("config.default.py", "config.py")
+
 import config
 import utils
 from modbustcp import connect_bus, read_registers, close_bus
@@ -7,11 +12,9 @@ import solcast
 import pytz
 from datetime import timedelta
 from influxdb import InfluxDBClient
-#import sys
-import gc # Garbage Collector
 import supla_api
-import os
-from os import path
+import re
+
 
 def to_str(s):
     str = ""
@@ -96,10 +99,10 @@ def do_map(client, config, inverter):
                 break
 
             except Exception as e:
-                print("do_map error: %s" % str(e))
                 time.sleep(2)
                 k += 1
                 if config.debug:
+                    print("do_map error: %s" % str(e))
                     print("trying to recover", register, k)
 
                 if k > 3:
@@ -167,26 +170,76 @@ def do_map(client, config, inverter):
 
     return False
 
-def forcast():
-    global flux_client
-    print("in forcast")
+def forecast(midnight):
+    def forehour(h, midnight):
+        global c_start
+        global c_stop
+
+        p = " (\d\d):"
+        t_start = re.findall(p, c_start)
+        t_stop = re.findall(p, c_stop)
+        try:
+            t_start = int(t_start[0])
+        except:
+            t_start = 8
+
+        try:
+            t_stop = int(t_stop[0])
+        except:
+            t_stop = 20
+
+        if config.debug:
+            print(time.ctime(h))
+
+        forecast_time = int((float(time.strftime("%H", time.localtime(h))) - float(time.strftime("%H"))) / 2) * 2
+        forecast_time = max(forecast_time, 1) * 3600
+        forecast_time = forecast_time + (60 - float(time.strftime("%M", time.localtime()))) * 60  
+        forecast_time = forecast_time  - float(time.strftime("%S", time.localtime())) + time.time()
+
+        if config.debug:
+            print(t_start)
+            print(t_stop)
+            print(time.ctime(forecast_time))
+
+        t = int(time.mktime(time.strptime(time.strftime('%Y-%m-%d %H:00:00', time.localtime(forecast_time)), "%Y-%m-%d %H:%M:%S")))
+        if float(time.strftime("%H", time.localtime(t))) > t_stop:
+            forecast_time = forecast_time + (24 - float(time.strftime("%H", time.localtime(t))) + t_start - 1) * 3600
+            t = int(time.mktime(time.strptime(time.strftime('%Y-%m-%d %H:00:00', time.localtime(forecast_time)), "%Y-%m-%d %H:%M:%S")))
+
+        if float(time.strftime("%H", time.localtime(t))) < t_start:
+            forecast_time = int(time.mktime(time.strptime(time.strftime('%Y-%m-%d '+ str(t_start) +':00:00', time.localtime(t)), "%Y-%m-%d %H:%M:%S")))
+
+        if (forecast_time - time.time() < 80):
+            forehour(time.time() + 100, midnight)
+
+        if (forecast_time - time.time() < 3600):
+            print("redoing")
+            print(forecast_time - time.time())
+            forecast_time = forehour(h + 3 * 3600, midnight)
+
+        print("next forecast " + time.ctime(forecast_time))
+        return int(forecast_time)
+    
+    
+    global flux_client    
+    print("in forecast")
     try:
         if (config.solfor == 1):
-            r1 = solcast.get_rooftop_forcasts(config.site_UUID, api_key=config.solcast_key)
+            r1 = solcast.get_rooftop_forecasts(config.site_UUID, api_key=config.solcast_key)
 
         elif (config.solfor == 2):
-            r1 = solcast.get_wpv_power_forecasts(config.latitude, config.longitude, config.forcast_capacity,
+            r1 = solcast.get_wpv_power_forecasts(config.latitude, config.longitude, config.forecast_capacity,
                                                  tilt=config.tilt, azimuth=config.azimuth,
                                                  install_date = config.install_date, hours = 48,
                                                  api_key=config.solcast_key)
 
         else:
-            return int(time.time() + 24 * 3600)
+            return forehour(int(time.time() + 6 * 3600), midnight)
 
     except Exception as e:
-        print("forcast error: %s" % str(e))
+        print("forecast error: %s" % str(e))
         print("solcast off-line")
-        return int(time.time() + 15 * 60)
+        return forehour(int(time.time() + 30 * 60), midnight)
 
     try:
         for x in r1.content['forecasts']:
@@ -202,29 +255,14 @@ def forcast():
 
             utils.write_influx(flux_client, measurement, "forcast", config.influxdb_database, int(dt) * 1000000000)
 
-        print("done getting forcast")
-
-    except AttributeError as e:
-        print("forcast 1 error: %s" % str(e))
-        print("error in forcast attribute")
-        return int(time.time() + 12 * 3600)
+        print("done getting forecast")
 
     except Exception as e:
-        print("forcast 2 error: %s" % str(e))
-        print("error in forcast")
-        return int(time.time() + 24 * 3600)
-
-    forcast_time = float(time.strftime("%H"))
-    if (8 <= forcast_time <= 20):
-        forcast_time = 2 - (forcast_time % 2)
-
-    else:
-        forcast_time = 12 - (forcast_time % 12)
-
-    forcast_time *= 3600
-    forcast_time = int(time.mktime(time.strptime(time.strftime('%Y-%m-%d %H:00:00', time.localtime(time.time()+forcast_time)), "%Y-%m-%d %H:%M:%S")))
-    print("next forcast " + time.ctime(forcast_time))
-    return forcast_time
+        print("forecast 1 error: %s" % str(e))
+        print("error in forecast")
+        return forehour(min(int(time.time() + 6 * 3600), midnight - time.altzone), midnight)
+    
+    return forehour(time.time(), midnight)
 
 def supla():
     #api key
@@ -360,7 +398,7 @@ def main():
         time.sleep(59 - float(time.strftime("%S")))
 
     utils.fill_blanks(flux_client, midnight)
-    forcast_time = forcast()
+    forecast_time = forecast(midnight)
     if config.debug:
         print("loop")
 
@@ -439,7 +477,7 @@ def main():
                 min_ins = 1000
                 daily['Temp'] = float(tmax)
                 tmax = 0
-                s = 'SELECT cumulative_sum(integral("power90")) /3600 * 0.82  as power90, cumulative_sum(integral("power10")) /3600 * 0.82  as power10, cumulative_sum(integral("power")) /3600 * 0.82  as power FROM "forcast" WHERE time > now() -22h group by time(1d)'
+                s = 'SELECT cumulative_sum(integral("power90")) /3600  as power90, cumulative_sum(integral("power10")) /3600  as power10, cumulative_sum(integral("power")) /3600  as power FROM "forcast" WHERE time > now() -22h group by time(1d)'
                 zeros = flux_client.query(s, database=config.influxdb_database)
                 m = list(zeros.get_points(measurement="forcast"))
                 daily['f_power'] = float(m[0]['power'])
@@ -448,7 +486,8 @@ def main():
                     daily['f_power10'] = float(m[0]['power10'])
 
                 except Exception as e:
-                    print("main 3 error: %s" % str(e))
+                    if config.debug:
+                        print("main 3 error: %s" % str(e))
                     daily['f_power90'] = float(m[0]['power'])
                     daily['f_power10'] = float(m[0]['power'])
 
@@ -482,8 +521,8 @@ def main():
                 utils.send_measurements(midnight - 24 * 3600, midnight, flux_client)
                 midnight = int(time.mktime(time.strptime(time.strftime( "%m/%d/%Y ") + " 23:59:59", "%m/%d/%Y %H:%M:%S"))) + 1
 
-            if (int(time.time()) > forcast_time):
-                forcast_time = forcast()
+            if (int(time.time()) > forecast_time):
+                forecast_time = forecast(midnight)
 
         else:
             sleep = config.scan_interval - (float(time.strftime("%S")) % config.scan_interval) - thread_mean * 1.1

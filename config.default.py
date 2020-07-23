@@ -1,4 +1,4 @@
-inverter_ip = ""
+inverter_ip = "192.168.8.1" # Default ip address in case it can't find it
 inverter_port = 502
 slave = 0x00
 model = "Huawei"
@@ -20,9 +20,10 @@ offset_ab = -0.2
 offset_a = -0.5
 offset_b = 1.5
 extra_load = 1.0 # watts this is a permanent load not measured by the smart meter
+# 1W represents 0.72 kWh a month. Adjust this to refflect your offset
 latitude = lat
 longitude = longitude
-forcast_capacity = 10 # in kW
+forecast_capacity = 10 # in kW
 tilt = my_tilt
 azimuth = 180   # 0 north, 180 south
 time_zone = 'your timezone'  # If you need a timezone, try https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
