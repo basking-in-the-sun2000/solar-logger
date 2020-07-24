@@ -23,15 +23,13 @@ For grafana you will need these plugins:
 
 Description of files
 
--write_solar populates the db with expected production values. These are daily average for the month in kWh. The values should account for your system, layout, shadowing, depreciation, etc, throughout the life of the system
+-write_solar populates the db with expected production values. These are daily average for the month in kWh. The values should account for your system, layout, shadowing, depreciation, etc, throughout the life of the system. This was used before solcast, but gives you an idea of how your production is going
 
 -scanner should allow to poll the inverterer for valid registers
 
 -scanner2 will display the values of the registers listed in regs
 
--roofs_add_forecast will add the next few days forecasts from solcast to influxdb
-
--fill_measurements sends the recorded data from the inverter to solcast
+-fill_solcast_measurements sends the recorded data from the inverter to solcast
 
 -modbustcp utility for modbus
 
@@ -40,16 +38,21 @@ Description of files
 
 -Huawei contains the inverter's registers, status constants
 
--fill_blanks takes the data from the inverter (influxdb) and writes daily summaries. It now uses the 5m data (logger_ds), unlike the equivalent in the main file use 30s data from that day
+-fill_daily_blanks takes the data from the inverter (influxdb) and writes daily summaries. It now uses the 5m data (logger_ds), unlike the equivalent in the main file use 30s data from that day
 
 -config.default has the constant values for your site. It copies this onto config.py if you don't have one
 
 -main is the code that runs all the time to gather and store data onto the database (influxdb)
 
--grafana.json is the main dashboard for the logger
+-supla_api is the api to the supla monitoring service (https://www.supla.org/en/)
 
--status.json shows the historical values of the status registers
+-utils is a library with support utilities
 
+-grafana_solar.json is the main dashboard for the logger
+
+-grafana_status.json shows the historical values of the status registers
+
+-solar.service.app has the values to set the logger as a service
 
 
 Setup
