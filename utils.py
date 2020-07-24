@@ -55,22 +55,26 @@ def fill_blanks(flux_client, midnight):
 
                 if daily1['P_Exp'] < daily1['P_daily'] / 3 and daily1['P_Exp'] != 0:
                     continue
-                s = ('SELECT last(Start) as Start, last(Shutdown) as Shutdown from %s_info where time < %s and time > %s') % (config.model, str(i['time'] + 4 * 3600 * 1000000000), str(i['time'] - (24 * 3600 - 1) * 1000000000))
+                s = ('SELECT last(Start) as Start, last(Shutdown) as Shutdown, max(Insulation) as Insulation from %s_info where time < %s and time > %s') % (config.model, str(i['time'] + 4 * 3600 * 1000000000), str(i['time'] - (24 * 3600 - 1) * 1000000000))
                 zeros=flux_client.query(s, database=config.influxdb_database)
                 q = list(zeros.get_points(measurement=config.model+"_info"))
-                if len(q) > 0:
-                    daily1["sunrise"] = q[0]["Start"]
-                    daily1["sunset"] = q[0]["Shutdown"]
-                else:
+                try:
+                    daily1["Insulation"] = float(q[0]["Insulation"])
+                except:
+                    pass
+                try:
+                    daily1["Start"] = q[0]["Start"]
+                    daily1["Shutdown"] = q[0]["Shutdown"]
+                except:
                     s = ('SELECT first(P_active) from %s where P_active > 0 and time < %s and time > %s') % (config.model, str(i['time']), str(i['time'] - 24 * 3600 * 1000000000))
                     zeros=flux_client.query(s, epoch="s", database=config.influxdb_downsampled)
                     q = list(zeros.get_points(measurement=config.model))
-                    daily1["sunrise"] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(q[0]["time"]))
+                    daily1["Start"] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(q[0]["time"]))
                     
                     s = ('SELECT last(P_active) from %s where P_active > 0 and time < %s and time > %s') % (config.model, str(i['time']), str(i['time'] - 24 * 3600 * 1000000000))
                     zeros=flux_client.query(s, epoch="s", database=config.influxdb_downsampled)
                     q = list(zeros.get_points(measurement=config.model))
-                    daily1["sunset"] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(q[0]["time"]))
+                    daily1["Shutdown"] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(q[0]["time"]))
 
 
                     
@@ -79,9 +83,9 @@ def fill_blanks(flux_client, midnight):
                 q = list(zeros.get_points(measurement="forcast"))
                 
                 if len(q) > 0:
-                    daily1['power'] = float(q[0]['power'])
-                    daily1['power10'] = float(q[0]['power10'])
-                    daily1['power90'] = float(q[0]['power90'])
+                    daily1['f_power'] = float(q[0]['power'])
+                    daily1['f_power10'] = float(q[0]['power10'])
+                    daily1['f_power90'] = float(q[0]['power90'])
 
                 k += 1
                 if config.debug:
