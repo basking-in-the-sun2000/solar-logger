@@ -40,7 +40,7 @@ def fill_blanks(flux_client, midnight):
                 if m[0]['M_PExp_last'] > 0 and m[0]['M_PExp_first'] > 0:
                     daily1['P_Exp'] = float(m[0]['M_PExp_last'] - m[0]['M_PExp_first'])
                 else:
-                    daily1['P_Exp'] = 0 # no meter
+                    daily1['P_Exp'] = float(0.0) # no meter
 
                 if m[0]['P_daily'] > 0:
                     daily1['P_daily'] = float(m[0]['P_daily'])
