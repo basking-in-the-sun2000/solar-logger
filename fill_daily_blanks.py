@@ -12,5 +12,7 @@ flux_client = InfluxDBClient(host=config.influxdb_ip,
                             
 midnight  = int(time.mktime(time.strptime(time.strftime( "%m/%d/%Y ") + " 23:59:59", "%m/%d/%Y %H:%M:%S"))) + 1 
 
+print(time.ctime(midnight))
+
 
 utils.fill_blanks(flux_client, midnight)

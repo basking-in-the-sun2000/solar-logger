@@ -95,8 +95,14 @@ def do_map(client, config, inverter):
         while k < 4:
             try:
                 result = read_registers(client, config.slave, inverter._register_map[register])
-                result.registers
-                break
+                if result.isError():
+                    time.sleep(2)
+                    k += 1
+                    if config.debug:
+                        print("do_map error2: %s" % str(e))
+                        print("trying to recover", register, k)
+                else:
+                    break
 
             except Exception as e:
                 time.sleep(2)
@@ -104,9 +110,10 @@ def do_map(client, config, inverter):
                 if config.debug:
                     print("do_map error: %s" % str(e))
                     print("trying to recover", register, k)
+            time.sleep(0.25)
 
-                if k > 3:
-                    return True
+        if k > 3:
+            return True
 
         if (result == -1):
             continue

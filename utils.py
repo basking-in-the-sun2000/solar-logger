@@ -34,6 +34,7 @@ def fill_blanks(flux_client, midnight):
                         print(daily1['P_Grid'])
                         print(float(m[0]['M_PTot_last'] - m[0]['M_PTot_first']))
                         print(config.extra_load * 24 / 1000)
+                        print(str(time.ctime(i['time'] / 1000000000)))
                 else:
                     daily1['P_Grid'] = config.extra_load * 24 / 1000 # bit weird adding a load to the grid when no meter
 
@@ -50,6 +51,7 @@ def fill_blanks(flux_client, midnight):
 
                 daily1['P_peak'] = float(m[0]['P_peak'])
                 daily1['P_Load'] = float(daily1['P_daily'] - daily1['P_Exp'] + daily1['P_Grid'])
+
                 if len(daily1) < 5:
                     continue
 
@@ -135,7 +137,7 @@ def write_influx(flux_client, measurement, iden, db, t = 0):
                 print("error")
                 print(metrics)
                 print(db)
-
+                print()
             return False
             
 def send_measurements(m_start, m_end, flux_client):

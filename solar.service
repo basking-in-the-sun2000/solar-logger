@@ -4,7 +4,7 @@
 
  [Service]
  Type=idle
- WorkingDirectory=/home/**me**/Documents/raspberry_pi_logger
+ WorkingDirectory=**folder location***
  ExecStart=/usr/bin/python3 -u main.py
  StandardOutput=append:/var/log/solar/solar.log
  User=**me**

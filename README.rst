@@ -1,16 +1,17 @@
 This is a datalogger for a solar inverter. Tried to make it so it can be used with any other inverter, if you create a file with all the register and status constants
 
+
+![Grafana Dashboard](dashboard.png)
+
 I'm certain that by not having access to other inverters and only knowing mine, I did throw in some bias into the code. However, hope it isn't bad
 
-So for now it is configured for a Huawei's Sun2000 usl0 version, but probably should run with other residential models
+So for now it is configured for a Huawei's Sun2000 usl0 version, but probably should run with other residential models. For commercial models, you would need to update the register map (in Huawei.py).
 
 
 
 This code was inspired on a series of other repositories to as a guideline to create the current datalogger. Including portions from https://github.com/meltaxa/solariot/
 
-You will need these python packages pymodbus, influxdb, pytz 
-
-Also influxdb (the database itself) and grafana
+You will need these python packages pymodbus, influxdb, pytz, and influxdb (the database itself) and grafana
 
 Also included the solcast folder from basking-in-the-sun2000/Radiation, hopefully FidFenix will incorporate the changes and keep it current
 
@@ -48,39 +49,43 @@ Description of files
 
 -utils is a library with support utilities
 
--grafana_solar.json is the main dashboard for the logger
-
--grafana_status.json shows the historical values of the status registers
-
 -solar.service.app has the values to set the logger as a service
+
+-setting up.md gives a detailed install to get up and running
+
+Grafana files:
+dashboard.json is the main dashboard for the logger
+
+solar.json is the detail view dashboard for the logger
+
+status.json shows the historical values of the status registers
+
+data_sources.json has information to setup the data sources for grafana
 
 
 Setup
 After installing influxdb, grafana, the required python packages and grafana plugins, you might want to change the config.py values to suit your installation.
-You need to connect to both data sources in grafana. Influxdb creates two db, logger and logger_lt (or the names you used if you changed those).
+You need to connect to the data sources in grafana. Influxdb creates three dbs, logger, logger_ds and logger_lt (or the names you used if you changed those).
 
 Operation
-Running it shouldn't need much if all the requirements are satisfied
+Running shouldn't need much if all the requirements are satisfied
 
 cd to the directory with the code
 python3 main.py
 If everything is working, you can get it running as a service and will autostart after booting. See below
 
-Been running it off a raspberry pi 4 and has behaved well.  Influx is a bit demanding, up to 40% of the cpu
+Been running it off a raspberry pi 4 and has behaved well.  Influx is a bit demanding, up to 40% of the cpu. Did eventually ran into trouble, since wal files had grown, and influxdb couldn't run (see below). You might want to turn off the vnc and desktop  to conserve resources. 
 
+Also, my sd card started acting up (changes weren't saved to the drive). Ended up using an ssd, which hopefully will be enough for the next 25 years. On the positive side, it allowed me to do a clean install and test everything from scatch. Had to install it on the usb2. Wouldn't boot if it was on the usb3, maybe the case I'm using.
 
-To start the logger as a service,
-1) cd to the directory with the code
-cp solar.service /lib/systemd/system/solar.service
-change **me** to you 
-2) sudo systemctl enable solar.service
-3) sudo systemctl start solar.service
-4) check it 
-sudo systemctl status solar.service
+Did add this to the /boot/cmdline.txt, just to make sure it checked the drives at bootup
+	fsck.mode=auto fsck.repair=yes
 
 You should have the log file at ~/var/log/solar/solar.log (unless you changed the location). but you need to create the folde first
-sudo mkdir /var/log/solar
-sudo chown ***me***:***me*** /var/log/solar  (use your user's name rather than ***me***)
+
+You could also try something that moves a high frequency write directory (/var/log) to ram 
+https://github.com/azlux/log2ram
+
 
 
 Notes
@@ -88,7 +93,7 @@ It uses solcast.com, so you need to create an account (free) and a rooftop site.
 
 Also updates the daily summary data at midnight. In case you missed that time, there are tools that allow you to send data to solcast or update the daily db
 
-After tuning (sending your data), they claim I'm getting 0.97 correlation of the data. There is a adjustment factor in the Energy pane of grafana, for 0.98 (solcast tuning has improved the forecasts a lot!). I'm hoping with use it will improve. The time period is hardwired to 5 minutes, not sure it makes much difference if you use 10m or even 30m. However, since we are only sending data for the active production once a day, it sounded as a reasonable value.
+After tuning (sending your data), they claim I'm getting 0.97 correlation of the data. There is a adjustment factor in the Energy pane of grafana, for 0.98. With use it will improve (solcast tuning has improved the forecasts a lot!). The time period is hardwired to 5 minutes, not sure it makes much difference if you use 10m or even 30m. However, since we are only sending data for the active production once a day, it sounded as a reasonable value.
 
 Also in grafana, there are several limits that show values in different colors. You can adjust these to suit your site. The solcast forecasts include all 3 sets. These are the regular, the 10th percentile (low scenario), and 90th percentile (high scenario) estimates. If you rather, you can delete the ones that don't suit you.
 
@@ -132,6 +137,6 @@ If you already have your logger running, before doing the next step you need to 
   
 add a retention policy (this will delete anything older than 70 days from the 30s data. You should get 5m data from the cq)
 
-	CREATE RETENTION POLICY huawei_rt ON logger DURATION 70d REPLICATION 1 SHARD DURATION 15d DEFAULT
+	ALTER RETENTION POLICY autogen on logger DURATION 70d REPLICATION 1 SHARD DURATION 15d DEFAULT
 
 
