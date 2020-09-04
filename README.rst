@@ -1,4 +1,4 @@
-# Solar Logger
+### Solar Logger
 
 This is a datalogger for a solar inverter. Tried to make it so it can be used with any other inverter, if you create a file with all the register and status constants
 
@@ -13,22 +13,21 @@ So for now it is configured for a Huawei's Sun2000 usl0 version, but probably sh
 
 This code was inspired on a series of other repositories to as a guideline to create the current datalogger. Including portions from https://github.com/meltaxa/solariot/
 
-Basics
----
+### Basics
 
 You will need these python packages pymodbus, influxdb, pytz, and influxdb (the database itself) and grafana
 
 Also included the solcast folder from basking-in-the-sun2000/Radiation, hopefully FidFenix will incorporate the changes and keep it current
 
 For grafana you will need these plugins:
--agenty-flowcharting-panel
--blackmirror1-singlestat-math-panel
--graph
--yesoreyeram-boomtable-panel
+- agenty-flowcharting-panel
+- blackmirror1-singlestat-math-panel
+- graph
+- yesoreyeram-boomtable-panel
 
 
-Description of files
----
+### Description of files
+
 - write_solar populates the db with expected production values. These are daily average for the month in kWh. The values should account for your system, layout, shadowing, depreciation, etc, throughout the life of the system. This was used before solcast, but gives you an idea of how your production is going
 
 - scanner should allow to poll the inverterer for valid registers
@@ -65,21 +64,21 @@ Description of files
 - data_sources.json has information to setup the data sources for grafana
 
 
-Setup
----
+### Setup
+
 After installing influxdb, grafana, the required python packages and grafana plugins, you might want to change the `config.py` values to suit your installation.
 You need to connect to the data sources in grafana. Influxdb creates three dbs: logger, logger_ds and logger_lt (or the names you used if you changed those).
 
-Operation
----
+### Operation
+
 Running shouldn't need much if all the requirements are satisfied
 - cd to the directory with the code
 - `python3 main.py`
 
 If everything is working, you can get it running as a service and will autostart after booting. See below
 
-Notes about raspberry pi 4
----
+### Notes about raspberry pi 4
+
 Been running it off a raspberry pi 4 and has behaved well. Influx is a bit demanding, up to 40% of the cpu. Did eventually ran into trouble, since wal files had grown, and influxdb couldn't run (see below). You might want to turn off the vnc and desktop  to conserve resources. 
 
 Also, my sd card started acting up (changes weren't saved to the drive). Ended up using an ssd, which hopefully will be enough for the next 25 years. On the positive side, it allowed me to do a clean install and test everything from scatch. Had to install it on the usb2. Wouldn't boot if it was on the usb3, maybe the case I'm using.
@@ -94,8 +93,8 @@ https://github.com/azlux/log2ram
 
 
 
-Other notes
----
+### Other notes
+
 It uses solcast.com, so you need to create an account (free) and a rooftop site. It pulls the forecast several times during the day, but only sends the measurements at midnight. 
 
 Also updates the daily summary data at midnight. In case you missed that time, there are tools that allow you to send data to solcast or update the daily db
@@ -107,8 +106,8 @@ In grafana, there are several limits that show values in different colors. You c
 My system is new, so I have panes that show the behaviour throughout the day. If yours is older or don't care, you can swap the panes for daily behaviour instead. Just scroll down and move the panes up, or make your own.
 
 
-About Influx
----
+### About Influx
+
 Just had an issue with influxdb, by which it wouldn't start. Somehow it didn't worked as expected, and started leaving around a huge amount of files. Had he logger offline a couple of days, trying to figure a way to fix it. 
 
 Got the 4gb raspberry pi, thinking i would need it. However, always thought that would suffice for this use. Eventually moved it to my computer, and ran influxd from there. Kept getting a out of memory error and later a too many files open error.
