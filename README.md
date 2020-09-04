@@ -1,4 +1,4 @@
-### Solar Logger
+## Solar Logger
 
 This is a datalogger for a solar inverter. Tried to make it so it can be used with any other inverter, if you create a file with all the register and status constants
 
