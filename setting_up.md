@@ -58,13 +58,13 @@ cd to the directory where the code is, and try python3 main.py. If you have prob
 
 To start the logger as a service,
 
-1. cd to the directory with the code
-2. cp solar.service /lib/systemd/system/solar.service
-3. change the text within the *** to what you need 
-4. sudo systemctl enable solar.service
-5. sudo systemctl start solar.service
-6. check it 
-  a. sudo systemctl status solar.service
+- cd to the directory with the code
+- cp solar.service /lib/systemd/system/solar.service
+- change the text within the *** to what you need 
+- sudo systemctl enable solar.service
+- sudo systemctl start solar.service
+- check it 
+  - sudo systemctl status solar.service
 
 
 If you need to fix your db, i had to use these commands on my computer, since the pi didn't had enough memory (adjust your paths)
