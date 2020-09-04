@@ -75,7 +75,7 @@ Running shouldn't need much if all the requirements are satisfied
 - cd to the directory with the code
 - `python3 main.py`
 
-If everything is working, you can get it running as a service and will autostart after booting. See below
+If everything is working, you can get it running as a service and will autostart after booting. See [setting_up.md](setting up.md)
 
 ### Notes about raspberry pi 4
 
