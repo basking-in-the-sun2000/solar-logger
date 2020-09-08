@@ -4,6 +4,7 @@ This is a datalogger for a solar inverter. Tried to make it so it can be used wi
 
 
 ![Dashboard](dashboard.png)
+![longterm](longterm.png)
 
 I'm certain that by not having access to other inverters and only knowing mine, I did throw in some bias into the code. However, hope it isn't bad
 
