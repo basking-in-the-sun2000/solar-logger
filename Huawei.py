@@ -259,9 +259,17 @@ def status(register, value):
     return s
     
 def inv_address():
-    udp_message = bytes([0x5a, 0x5a, 0x5a, 0x5a, 0x00, 0x41,
-                         0x3a, 0x04, 0xc0, 0xa8, 0x00, 0x05])
+    udp_message = bytes([0x5a, 0x5a, 0x5a, 0x5a, 0x00, 0x41, 0x3a, 0x04])
 
+	sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
+	sock.connect(("8.8.8.8", 80))
+	ip = sock.getsockname()[0]
+	ip = socket.inet_aton(ip)
+	sock.close()
+
+	for i in ip:
+		udp_message += bytes([i]) 
+	
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
