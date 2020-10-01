@@ -109,7 +109,7 @@ _status_map = {
 }
 def test_bit(n, b):
     n &= (1<<b)
-    n = (n  == (1<<b))  
+    n = (n  == (1<<b))
     return n
 
 def status(register, value):
@@ -149,7 +149,7 @@ def status(register, value):
             s += 'DSP collecting | '
         else:
             s += 'DSP not collecting | '
-        
+
     elif (register == 'State3'):
         if (test_bit(value,0)):
             s += 'off-grid | '
@@ -159,7 +159,7 @@ def status(register, value):
             s += 'off-grid switch enable | '
         else:
             s += 'off-grid switch disable | '
-        
+
     elif (register == 'Alarm1'):
         if (test_bit(value,0)):
             s += 'High String Input Voltage | '
@@ -227,7 +227,7 @@ def status(register, value):
             s += 'Churn output overload | '
         if (test_bit(value,15)):
             s += 'Abnormal PV module configuration | '
-        
+
     elif (register == 'Alarm3'):
         if (test_bit(value,0)):
             s += 'Optimizer fault | '
@@ -247,7 +247,7 @@ def status(register, value):
             s += 'Internal Fan Abnormal | '
         if (test_bit(value,8)):
             s += 'DC Protection Unit Abnormal | '
-        
+
     elif (register == 'Status'):
         s = _status_map[value]
     elif (register == 'Fault'):
@@ -257,19 +257,24 @@ def status(register, value):
     if s.endswith(' | '):
         s = s[:-3]
     return s
-    
+
 def inv_address():
     udp_message = bytes([0x5a, 0x5a, 0x5a, 0x5a, 0x00, 0x41, 0x3a, 0x04])
 
-	sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
-	sock.connect(("8.8.8.8", 80))
-	ip = sock.getsockname()[0]
-	ip = socket.inet_aton(ip)
-	sock.close()
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
+    sock.connect(("8.8.8.8", 80))
+    ip = sock.getsockname()[0]
+    ip = socket.inet_aton(ip)
+    sock.close()
 
-	for i in ip:
-		udp_message += bytes([i]) 
-	
+    for i in ip:
+        udp_message += bytes([i])
+    if config.debug:
+        print(ip)
+        print("\n")
+        print(udp_message)
+        print("\n")
+
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
@@ -298,7 +303,7 @@ def inv_address():
                     print("can't find inverter")
                 if (config.inverter_ip != ""):
                     return config.inverter_ip
-                    
+
         if len(data) == 30:
             addr = str(addr[0])
             if config.debug:

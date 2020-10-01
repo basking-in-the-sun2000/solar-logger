@@ -53,6 +53,17 @@ sudo chown ***me***:***me*** /var/log/solar  (use your user's name rather than *
 
 You might want to setup the `config.py` file with the parameter for your site
 
+You need grant privileges your user
+strart a session (type influx in the terminal)
+CREATE USER <username> WITH PASSWORD '<password>' (use the username and password you used in the config.py file for influx)
+grant write on logger to <username>
+grant write on logger_ds to <username>
+grant write on logger_lt to <username>
+
+you can check it with
+SHOW GRANTS FOR <username>
+
+exit (when you are done)
 
 cd to the directory where the code is, and try python3 main.py. If you have problems enable the debug flag in config.py, if you need more data (or i do)
 
