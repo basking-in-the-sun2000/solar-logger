@@ -99,7 +99,7 @@ def do_map(client, config, inverter):
                     time.sleep(2)
                     k += 1
                     if config.debug:
-                        print("do_map error2: %s" % str(e))
+#                        print("do_map error2: %s" % str(e))
                         print("trying to recover", register, k)
                 else:
                     break
