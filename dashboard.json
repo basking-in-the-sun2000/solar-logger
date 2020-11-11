@@ -52,8 +52,8 @@
       "format": "short",
       "graphId": "flowchart_18",
       "gridPos": {
-        "h": 3,
-        "w": 14,
+        "h": 4,
+        "w": 13,
         "x": 0,
         "y": 0
       },
@@ -959,6 +959,7 @@
         "exp production 90": "semi-dark-orange",
         "load": "light-green",
         "production": "rgba(90, 140, 255, 0.42)",
+        "slope": "rgba(255, 243, 4, 0.5)",
         "solcast": "light-orange",
         "solcast10": "super-light-orange",
         "solcast90": "semi-dark-orange"
@@ -977,9 +978,9 @@
       "fill": 1,
       "fillGradient": 5,
       "gridPos": {
-        "h": 8,
-        "w": 10,
-        "x": 14,
+        "h": 7,
+        "w": 11,
+        "x": 13,
         "y": 0
       },
       "hiddenSeries": false,
@@ -1011,7 +1012,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.2.0",
+      "pluginVersion": "7.3.1",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1534,7 +1535,7 @@
             "mode": "percentage",
             "steps": [
               {
-                "color": "semi-dark-red",
+                "color": "rgb(255, 255, 255)",
                 "value": null
               },
               {
@@ -1543,7 +1544,7 @@
               },
               {
                 "color": "semi-dark-red",
-                "value": 0.01
+                "value": 0.1
               },
               {
                 "color": "light-red",
@@ -1672,14 +1673,14 @@
           },
           {
             "matcher": {
-              "id": "byName",
-              "options": "yet possible"
+              "id": "byRegexp",
+              "options": "/possible|Yesterday/"
             },
             "properties": [
               {
                 "id": "thresholds",
                 "value": {
-                  "mode": "absolute",
+                  "mode": "percentage",
                   "steps": [
                     {
                       "color": "light-green",
@@ -1702,9 +1703,9 @@
       },
       "gridPos": {
         "h": 5,
-        "w": 14,
+        "w": 13,
         "x": 0,
-        "y": 3
+        "y": 4
       },
       "id": 3,
       "options": {
@@ -1719,7 +1720,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "7.2.0",
+      "pluginVersion": "7.3.1",
       "targets": [
         {
           "alias": "forecast",
@@ -1815,11 +1816,51 @@
               "type": "fill"
             }
           ],
+          "hide": false,
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "select last(fm)-last(f0) from (SELECT cumulative_sum(integral(\"power\")) /3600 * 1.0 as fm FROM \"forcast\" WHERE $timeFilter GROUP BY time(1d)), (SELECT cumulative_sum(integral(\"power\")) /3600 * 1.0 as f0 FROM \"forcast\" WHERE $timeFilter and  time <= now()  GROUP BY time(1d) ) ",
+          "query": "select last(fm)-last(f0) as p from (SELECT cumulative_sum(integral(\"power\")) /3600 * 1.0 as fm FROM \"forcast\" WHERE $timeFilter GROUP BY time(1d)), (SELECT cumulative_sum(integral(\"power\")) /3600 * 1.0 as f0 FROM \"forcast\" WHERE $timeFilter and  time <= now()  GROUP BY time(1d) )",
           "rawQuery": true,
           "refId": "D",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "Yesterday",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "hide": false,
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT max(\"P_daily\") -  first(\"P_daily\")  FROM \"Huawei\" WHERE time >= now() - 24h and  time <= ${__from}ms GROUP BY time(1d) fill(previous) order by time asc limit 1\n",
+          "rawQuery": true,
+          "refId": "E",
           "resultFormat": "time_series",
           "select": [
             [
@@ -1882,6 +1923,537 @@
       "transformations": [],
       "transparent": true,
       "type": "gauge"
+    },
+    {
+      "aliasColors": {
+        "Grid": "semi-dark-yellow",
+        "div 0": "semi-dark-red",
+        "div 1": "semi-dark-blue",
+        "load": "light-blue",
+        "max": "rgba(255, 203, 125, 0.57)"
+      },
+      "bars": true,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 10,
+        "w": 8,
+        "x": 13,
+        "y": 7
+      },
+      "hiddenSeries": false,
+      "id": 48,
+      "interval": "5m",
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": false,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.3.1",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "alias": "Grid",
+          "bars": false,
+          "lines": true,
+          "linewidth": 2
+        },
+        {
+          "alias": "max",
+          "zindex": -3
+        },
+        {},
+        {
+          "alias": "/div/",
+          "bars": false,
+          "legend": false,
+          "points": true,
+          "yaxis": 2
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "Inverter",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT mean(\"P_active\") * 1000 FROM \"Huawei\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "P_active"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              },
+              {
+                "params": [
+                  "* 1000"
+                ],
+                "type": "math"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "Grid",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "M_P"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "load",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT mean(\"M_P\") - mean(\"P_active\") * 1000 FROM \"Huawei\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
+          "rawQuery": true,
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "max",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT max(\"P_active\") * 1000 FROM \"Huawei\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
+          "rawQuery": true,
+          "refId": "D",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "P_active"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              },
+              {
+                "params": [
+                  "* 1000"
+                ],
+                "type": "math"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "div 0",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT last(\"load_0\") FROM \"Huawei\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
+          "rawQuery": true,
+          "refId": "E",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "load_0"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "div 1",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT last(\"load_1\") FROM \"Huawei\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
+          "rawQuery": true,
+          "refId": "F",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "load_1"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Power",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "watt",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "decimals": 0,
+          "format": "none",
+          "label": "",
+          "logBase": 1,
+          "max": "1",
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "cacheTimeout": null,
+      "datasource": null,
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": null,
+            "filterable": false
+          },
+          "mappings": [
+            {
+              "from": "",
+              "id": 1,
+              "text": "OFF",
+              "to": "",
+              "type": 1,
+              "value": "0"
+            },
+            {
+              "from": "",
+              "id": 2,
+              "text": "ON",
+              "to": "",
+              "type": 1,
+              "value": "1"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": 0
+              },
+              {
+                "color": "light-yellow",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 3,
+        "x": 21,
+        "y": 7
+      },
+      "id": 61,
+      "interval": null,
+      "links": [],
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "vertical",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.3.1",
+      "targets": [
+        {
+          "aggregation": "Last",
+          "alias": "load 0",
+          "decimals": 2,
+          "displayAliasType": "Warning / Critical",
+          "displayType": "Regular",
+          "displayValueWithAlias": "Never",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT last(\"load_0\") FROM \"Huawei\" WHERE time > now() - 3d  fill(null)  order by time desc limit 1",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "load_0"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": [],
+          "units": "none",
+          "valueHandler": "Number Threshold"
+        },
+        {
+          "aggregation": "Last",
+          "alias": "load 1",
+          "decimals": 2,
+          "displayAliasType": "Warning / Critical",
+          "displayType": "Regular",
+          "displayValueWithAlias": "Never",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT last(\"load_1\") FROM \"Huawei\" WHERE time > now() - 3d  fill(null)  order by time desc limit 1",
+          "rawQuery": true,
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "load_1"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": [],
+          "units": "none",
+          "valueHandler": "Number Threshold"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "",
+      "type": "stat"
     },
     {
       "cacheTimeout": null,
@@ -2067,9 +2639,9 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 14,
+        "w": 13,
         "x": 0,
-        "y": 8
+        "y": 9
       },
       "id": 22,
       "interval": null,
@@ -2087,7 +2659,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "7.2.0",
+      "pluginVersion": "7.3.1",
       "targets": [
         {
           "datasource": "InfluxDB",
@@ -2177,226 +2749,8 @@
     {
       "aliasColors": {
         "Grid": "semi-dark-yellow",
-        "load": "light-blue"
-      },
-      "bars": true,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": null,
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 8,
-        "w": 7,
-        "x": 14,
-        "y": 8
-      },
-      "hiddenSeries": false,
-      "id": 48,
-      "interval": "5m",
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": false,
-      "linewidth": 1,
-      "nullPointMode": "null",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "7.2.0",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [
-        {
-          "alias": "Grid",
-          "bars": false,
-          "lines": true,
-          "linewidth": 2
-        }
-      ],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "alias": "Inverter",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "Huawei",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT mean(\"P_active\") * 1000 FROM \"Huawei\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
-          "rawQuery": true,
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "P_active"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              },
-              {
-                "params": [
-                  "* 1000"
-                ],
-                "type": "math"
-              }
-            ]
-          ],
-          "tags": []
-        },
-        {
-          "alias": "Grid",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "Huawei",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "B",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "M_P"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              }
-            ]
-          ],
-          "tags": []
-        },
-        {
-          "alias": "load",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT mean(\"M_P\") - mean(\"P_active\") * 1000 FROM \"Huawei\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
-          "rawQuery": true,
-          "refId": "C",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "value"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              }
-            ]
-          ],
-          "tags": []
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Power",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "watt",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "watth",
-          "label": "",
-          "logBase": 1,
-          "max": null,
-          "min": "0",
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {
-        "Grid": "semi-dark-yellow",
+        "div_0": "semi-dark-red",
+        "div_1": "semi-dark-blue",
         "load": "light-blue"
       },
       "bars": true,
@@ -2415,7 +2769,7 @@
         "h": 8,
         "w": 3,
         "x": 21,
-        "y": 8
+        "y": 9
       },
       "hiddenSeries": false,
       "hideTimeOverride": true,
@@ -2440,7 +2794,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.2.0",
+      "pluginVersion": "7.3.1",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -2461,6 +2815,11 @@
           "alias": "load",
           "yaxis": 2,
           "zindex": 1
+        },
+        {
+          "alias": "/div/",
+          "bars": false,
+          "points": true
         }
       ],
       "spaceLength": 10,
@@ -2588,6 +2947,82 @@
             ]
           ],
           "tags": []
+        },
+        {
+          "alias": "div_0",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT last(\"load_0\") FROM \"Huawei\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
+          "rawQuery": true,
+          "refId": "D",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "div_1",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT last(\"load_1\") FROM \"Huawei\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
+          "rawQuery": true,
+          "refId": "E",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
         }
       ],
       "thresholds": [],
@@ -2611,11 +3046,12 @@
       },
       "yaxes": [
         {
-          "format": "watt",
-          "label": null,
+          "decimals": 0,
+          "format": "none",
+          "label": "",
           "logBase": 1,
-          "max": null,
-          "min": null,
+          "max": "1",
+          "min": "0",
           "show": false
         },
         {
@@ -2728,9 +3164,9 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 14,
+        "w": 13,
         "x": 0,
-        "y": 12
+        "y": 13
       },
       "id": 46,
       "interval": null,
@@ -2748,7 +3184,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "7.2.0",
+      "pluginVersion": "7.3.1",
       "targets": [
         {
           "alias": "Inverter",
@@ -2936,7 +3372,7 @@
         "h": 4,
         "w": 16,
         "x": 0,
-        "y": 16
+        "y": 17
       },
       "hiddenSeries": false,
       "hideTimeOverride": true,
@@ -2959,7 +3395,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.2.0",
+      "pluginVersion": "7.3.1",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -3032,7 +3468,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"P_active\") FROM \"Huawei\" WHERE $timeFilter and time < ${__from}ms GROUP BY time(30m) fill(null)",
+          "query": "SELECT mean(\"P_active\") FROM \"Huawei\" WHERE $timeFilter and time < ${__from}ms GROUP BY time(15m) fill(null)",
           "rawQuery": true,
           "refId": "B",
           "resultFormat": "time_series",
@@ -3071,7 +3507,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"P_active\") FROM \"Huawei\" WHERE $timeFilter and time > ${__from}ms GROUP BY time(30m) fill(null)",
+          "query": "SELECT mean(\"P_active\") FROM \"Huawei\" WHERE $timeFilter and time > ${__from}ms GROUP BY time(15m) fill(null)",
           "rawQuery": true,
           "refId": "C",
           "resultFormat": "time_series",
@@ -3093,9 +3529,9 @@
         }
       ],
       "thresholds": [],
-      "timeFrom": "+21d",
+      "timeFrom": "+18d",
       "timeRegions": [],
-      "timeShift": "15d",
+      "timeShift": "12d",
       "title": "forecast",
       "tooltip": {
         "shared": true,
@@ -3151,7 +3587,7 @@
         "h": 4,
         "w": 8,
         "x": 16,
-        "y": 16
+        "y": 17
       },
       "hiddenSeries": false,
       "hideTimeOverride": true,
@@ -3172,7 +3608,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.2.0",
+      "pluginVersion": "7.3.1",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -3292,7 +3728,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 20
+        "y": 21
       },
       "hiddenSeries": false,
       "hideTimeOverride": true,
@@ -3316,7 +3752,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.2.0",
+      "pluginVersion": "7.3.1",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -3339,7 +3775,7 @@
           "pointradius": 4,
           "points": true,
           "yaxis": 2,
-          "zindex": 2
+          "zindex": -3
         },
         {
           "alias": "load",
@@ -3410,6 +3846,46 @@
               {
                 "params": [],
                 "type": "first"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "Solcast",
+          "datasource": "InfluxDB lt",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei_daily",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT (\"f_power\") FROM \"Huawei_daily\" WHERE time > now() - 31d",
+          "rawQuery": true,
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "f_power"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
               }
             ]
           ],
@@ -3534,45 +4010,6 @@
           "tags": []
         },
         {
-          "alias": "peak",
-          "datasource": "InfluxDB lt",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT (\"P_peak\") FROM \"Huawei_daily\" WHERE time > now() - 31d ",
-          "rawQuery": true,
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "value"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              }
-            ]
-          ],
-          "tags": []
-        },
-        {
           "alias": "Grid",
           "datasource": "InfluxDB lt",
           "groupBy": [
@@ -3612,7 +4049,7 @@
           "tags": []
         },
         {
-          "alias": "Solcast",
+          "alias": "peak",
           "datasource": "InfluxDB lt",
           "groupBy": [
             {
@@ -3628,18 +4065,17 @@
               "type": "fill"
             }
           ],
-          "measurement": "Huawei_daily",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT (\"f_power\") FROM \"Huawei_daily\" WHERE time > now() - 31d",
+          "query": "SELECT (\"P_peak\") FROM \"Huawei_daily\" WHERE time > now() - 31d ",
           "rawQuery": true,
-          "refId": "C",
+          "refId": "A",
           "resultFormat": "time_series",
           "select": [
             [
               {
                 "params": [
-                  "f_power"
+                  "value"
                 ],
                 "type": "field"
               },
@@ -3727,7 +4163,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 20
+        "y": 21
       },
       "hiddenSeries": false,
       "hideTimeOverride": true,
@@ -3751,7 +4187,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.2.0",
+      "pluginVersion": "7.3.1",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -3776,7 +4212,7 @@
           "pointradius": 4,
           "points": true,
           "yaxis": 2,
-          "zindex": 3
+          "zindex": -3
         },
         {
           "alias": "load",
@@ -3805,6 +4241,86 @@
       "stack": false,
       "steppedLine": false,
       "targets": [
+        {
+          "alias": "solcast90",
+          "datasource": "InfluxDB lt",
+          "groupBy": [
+            {
+              "params": [
+                "30d"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei_daily",
+          "orderByTime": "ASC",
+          "policy": "autogen",
+          "query": "SELECT mean(\"f_power90\") FROM \"Huawei_daily\"  GROUP BY time(30d) fill(none)",
+          "rawQuery": true,
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "f_power"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "solcast",
+          "datasource": "InfluxDB lt",
+          "groupBy": [
+            {
+              "params": [
+                "30d"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei_daily",
+          "orderByTime": "ASC",
+          "policy": "autogen",
+          "query": "SELECT mean(\"f_power\") FROM \"Huawei_daily\"  GROUP BY time(30d) fill(none)",
+          "rawQuery": true,
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "f_power"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        },
         {
           "alias": "daily",
           "datasource": "InfluxDB lt",
@@ -4000,86 +4516,6 @@
             ]
           ],
           "tags": []
-        },
-        {
-          "alias": "solcast",
-          "datasource": "InfluxDB lt",
-          "groupBy": [
-            {
-              "params": [
-                "30d"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "Huawei_daily",
-          "orderByTime": "ASC",
-          "policy": "autogen",
-          "query": "SELECT mean(\"f_power\") FROM \"Huawei_daily\"  GROUP BY time(30d) fill(none)",
-          "rawQuery": true,
-          "refId": "C",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "f_power"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              }
-            ]
-          ],
-          "tags": []
-        },
-        {
-          "alias": "solcast90",
-          "datasource": "InfluxDB lt",
-          "groupBy": [
-            {
-              "params": [
-                "30d"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "Huawei_daily",
-          "orderByTime": "ASC",
-          "policy": "autogen",
-          "query": "SELECT mean(\"f_power90\") FROM \"Huawei_daily\"  GROUP BY time(30d) fill(none)",
-          "rawQuery": true,
-          "refId": "B",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "f_power"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              }
-            ]
-          ],
-          "tags": []
         }
       ],
       "thresholds": [],
@@ -4124,6 +4560,831 @@
         "align": true,
         "alignLevel": null
       }
+    },
+    {
+      "cacheTimeout": null,
+      "datasource": "InfluxDB ds",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": null,
+            "filterable": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 12,
+        "x": 0,
+        "y": 28
+      },
+      "id": 57,
+      "interval": null,
+      "links": [],
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.3.1",
+      "targets": [
+        {
+          "alias": "Exports",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "select max(l) - min(f)  from (SELECT first(\"M_PExp\") as f FROM \"Huawei\" WHERE time > now() - 365d  and time < now() - 340d), (SELECT last(\"M_PExp\") as l  FROM \"Huawei\" WHERE time > now() - 1d)",
+          "rawQuery": true,
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "M_PTot"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "Grid",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "select max(l) - min(f)  from (SELECT first(\"M_PTot\") as f FROM \"Huawei\" WHERE time > now() - 365d  and time < now() - 340d), (SELECT last(\"M_PTot\") as l  FROM \"Huawei\" WHERE time > now() - 1d)",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "M_PTot"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "Inverter",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "select max(l) - min(f)  from (SELECT first(\"P_accum\") as f FROM \"Huawei\" WHERE time > now() - 365d  and time < now() - 340d), (SELECT last(\"P_accum\") as l  FROM \"Huawei\" WHERE time > now() - 1d)",
+          "rawQuery": true,
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "M_PTot"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "12 months",
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Self-consumed",
+            "binary": {
+              "left": "Inverter",
+              "operator": "-",
+              "reducer": "sum",
+              "right": "Exports"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            }
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Load",
+            "binary": {
+              "left": "Grid",
+              "operator": "+",
+              "reducer": "sum",
+              "right": "Self-consumed"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            }
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "cacheTimeout": null,
+      "datasource": "InfluxDB ds",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": null,
+            "filterable": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 12,
+        "x": 12,
+        "y": 28
+      },
+      "id": 59,
+      "interval": null,
+      "links": [],
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.3.1",
+      "targets": [
+        {
+          "alias": "Exports",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "select max(l) - min(f)  from (SELECT first(\"M_PExp\") as f FROM \"Huawei\" WHERE time > now() - 186d  and time < now() - 170d), (SELECT last(\"M_PExp\") as l  FROM \"Huawei\" WHERE time > now() - 1d)",
+          "rawQuery": true,
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "M_PTot"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "Grid",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "select max(l) - min(f)  from (SELECT first(\"M_PTot\") as f FROM \"Huawei\" WHERE time > now() - 186d  and time < now() - 170d), (SELECT last(\"M_PTot\") as l  FROM \"Huawei\" WHERE time > now() - 1d)",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "M_PTot"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "Inverter",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "select max(l) - min(f)  from (SELECT first(\"P_accum\") as f FROM \"Huawei\" WHERE time > now() - 186d  and time < now() - 170d), (SELECT last(\"P_accum\") as l  FROM \"Huawei\" WHERE time > now() - 1d)",
+          "rawQuery": true,
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "M_PTot"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "6 months",
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Self-consumed",
+            "binary": {
+              "left": "Inverter",
+              "operator": "-",
+              "reducer": "sum",
+              "right": "Exports"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            }
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Load",
+            "binary": {
+              "left": "Grid",
+              "operator": "+",
+              "reducer": "sum",
+              "right": "Self-consumed"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            }
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "cacheTimeout": null,
+      "datasource": "InfluxDB ds",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": null,
+            "filterable": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 12,
+        "x": 0,
+        "y": 31
+      },
+      "id": 58,
+      "interval": null,
+      "links": [],
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.3.1",
+      "targets": [
+        {
+          "alias": "Exports",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "select max(l) - min(f)  from (SELECT first(\"M_PExp\") as f FROM \"Huawei\" WHERE time > now() - 90d  and time < now() - 80d), (SELECT last(\"M_PExp\") as l  FROM \"Huawei\" WHERE time > now() - 1d)",
+          "rawQuery": true,
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "M_PTot"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "Grid",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "select max(l) - min(f)  from (SELECT first(\"M_PTot\") as f FROM \"Huawei\" WHERE time > now() - 90d  and time < now() - 80d), (SELECT last(\"M_PTot\") as l  FROM \"Huawei\" WHERE time > now() - 1d)",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "M_PTot"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "Inverter",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "select max(l) - min(f)  from (SELECT first(\"P_accum\") as f FROM \"Huawei\" WHERE time > now() - 90d  and time < now() - 80d), (SELECT last(\"P_accum\") as l  FROM \"Huawei\" WHERE time > now() - 1d)",
+          "rawQuery": true,
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "M_PTot"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "3 months",
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Self-consumed",
+            "binary": {
+              "left": "Inverter",
+              "operator": "-",
+              "reducer": "sum",
+              "right": "Exports"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            }
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Load",
+            "binary": {
+              "left": "Grid",
+              "operator": "+",
+              "reducer": "sum",
+              "right": "Self-consumed"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            }
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "cacheTimeout": null,
+      "datasource": "InfluxDB ds",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": null,
+            "filterable": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 12,
+        "x": 12,
+        "y": 31
+      },
+      "id": 56,
+      "interval": null,
+      "links": [],
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.3.1",
+      "targets": [
+        {
+          "alias": "Exports",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "select max(l) - min(f)  from (SELECT first(\"M_PExp\") as f FROM \"Huawei\" WHERE time > now() - 30d  and time < now() - 25d), (SELECT last(\"M_PExp\") as l  FROM \"Huawei\" WHERE time > now() - 1d)",
+          "rawQuery": true,
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "M_PTot"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "Grid",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "select max(l) - min(f)  from (SELECT first(\"M_PTot\") as f FROM \"Huawei\" WHERE time > now() - 30d  and time < now() - 25d), (SELECT last(\"M_PTot\") as l  FROM \"Huawei\" WHERE time > now() - 1d)",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "M_PTot"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "Inverter",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "select max(l) - min(f)  from (SELECT first(\"P_accum\") as f FROM \"Huawei\" WHERE time > now() - 30d  and time < now() - 25d), (SELECT last(\"P_accum\") as l  FROM \"Huawei\" WHERE time > now() - 1d)",
+          "rawQuery": true,
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "M_PTot"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "1 months",
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Self-consumed",
+            "binary": {
+              "left": "Inverter",
+              "operator": "-",
+              "reducer": "sum",
+              "right": "Exports"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            }
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Load",
+            "binary": {
+              "left": "Grid",
+              "operator": "+",
+              "reducer": "sum",
+              "right": "Self-consumed"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            }
+          }
+        }
+      ],
+      "type": "stat"
     }
   ],
   "refresh": "15s",
@@ -4150,8 +5411,8 @@
       "1d"
     ]
   },
-  "timezone": "",
+  "timezone": "browser",
   "title": "dashboard",
   "uid": "k6oNQgkRz",
-  "version": 219
+  "version": 294
 }

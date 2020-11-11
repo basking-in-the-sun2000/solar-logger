@@ -34,4 +34,42 @@ soltun = True # also skipped if solfor not equals 1
 solfor = 1 # 0 off, 1 rooftop, 2 world pv power
 supla_api = ""
 supla_dev_id = 0
-debug = True
+debug = False
+diverters = False
+#as an example using 2 diverters, but you can use as many as you want. 
+diverters_loads = {0: 2000, 1: 800}
+
+diverters_io = {0 : ("gpio", 10), 1 : ("gpio", 11)} #replace to reflect the output type and address
+
+# The load won't activate until the day set below. Time is assumed to be 0 hours
+diverters_holiday = {0 : "2020-10-25", 1 : "2020-10-25"}
+
+#Higher priority will be first on and last off. If same priority any can be first or last
+#If priority is -1, then it won't activate at that hour
+
+#This would be the default schedule
+#the load tuple is (load, priority, pstart, pstop)
+divert = {0: {(0, 2, 3500, 200), (1, 2, 1500, 200)}, 
+          1: {(0, 2, 3500, 200), (1, 2, 1500, 200)},
+          2: {(0, 2, 3500, 200), (1, 2, 1500, 200)},
+          3: {(0, 2, 3500, 200), (1, 2, 1500, 200)},
+          4: {(0, 2, 3500, 200), (1, 2, 1500, 200)},
+          5: {(0, 2, 3500, 200), (1, 2, 1500, 200)},
+          6: {(0, 2, 3500, 200), (1, 2, 1500, 200)},
+          7: {(0, 2, 3500, 200), (1, 2, 1500, 200)},
+          8: {(0, 2, 3500, 200), (1, 2, 1500, 200)},
+          9: {(0, 2, 3500, 200), (1, 2, 1500, 200)},
+         10: {(0, 2, 3500, 200), (1, 2, 1500, 200)},
+         11: {(0, 2, 3500, 200), (1, 2, 1500, 200)},
+         12: {(0, 2, 3500, 200), (1, 2, 1500, 200)},
+         13: {(0, 2, 3500, 200), (1, 2, 1500, 200)},
+         14: {(0, 2, 3500, 200), (1, 2, 1500, 200)},
+         15: {(0, 2, 3500, 200), (1, 2, 1500, 200)},
+         16: {(0, 2, 3500, 200), (1, 2, 1500, 200)},
+         17: {(0, 2, 3500, 200), (1, 2, 1500, 200)},
+         18: {(0, 2, 3500, 200), (1, 2, 1500, 200)},
+         19: {(0, 2, 3500, 200), (1, 2, 1500, 200)},
+         20: {(0, 2, 3500, 200), (1, 2, 1500, 200)},
+         21: {(0, 2, 3500, 200), (1, 2, 1500, 200)},
+         22: {(0, 2, 3500, 200), (1, 2, 1500, 200)},
+         23: {(0, 2, 3500, 200), (1, 2, 1500, 200)}}

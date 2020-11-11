@@ -5,6 +5,7 @@ if not os.path.exists("config.py"):
 
 import config
 import utils
+import divert
 from modbustcp import connect_bus, read_registers, close_bus
 import time
 import datetime
@@ -99,8 +100,7 @@ def do_map(client, config, inverter):
                     time.sleep(2)
                     k += 1
                     if config.debug:
-#                        print("do_map error2: %s" % str(e))
-                        print("trying to recover", register, k)
+                        print("read register error", register, k)
                 else:
                     break
 
@@ -229,6 +229,7 @@ def forecast(midnight):
     
     
     global flux_client    
+    global forecast_array
     print("in forecast")
     try:
         if (config.solfor == 1):
@@ -249,6 +250,7 @@ def forecast(midnight):
         return forehour(int(time.time() + 30 * 60), midnight)
 
     try:
+        forecast_array = {}
         for x in r1.content['forecasts']:
             dt = x['period_end']
             dt = dt.replace(tzinfo=pytz.timezone('UTC'))
@@ -259,6 +261,8 @@ def forecast(midnight):
 
             elif (config.solfor == 2):
                 measurement = {'power': float(x['pv_estimate'])}
+                
+            forecast_array[int(dt)] =  float(x['pv_estimate'])
 
             utils.write_influx(flux_client, measurement, "forcast", config.influxdb_database, int(dt) * 1000000000)
 
@@ -309,6 +313,10 @@ def main():
     global client
     global flux_client
     global ok
+    global forecast_array
+    global loads
+    
+    config.loads = {}
     inverter_file = config.model
     inverter = __import__(inverter_file)
     if config.debug:
@@ -467,6 +475,14 @@ def main():
 
             if (0.5 < x < 6):
                 time.sleep(x - 0.05)
+
+            if (config.diverters):
+                changes = divert.check(forecast_array, measurement['M_P'])
+                for x in changes:
+                    measurement["load_" + str(x)] = changes[x]
+#                print(changes)
+#                print(measurement)
+
 
             utils.write_influx(flux_client, measurement, config.model, config.influxdb_database)
             if (config.supla_api != ""):

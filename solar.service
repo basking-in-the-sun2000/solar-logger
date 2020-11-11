@@ -4,10 +4,10 @@
 
  [Service]
  Type=idle
- WorkingDirectory=**folder location***
+ WorkingDirectory=/home/pi/Documents/solar-logger
  ExecStart=/usr/bin/python3 -u main.py
  StandardOutput=append:/var/log/solar/solar.log
- User=**me**
+ User=pi
  Nice=-10
 
  [Install]

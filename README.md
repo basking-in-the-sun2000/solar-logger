@@ -29,40 +29,40 @@ For grafana you will need these plugins:
 
 ### Description of files
 
-- write_solar populates the db with expected production values. These are daily average for the month in kWh. The values should account for your system, layout, shadowing, depreciation, etc, throughout the life of the system. This was used before solcast, but gives you an idea of how your production is going
+- `write_solar` populates the db with expected production values. These are daily average for the month in kWh. The values should account for your system, layout, shadowing, depreciation, etc, throughout the life of the system. This was used before solcast, but gives you an idea of how your production is going
 
-- scanner should allow to poll the inverterer for valid registers
+- `scanner` should allow to poll the inverterer for valid registers
 
-- scanner2 will display the values of the registers listed in regs
+- `scanner2` will display the values of the registers listed in regs
 
-- fill_solcast_measurements sends the recorded data from the inverter to solcast
+- `fill_solcast_measurements` sends the recorded data from the inverter to solcast
 
-- modbustcp utility for modbus
+- `modbustcp` utility for modbus
 
-- last_adjustment allows to adjust the total energy balance (exported - from_grid + adj). Just fill the values (date and deviation in kWh)
+- `last_adjustment` allows to adjust the total energy balance (exported - from_grid + adj). Just fill the values (date and deviation in kWh)
 	- There is a adjustment in the config file (extra_load) to allow you to have a daily adjustment (this isn't used for hourly, but only for the daily values)
 
-- Huawei contains the inverter's registers, status constants
+- `Huawei` contains the inverter's registers, status constants. If you would be using a different inverter, this would serve as a template
 
-- fill_daily_blanks takes the data from the inverter (influxdb) and writes daily summaries. It now uses the 5m data (logger_ds), unlike the equivalent in the main file use 30s data from that day
+- `fill_daily_blanks` takes the data from the inverter (influxdb) and writes daily summaries. It now uses the 5m data (logger_ds), unlike the equivalent in the main file use 30s data from that day
 
-- config.default has the constant values for your site. It copies this onto config.py if you don't have one
+- `config.default` has the constant values for your site. It copies this onto `config.py` if you don't have one
 
-- main is the code that runs all the time to gather and store data onto the database (influxdb)
+- `main` is the code that runs all the time to gather and store data onto the database (influxdb)
 
-- supla_api is the api to the supla monitoring service (https://www.supla.org/en/)
+- `supla_api` is the api to the supla monitoring service (https://www.supla.org/en/)
 
-- utils is a library with support utilities
+- `utils` is a library with support utilities
 
-- solar.service.app has the values to set the logger as a service
+- `solar.service.app` has the values to set the logger as a service
 
-- setting_up.md gives a detailed install to get up and running
+- `setting_up.md` gives a detailed install to get up and running
 
 #### Grafana files:
-- dashboard.json is the main dashboard for the logger
-- solar.json is the detail view dashboard for the logger
-- status.json shows the historical values of the status registers
-- data_sources.json has information to setup the data sources for grafana
+- `dashboard.json` is the main dashboard for the logger
+- `solar.json` is the detail view dashboard for the logger
+- `status.json` shows the historical values of the status registers
+- `data_sources.json` has information to setup the data sources for grafana
 
 
 ### Setup
@@ -92,7 +92,65 @@ You should have the log file at `~/var/log/solar/solar.log` (unless you changed 
 You could also try something that moves a high frequency write directory (`/var/log`) to ram 
 https://github.com/azlux/log2ram
 
+### Diverter
+#### In development, haven't actually tested it. You need to remove the lines marked as _disable for actual use_ in divert.py to be able to control loads. 
 
+Control loads to sink excess power. Don't actually have a setup to test this, so hope someone might provide some feedback. By not having tested it, I might have overcompensate for this
+
+The load itself would have whatever logic it needs. So a water heater would need a thermostat, an A/C also a thermostat, an EV charger would need the logic to control the charge (though it is conceivable to add a pwm that would show the available excess power),  etc. This control only provides a signal that can be used to power the loads.
+
+The logger runs every 30s, so it could be that in the previous iteration, a load was activated, but the load's logic turned it off. You would now have that power available, and would activate a second load (assuming you have several). If during the next two and a half minutes these two loads activate, you won't be able to turn them off (there is a freeze of 3 minutes between events). 
+
+You have to set some parameters in the config file
+
+__diverters__ — needs to be set to True to activate
+__diverters_loads__ — defines the power consumed by each load
+
+This is the average power consumed by the load. You probably don't want to consider the starting inrush, since it could skew the way the other loads work. This value tells how much power will change if this load is added or taken out of play. Since several loads can change at a time, this will help determine how the available power changed
+
+__diverters_io__ — defines the interface (currently only gpio) and the pin numbers
+
+__diverters_holiday__ Will disable a loas until that day (yyyy-mm-dd). At the start of the day (0 hours) the load will become active and controlled by __divert__ and the load's controller
+
+__divert__ — is a 24h profile for the loads. For each hour you define a tuple (load, priority, pstart, pstop). 
+
+__Load__ is the number (from 0) assigned to a load. 
+
+__priority__ defines how important the load is to you. The higher it is it will tested first when activating, and will turn off after the lower __priority__ loads.  Though the available power will determine if the load can be changed at that time.
+
+A value of  -1 disables the load at that hour. 
+
+
+__pstart__ is the available power you need to have, before the load turns on. The power at the grid (meter actually) has to be higher than __pstart.__ It is not the value of power produced by the inverter, but the net result (your production - your consumption).
+
+You want this to be larger than the actual load and the value for __diverters_loads.__ This will prevent the load from turning on/off when the available power is just enough. For instance __pstart__ is 1500W, __diverters_loads__ (the power used by the load) for is 1100W and __pstop__ is 500W. When the power drops below 500W (i.e. 450W), the load will be turned off. On the next iteration (3m later), you will have 450W from before, and the 1100W since the load is off, giving you 1550W available. This being larger than __pstart__, the load will turn on again. After that it would probably have 400W again, and the load would deactivate again.
+
+Since you could define values for nighttime (probably a negative value), you would still need the grid to be higher (i.e. a smaller negative number)
+
+
+__pstop__ will deactivate the load when the power at the grid drops. 
+
+For nighttime loads, this value has to be the more negative of the two.
+
+You want to provide a deadband between __pstart__ and __pstop,__ to prevent the system from chattering. Basically it has to consider the load. So don't give a spread of 1kW when the load is 2kW (this might lead to some confusion by the controller). __pstart__ is larger than __pstop__, the load from __diverters_loads__ and then some extra. 
+
+For instance you might want for a 1200 W WH values to be __pstart__= 2200 (maybe larger if you have several other loads), __pstop__= 300 and __diverters_loads__ = 1200
+
+Even when __priority__ will determine the order, the power settings have to be satisfied, for the load to change. However, the priority allows a load to be tested first. The case where two loads have the same __priority__, then larger __pstart__ loads will be given the opportunity to turn on first. This is the logic, however, the generated power increases in the morning, so probably smaller loads would be activated. 
+
+When turning off two loads with the same  __priority__, smaller __pstop__ loads are tested first. If you need a load to remain connected  over all others, use a larger  __priority__ for this load.
+
+#### Notes about diverters
+
+There is a 3 minute period during which no changes are allowed after an event for that load. This is to prevent an inrush load from freaking out the controller, and to prevent a nervous response. This could happen at the end of the day, or when it is very cloudy. Also if you are using a compressor as a load, you might want to increase this time. 
+
+A suggestion for resistive loads would be to use a zero-crossing relay. This would make contactor last longer, since it would commutate without a load. If your load is inductive, a zero-crossing might not work well
+
+_Since I don't have a diverter, won't be able to test it. So based on experiences from those using it, maybe this can evolve to something useful_
+
+Another approach for diverting power, could be to activate the loads when the inverter's voltage is getting high. This might allow a drop in voltage because of the added load, and thus preventing your inverter from reducing it's output power (see the volt-watt for your inverter). The load logic would still control the load, but as long as it can turn on, it should help if these are large enough loads.
+
+Didn't implement this, since I want to make sure the regular concept for load diverting works first. Should anyone need it, let me know.
 
 ### Other notes
 
