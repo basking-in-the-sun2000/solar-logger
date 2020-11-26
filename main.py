@@ -3,6 +3,7 @@ if not os.path.exists("config.py"):
     import shutil
     shutil.copy2("config.default.py", "config.py")
 
+import emails
 import config
 import utils
 import divert
@@ -315,6 +316,7 @@ def main():
     global ok
     global forecast_array
     global loads
+    global loops
     
     config.loads = {}
     inverter_file = config.model
@@ -418,6 +420,7 @@ def main():
         print("loop")
 
     ok = True
+    low_prod = time.time() + 300
     while ok:
         current_time = time.time()
         if (current_time - last_loop + thread_mean >= int(config.scan_interval)):
@@ -462,13 +465,45 @@ def main():
                     print(c_stop)
                     print(tmax)
                     print(min_ins)
+                if info["Insulation"] > 0 and info["Insulation"] < 1.5:
+                    emails.send_mail("Insulation low: " + str(info["Insulation"]))
 
             if (status != last_status):
                 utils.write_influx(flux_client, status, config.model + "_stat", config.influxdb_database)
                 last_status = status
                 if config.debug:
                     print(status)
+                if ((status["Alarm1"] != "") or (status["Alarm2"] != "") or (status["Alarm3"] != "") or (status["Fault"] != '0')):
+                    emails.send_mail("Help\r\n" + str(status))
 
+            if config.debug:
+                print("looking at low production")
+                print(measurement)
+                print(low_prod)
+                
+
+            i = 0
+            j = 0
+            for j in forecast_array:
+                if j > current_time:
+                    break
+                i = j
+            if float(time.strftime("%H")) > 12:
+                i = j
+            if i == 0:
+                i = j
+            if config.debug:
+                print(i)
+                print(j)
+                print(forecast_array[i])
+
+            if (measurement["P_active"] * 2 < forecast_array[i]):
+                if (current_time > low_prod + 300):
+                    emails.send_mail("low production: " + measurement["P_active"])
+            else:
+                low_prod = current_time                    
+
+            
             x = config.scan_interval - (float(time.strftime("%S")) % config.scan_interval)
             if x == 30:
                 x = 0
@@ -483,8 +518,11 @@ def main():
 #                print(changes)
 #                print(measurement)
 
-
             utils.write_influx(flux_client, measurement, config.model, config.influxdb_database)
+            
+            if (measurement["Temp"] > 60):
+                emails.send_mail("Temperatur high: " + str(measurement["Temp"]))
+                
             if (config.supla_api != ""):
                 #read from supla
                 supla()
@@ -492,6 +530,8 @@ def main():
             thread_time.insert(0, time.time() - last_loop)
             if len(thread_time) > 5:
                 thread_time.pop()
+                
+            loops = 0
 
             thread_mean = sum(thread_time) / len(thread_time)
             if (int(time.time()) > midnight):
@@ -570,6 +610,9 @@ def main():
             print("main 4 error: %s" % str(e))
             ok = False
             return -1
+
+emails.send_mail("Starting solar logger")
+loops = 0        
 while True:
     print("starting")
     print(time.strftime("%c"))
@@ -582,5 +625,8 @@ while True:
     except Exception as e:
         print("top error: %s" % str(e))
         print("something went wrong")
+        loops = loops + 1 
+        if loops > 9:
+            emails.send_mail("Doing the loopy loop \r\n" + str(e))
 
     print("done")

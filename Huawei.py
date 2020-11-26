@@ -1,6 +1,7 @@
 import socket
 import time
 import config
+import emails
 
 _register_map =  {
     'Model':      {'addr': '30000', 'registers': 15, 'name': 'Model',                            'scale': 1,    'type': 'str',  'units': ''    , 'use': 'info',  'method': 'hold'},  
@@ -303,6 +304,7 @@ def inv_address():
                     print("can't find inverter")
                 if (config.inverter_ip != ""):
                     return config.inverter_ip
+                emails.send_mail("can't find inverter" + str(e))
 
         if len(data) == 30:
             addr = str(addr[0])

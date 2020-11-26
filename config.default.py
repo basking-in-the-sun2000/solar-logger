@@ -1,3 +1,6 @@
+global loads
+loads = {}
+
 inverter_ip = "192.168.8.1" # Default ip address in case it can't find it
 inverter_port = 502
 slave = 0x00
@@ -35,8 +38,15 @@ solfor = 1 # 0 off, 1 rooftop, 2 world pv power
 supla_api = ""
 supla_dev_id = 0
 debug = False
+#emailing info
+email_sent = ""
+fromaddr = "datalogger@my_domain.com"
+toaddrs = "me@my_domain.com"
+mail_pass = "secret email password"
+mail_server = "mail.my_domain.com"
+mail_port = 465
 diverters = False
-#as an example using 2 diverters, but you can use as many as you want. 
+#as an example using 2 diverters, but you can use as many as you want.
 diverters_loads = {0: 2000, 1: 800}
 
 diverters_io = {0 : ("gpio", 10), 1 : ("gpio", 11)} #replace to reflect the output type and address
@@ -49,7 +59,7 @@ diverters_holiday = {0 : "2020-10-25", 1 : "2020-10-25"}
 
 #This would be the default schedule
 #the load tuple is (load, priority, pstart, pstop)
-divert = {0: {(0, 2, 3500, 200), (1, 2, 1500, 200)}, 
+divert = {0: {(0, 2, 3500, 200), (1, 2, 1500, 200)},
           1: {(0, 2, 3500, 200), (1, 2, 1500, 200)},
           2: {(0, 2, 3500, 200), (1, 2, 1500, 200)},
           3: {(0, 2, 3500, 200), (1, 2, 1500, 200)},
