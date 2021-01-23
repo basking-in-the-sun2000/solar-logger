@@ -484,24 +484,37 @@ def main():
 
             i = 0
             j = 0
-            for j in forecast_array:
-                if j > current_time:
-                    break
-                i = j
-            if float(time.strftime("%H")) > 12:
-                i = j
-            if i == 0:
-                i = j
-            if config.debug:
-                print(i)
-                print(j)
-                print(forecast_array[i])
+            
+            try:
+                for j in forecast_array:
+                    if j > current_time:
+                        break
+                    i = j
+                if float(time.strftime("%H")) > 12:
+                    i = j
+                if i == 0:
+                    i = j
+                if config.debug:
+                    print(i)
+                    print(j)
+                    print(forecast_array[i])
 
-            if (measurement["P_active"] * 2 < forecast_array[i]):
-                if (current_time > low_prod + 300):
-                    emails.send_mail("low production: " + measurement["P_active"])
-            else:
-                low_prod = current_time                    
+                if (measurement["P_active"] * 2 < forecast_array[i]):
+                    if (current_time > low_prod + 300):
+                        emails.send_mail("low production: " + measurement["P_active"])
+                else:
+                    low_prod = current_time
+            except:
+                if config.debug:
+                    print("no forcast in low production")
+                    print(measurement["P_active"])
+                    print(time.strftime("%H"))
+                if measurement["P_active"] == 0:
+                    if float(time.strftime("%H")) > 11 and float(time.strftime("%H")) < 15:
+                        if (current_time > low_prod + 300):
+                            emails.send_mail("low production: " + measurement["P_active"])
+                else:
+                    low_prod = current_time
 
             
             x = config.scan_interval - (float(time.strftime("%S")) % config.scan_interval)
@@ -512,7 +525,7 @@ def main():
                 time.sleep(x - 0.05)
 
             if (config.diverters):
-                changes = divert.check(forecast_array, measurement['M_P'])
+                changes = divert.check(measurement['M_P'])
                 for x in changes:
                     measurement["load_" + str(x)] = changes[x]
 #                print(changes)

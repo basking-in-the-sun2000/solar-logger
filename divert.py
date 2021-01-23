@@ -25,7 +25,7 @@ def deactivate(load):
 
         print("turning off ", load)
 
-def check(forecast_array, p_available):
+def check(p_available):
 
     changes = {}
 
