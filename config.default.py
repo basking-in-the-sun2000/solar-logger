@@ -6,6 +6,7 @@ inverter_port = 502
 slave = 0x00
 model = "Huawei"
 location = "main"
+strings = 1
 timeout = 3
 has_optim = True # if your inverter doesn't return optimizer info
 scan_interval = 30

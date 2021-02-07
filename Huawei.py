@@ -79,6 +79,12 @@ _register_map =  {
     'TZ':         {'addr': '43006', 'registers': 1,  'name': 'Time Zone',                        'scale': 1,    'type': 'I16',  'units': 'min' , 'use': 'info',  'method': 'hold'} 
 }
 
+if (config.strings > 1):
+	for i in range(2, config.strings):
+		_register_map.update({
+			'PV_U' + str(i):      {'addr': str(32014 + i * 2), 'registers': 1,  'name': 'PVn voltage',                      'scale': 10,   'type': 'I16',  'units': 'V'   , 'use': 'mult',  'method': 'hold'},  
+			'PV_I' + str(i):      {'addr': str(32015 + i * 2), 'registers': 1,  'name': 'PVn current',                      'scale': 100,  'type': 'I16',  'units': 'A'   , 'use': 'mult',  'method': 'hold'}})
+
 if (config.has_optim) :
     _register_map.update({
         'Optim_tot':  {'addr': '37200', 'registers': 1,  'name': 'Number of optimizers',             'scale': 1,    'type': 'U16',  'units': ''    , 'use': 'info',  'method': 'hold'},  

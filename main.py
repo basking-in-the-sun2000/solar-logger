@@ -641,5 +641,4 @@ while True:
         loops = loops + 1 
         if loops > 9:
             emails.send_mail("Doing the loopy loop \r\n" + str(e))
-
     print("done")
