@@ -22,6 +22,7 @@ sudo apt-get install -y grafana
 pip3 install pymodbus
 pip3 install isodate
 pip3 install solcast
+pip3 install isodate
 pip3 install pytz
 pip3 install influxdb
 

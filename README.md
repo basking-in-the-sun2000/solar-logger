@@ -16,7 +16,7 @@ This code was inspired on a series of other repositories to as a guideline to cr
 
 ### Basics
 
-You will need these python packages pymodbus, influxdb, pytz, and influxdb (the database itself) and grafana
+You will need these python packages pymodbus, influxdb, pytz, and influxdb (the database itself) and grafana. Read the setting_up.md for the full list.
 
 Also included the solcast folder from basking-in-the-sun2000/Radiation, hopefully FidFenix will incorporate the changes and keep it current
 
@@ -25,6 +25,8 @@ For grafana you will need these plugins:
 - blackmirror1-singlestat-math-panel
 - graph
 - yesoreyeram-boomtable-panel
+
+Some of the inverters don't work well after sunset, they disable all functions. So you might need to test the logger during sun up. 
 
 
 ### Description of files

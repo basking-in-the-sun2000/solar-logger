@@ -44,7 +44,7 @@ email_sent = ""
 fromaddr = "datalogger@my_domain.com"
 toaddrs = "me@my_domain.com"
 mail_pass = "secret email password"
-mail_server = "mail.my_domain.com"
+mail_server = ""  # mail.my_domain.com
 mail_port = 465
 diverters = False
 #as an example using 2 diverters, but you can use as many as you want.

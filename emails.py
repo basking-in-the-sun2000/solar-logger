@@ -22,6 +22,10 @@ def send_mail(content):
     
     config.email_sent = content 
     subject = "Solar logger reporting"
+    
+    if config.mail_server == "":
+    	print("mailing not setup");
+    	return
         
     message = message_str % (config.fromaddr, config.toaddrs, subject, time.strftime("%a, %-d %b %Y %H:%M:%S %z"), content)
     
