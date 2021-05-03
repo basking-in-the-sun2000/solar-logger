@@ -34,7 +34,7 @@ def check(p_available):
         if (config.loads[p]["state"] == 1):
             p_available -= config.diverters_loads[p]
 #########
-            
+
 
     divert = config.divert[int(time.strftime("%H"))]
 
@@ -84,11 +84,11 @@ def check(p_available):
         if p_available > x[2]:
             if config.loads[x[0]]['state'] == 1:
                 continue
-            
+
             if current_time - config.loads[x[0]]['last'] < 15 * 60:
                 print('too soon')
                 continue
-            
+
             if current_time < time.mktime(time.strptime(config.diverters_holiday[x[0]], "%Y-%m-%d")):
                 print('on holidays')
                 continue

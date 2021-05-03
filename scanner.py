@@ -17,14 +17,14 @@ def toStr(data, nb):
         high, low = divmod(data[i], 0x100)
         str = str + chr(high) + chr(low)
     return str
-    
+
 def toU16(i):
     return i & 0xffff
-    
+
 def toI16(i):
     i = i & 0xffff
     return (i ^ 0x8000) - 0x8000
-    
+
 def toU32(i):
     return ((i[0] << 16) + i[1])  
 
@@ -32,7 +32,7 @@ def toI32(i):
     i = ((i[0] << 16) + i[1]) 
     i = i & 0xffffffff
     return (i ^ 0x80000000) - 0x80000000
-    
+
 def read_holding(client, UnitID, i, nb):
     result = client.read_holding_registers(i, nb, unit=UnitID)
     ns = time.time()
@@ -81,9 +81,9 @@ if client.connect():
             except Exception as Error:
                 j = 0
             continue
-                
+
 #       print(toLong(result.registers))
-        
+
 
 
 #   print("printing")

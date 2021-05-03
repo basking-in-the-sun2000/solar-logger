@@ -8,13 +8,13 @@ def connect_bus(ip="192.168.88.250", PortN = 502, timeout = 3):
     client.connect()
     time.sleep(1)
     return client
-    
+
 def close_bus(client):
     client.close()
     time.sleep(5)
     del client
-    
-    
+
+
 def read_registers(client, UnitID, data):
     try:
         nb = int(data['registers'])
@@ -39,4 +39,4 @@ def read_registers(client, UnitID, data):
     except Exception as e:
         print("mdobus read_registers error: %s" % str(e))
         return -1
-        
+

@@ -15,7 +15,7 @@ class RooftopMeasurements(Base):
 
 #        payload = [dict(zip(['period_end', 'period', 'total_power'], measurement)) for measurement in measurements]
         payload = measurements
-        
+
         for measurement in payload:
             if isinstance(measurement['period_end'], datetime.datetime):
                 measurement['period_end'] = str(measurement['period_end'])

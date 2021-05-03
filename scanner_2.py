@@ -11,14 +11,14 @@ def to_str(s):
         high, low = divmod(s[i], 0x100)
         str = str + chr(high) + chr(low)
     return str
-    
+
 def to_U16(i):
     return i[0] & 0xffff
-    
+
 def to_I16(i):
     i = i[0] & 0xffff
     return (i ^ 0x8000) - 0x8000
-    
+
 def to_U32(i):
     return ((i[0] << 16) + i[1])  
 
@@ -26,14 +26,14 @@ def to_I32(i):
     i = ((i[0] << 16) + i[1]) 
     i = i & 0xffffffff
     return (i ^ 0x80000000) - 0x80000000
-    
+
 def to_Bit16(i):
     return i[0]
 
 def to_Bit32(i):
     return (i[0] << 16) + i[1]
-    
-    
+
+
 def read_holding(client, UnitID, i, nb):
     result = client.read_holding_registers(i, nb, unit=UnitID)
     ns = time.time()
@@ -175,7 +175,7 @@ if client.connect():
                 f.write("reading " + str(regs[num_reg]))
                 for item in result.registers:
                     f.write("\t" + str(item))
-                
+
                 print(result.registers)
                 if (25000 > result.registers[0] > 23000):
                     print(time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(to_I32(result.registers))))
@@ -188,7 +188,7 @@ if client.connect():
             except:
                 j = 0
             continue
-                
+
 #       print(toLong(result.registers))
 
 

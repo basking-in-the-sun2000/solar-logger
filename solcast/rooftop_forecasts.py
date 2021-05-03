@@ -13,7 +13,7 @@ class RooftopForecasts(Base):
 
     def __init__(self, resource_id, *args, **kwargs):
         self.end_point = self.end_point.format(resource_id)
-        
+
         self.params = {}
 
         self._get(*args, **kwargs)

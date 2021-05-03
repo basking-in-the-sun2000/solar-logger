@@ -61,7 +61,7 @@ class RadiationEstimatedActuals(Base):
             if last_date < current_date:
                 self.last_estimated = est_act
                 last_date = current_date
-    
+
     def _get_last_24_hours(self):
 
         self.estimated_actuals = []

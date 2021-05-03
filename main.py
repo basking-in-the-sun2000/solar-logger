@@ -227,8 +227,8 @@ def forecast(midnight):
 
         print("next forecast " + time.ctime(forecast_time))
         return int(forecast_time)
-    
-    
+
+
     global flux_client    
     global forecast_array
     print("in forecast")
@@ -262,7 +262,7 @@ def forecast(midnight):
 
             elif (config.solfor == 2):
                 measurement = {'power': float(x['pv_estimate'])}
-                
+
             forecast_array[int(dt)] =  float(x['pv_estimate'])
 
             utils.write_influx(flux_client, measurement, "forcast", config.influxdb_database, int(dt) * 1000000000)
@@ -273,7 +273,7 @@ def forecast(midnight):
         print("forecast 1 error: %s" % str(e))
         print("error in forecast")
         return forehour(min(int(time.time() + 6 * 3600), midnight - time.altzone), midnight)
-    
+
     return forehour(time.time(), midnight)
 
 def supla():
@@ -293,7 +293,7 @@ def supla():
     except Exception as e:
         print("supla error: %s" % str(e))
 #        pass
-        
+
 
 def main():
     global register
@@ -317,7 +317,7 @@ def main():
     global forecast_array
     global loads
     global loops
-    
+
     config.loads = {}
     inverter_file = config.model
     inverter = __import__(inverter_file)
@@ -480,11 +480,11 @@ def main():
                 print("looking at low production")
                 print(measurement)
                 print(low_prod)
-                
+
 
             i = 0
             j = 0
-            
+
             try:
                 for j in forecast_array:
                     if j > current_time:
@@ -516,7 +516,7 @@ def main():
                 else:
                     low_prod = current_time
 
-            
+
             x = config.scan_interval - (float(time.strftime("%S")) % config.scan_interval)
             if x == 30:
                 x = 0
@@ -532,10 +532,10 @@ def main():
 #                print(measurement)
 
             utils.write_influx(flux_client, measurement, config.model, config.influxdb_database)
-            
+
             if (measurement["Temp"] > 60):
                 emails.send_mail("Temperatur high: " + str(measurement["Temp"]))
-                
+
             if (config.supla_api != ""):
                 #read from supla
                 supla()
@@ -543,7 +543,7 @@ def main():
             thread_time.insert(0, time.time() - last_loop)
             if len(thread_time) > 5:
                 thread_time.pop()
-                
+
             loops = 0
 
             thread_mean = sum(thread_time) / len(thread_time)

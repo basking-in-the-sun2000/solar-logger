@@ -30,6 +30,6 @@ if flux_client is not None:
     metrics['tags'] = tags
     metrics['fields'] = measurement
     metrics =[metrics, ]
-            
+
     target=flux_client.write_points(metrics, database=config.influxdb_longterm)
 

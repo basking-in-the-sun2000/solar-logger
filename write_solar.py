@@ -380,7 +380,7 @@ flux_client = InfluxDBClient("127.0.0.1", 8086)
 
 for month in solar:
     t = int(time.mktime(time.strptime(str(month["month"]) + '01', "%Y%m%d")))
-    
+
     measurement["radiance"] = float(month["value"])
 
     if flux_client is not None:
@@ -393,11 +393,11 @@ for month in solar:
         metrics['tags'] = tags
         metrics['fields'] = measurement
         metrics =[metrics, ]
-        
+
         print(metrics)
-        
+
     #    flux_client.create_database("logger_lt")
 
-            
+
         target=flux_client.write_points(metrics, database=config.influxdb_database)
-    
+

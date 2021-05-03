@@ -58,7 +58,7 @@ class RadiationForecasts(Base):
         last = itertools.islice(dict_data.items(), 0, 1)
         for key, value in last:
             self.next_forecast = value
-    
+
     def _get_next_24_hours(self):
 
         self.forecasts = []

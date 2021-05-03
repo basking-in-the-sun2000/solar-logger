@@ -18,10 +18,10 @@ def fill_blanks(flux_client, midnight):
         q = list(zeros.get_points(measurement=config.model))
         if len(q) > 0:
             continue
-            
+
 #        j = (int(time.mktime(time.strptime(i['time'], "%Y-%m-%dT%H:%M:%SZ"))))
         s = ('SELECT first(M_PTot) as M_PTot_first, last(M_PTot) as M_PTot_last, first(M_PExp) as M_PExp_first, last(M_PExp) as M_PExp_last, first(P_accum) as P_accum_first, last(P_accum) as P_accum_last, max(P_daily) as P_daily, max(P_peak) as P_peak, max(Temp) as Temp  FROM "%s" where time < %s and time > %s and time < %s') % (config.model, str(i['time']), str(i['time'] - 24 *3600 * 1000000000), str((midnight - 24 * 3600) * 1000000000))
-        
+
         try:
             zeros=flux_client.query(s, database=config.influxdb_downsampled)
             m = list(zeros.get_points(measurement=config.model))
@@ -72,18 +72,18 @@ def fill_blanks(flux_client, midnight):
                     zeros=flux_client.query(s, epoch="s", database=config.influxdb_downsampled)
                     q = list(zeros.get_points(measurement=config.model))
                     daily1["Start"] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(q[0]["time"]))
-                    
+
                     s = ('SELECT last(P_active) from %s where P_active > 0 and time < %s and time > %s') % (config.model, str(i['time']), str(i['time'] - 24 * 3600 * 1000000000))
                     zeros=flux_client.query(s, epoch="s", database=config.influxdb_downsampled)
                     q = list(zeros.get_points(measurement=config.model))
                     daily1["Shutdown"] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(q[0]["time"]))
 
 
-                    
+
                 s = ('SELECT cumulative_sum(integral("power90")) /3600  as power90, cumulative_sum(integral("power10")) /3600  as power10, cumulative_sum(integral("power")) /3600  as power FROM "forcast" WHERE time < %s and time > %s group by time(1d)') % (str(i['time']), str(i['time'] - 24 * 3600 * 1000000000))
                 zeros = flux_client.query(s, database=config.influxdb_database)
                 q = list(zeros.get_points(measurement="forcast"))
-                
+
                 if len(q) > 0:
                     daily1['f_power'] = float(q[0]['power'])
                     daily1['f_power10'] = float(q[0]['power10'])
@@ -139,7 +139,7 @@ def write_influx(flux_client, measurement, iden, db, t = 0):
                 print(db)
                 print()
             return False
-            
+
 def send_measurements(m_start, m_end, flux_client):
     if (not config.soltun) or (config.solfor != 1):
         return

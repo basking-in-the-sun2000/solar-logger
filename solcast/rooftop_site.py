@@ -6,7 +6,7 @@ from solcast.base import Base
 
 class RooftopSite(Base):
     end_point = 'rooftop_sites'
-    
+
     def set_list(**kwargs):
         temp = {}
         for x in kwargs:
