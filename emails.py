@@ -1,4 +1,5 @@
 import smtplib
+import ssl
 import time
 import config
 
