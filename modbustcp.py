@@ -2,7 +2,7 @@ from pymodbus.client.sync import ModbusTcpClient as ModbusClient
 import time
 
 
-def connect_bus(ip="192.168.88.250", PortN = 502, timeout = 3):
+def connect_bus(ip="192.168.8.1", PortN = 502, timeout = 3):
     client = ModbusClient(host=ip, port=PortN, timeout=timeout, RetryOnEmpty = True, retries = 3)
     time.sleep(1)
     client.connect()
