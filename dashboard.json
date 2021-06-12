@@ -62,7 +62,7 @@
         {
           "targetBlank": true,
           "title": "status page",
-          "url": "http://192.168.88.223:3000/d/UjSVubzRk/status"
+          "url": "/d/UjSVubzRk/status"
         }
       ],
       "newFlag": false,
@@ -1004,7 +1004,7 @@
         {
           "targetBlank": true,
           "title": "Detail",
-          "url": "http://192.168.88.223:3000/d/dtVwFFPWz/solar"
+          "url": "/d/dtVwFFPWz/solar"
         }
       ],
       "nullPointMode": "null",
