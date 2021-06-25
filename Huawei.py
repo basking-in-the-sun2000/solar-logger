@@ -3,6 +3,8 @@ import time
 import config
 import emails
 
+# Change use to ext for type you won't use or aren't defined by your inverter
+
 _register_map =  {
     'Model':      {'addr': '30000', 'registers': 15, 'name': 'Model',                            'scale': 1,    'type': 'str',  'units': ''    , 'use': 'info',  'method': 'hold'},  
     'SN':         {'addr': '30015', 'registers': 10, 'name': 'Serial Number',                    'scale': 1,    'type': 'str',  'units': ''    , 'use': 'info',  'method': 'hold'},  
@@ -278,8 +280,9 @@ def inv_address():
     udp_message = bytes([0x5a, 0x5a, 0x5a, 0x5a, 0x00, 0x41, 0x3a, 0x04])
 
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
-    sock.connect(("8.8.8.8", 80))
+    sock.connect(("1.1.1.1", 80))
     ip = sock.getsockname()[0]
+    ip_self = ip
     ip = socket.inet_aton(ip)
     sock.close()
 
@@ -294,9 +297,8 @@ def inv_address():
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-    sock.settimeout(3.0)
+    sock.settimeout(10.0)
     sock.bind(("", 6600))
-    time.sleep(5)
     sock.sendto(udp_message, ('<broadcast>', 6600))
     i = 0
     while True:
@@ -321,7 +323,7 @@ def inv_address():
                     return config.inverter_ip
                 emails.send_mail("can't find inverter" + str(e))
 
-        if len(data) == 30:
+        if addr[0] != ip_self:
             addr = str(addr[0])
             if config.debug:
                 print("inverter address: " + addr)

@@ -1,34 +1,4 @@
 {
-  "__inputs": [
-    {
-      "name": "DS_INFLUXDB",
-      "label": "InfluxDB",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "influxdb",
-      "pluginName": "InfluxDB"
-    }
-  ],
-  "__requires": [
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "7.1.5"
-    },
-    {
-      "type": "datasource",
-      "id": "influxdb",
-      "name": "InfluxDB",
-      "version": "1.0.0"
-    },
-    {
-      "type": "panel",
-      "id": "table-old",
-      "name": "Table (old)",
-      "version": ""
-    }
-  ],
   "annotations": {
     "list": [
       {
@@ -45,16 +15,14 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": null,
+  "id": 2,
   "links": [],
   "panels": [
     {
       "columns": [],
-      "datasource": "${DS_INFLUXDB}",
+      "datasource": "InfluxDB",
       "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
+        "defaults": {},
         "overrides": []
       },
       "fontSize": "100%",
@@ -135,7 +103,7 @@
           "measurement": "Huawei_stat",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT first(\"Fault\") FROM \"Huawei_stat\" WHERE $timeFilter GROUP BY time($__interval) fill(none)",
+          "query": "SELECT (\"Fault\") FROM \"Huawei_stat\" WHERE $timeFilter ",
           "rawQuery": true,
           "refId": "B",
           "resultFormat": "time_series",
@@ -180,7 +148,7 @@
           "measurement": "Huawei_stat",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT first(\"Alarm1\") FROM \"Huawei_stat\" WHERE $timeFilter GROUP BY time($__interval) fill(none)",
+          "query": "SELECT (\"Alarm1\") FROM \"Huawei_stat\" WHERE $timeFilter",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -220,6 +188,8 @@
           "measurement": "Huawei_stat",
           "orderByTime": "ASC",
           "policy": "default",
+          "query": "SELECT (\"Alarm2\") FROM \"Huawei_stat\" WHERE $timeFilter",
+          "rawQuery": true,
           "refId": "H",
           "resultFormat": "time_series",
           "select": [
@@ -258,6 +228,8 @@
           "measurement": "Huawei_stat",
           "orderByTime": "ASC",
           "policy": "default",
+          "query": "SELECT (\"Alarm3\") FROM \"Huawei_stat\" WHERE $timeFilter",
+          "rawQuery": true,
           "refId": "G",
           "resultFormat": "time_series",
           "select": [
@@ -295,6 +267,8 @@
           "measurement": "Huawei_stat",
           "orderByTime": "ASC",
           "policy": "default",
+          "query": "SELECT (\"State1\") FROM \"Huawei_stat\" WHERE $timeFilter",
+          "rawQuery": true,
           "refId": "C",
           "resultFormat": "time_series",
           "select": [
@@ -332,6 +306,8 @@
           "measurement": "Huawei_stat",
           "orderByTime": "ASC",
           "policy": "default",
+          "query": "SELECT (\"State2\") FROM \"Huawei_stat\" WHERE $timeFilter",
+          "rawQuery": true,
           "refId": "D",
           "resultFormat": "time_series",
           "select": [
@@ -369,6 +345,8 @@
           "measurement": "Huawei_stat",
           "orderByTime": "ASC",
           "policy": "default",
+          "query": "SELECT (\"State3\") FROM \"Huawei_stat\" WHERE $timeFilter",
+          "rawQuery": true,
           "refId": "E",
           "resultFormat": "time_series",
           "select": [
@@ -406,6 +384,8 @@
           "measurement": "Huawei_stat",
           "orderByTime": "ASC",
           "policy": "default",
+          "query": "SELECT (\"Status\") FROM \"Huawei_stat\" WHERE $timeFilter",
+          "rawQuery": true,
           "refId": "F",
           "resultFormat": "time_series",
           "select": [
@@ -433,7 +413,7 @@
     }
   ],
   "refresh": "1h",
-  "schemaVersion": 26,
+  "schemaVersion": 27,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -447,5 +427,5 @@
   "timezone": "",
   "title": "Status",
   "uid": "UjSVubzRk",
-  "version": 7
+  "version": 10
 }

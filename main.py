@@ -178,8 +178,8 @@ def do_map(client, config, inverter):
 
     return False
 
-def forecast(midnight):
-    def forehour(h, midnight):
+def forecast(h, midnight):
+    def forehour(h):
         global c_start
         global c_stop
 
@@ -199,39 +199,36 @@ def forecast(midnight):
         if config.debug:
             print(time.ctime(h))
 
-        forecast_time = int((float(time.strftime("%H", time.localtime(h))) - float(time.strftime("%H"))) / 2) * 2
-        forecast_time = max(forecast_time, 1) * 3600
-        forecast_time = forecast_time + (60 - float(time.strftime("%M", time.localtime()))) * 60  
-        forecast_time = forecast_time  - float(time.strftime("%S", time.localtime())) + time.time()
+        forecast_time = h + int(max((t_stop - t_start) * 3600 / 18, 25 * 60))
 
         if config.debug:
             print(t_start)
             print(t_stop)
             print(time.ctime(forecast_time))
 
-        t = int(time.mktime(time.strptime(time.strftime('%Y-%m-%d %H:00:00', time.localtime(forecast_time)), "%Y-%m-%d %H:%M:%S")))
-        if float(time.strftime("%H", time.localtime(t))) > t_stop:
-            forecast_time = forecast_time + (24 - float(time.strftime("%H", time.localtime(t))) + t_start - 1) * 3600
-            t = int(time.mktime(time.strptime(time.strftime('%Y-%m-%d %H:00:00', time.localtime(forecast_time)), "%Y-%m-%d %H:%M:%S")))
+        t = int(time.strftime("%H", time.localtime(forecast_time)))
 
-        if float(time.strftime("%H", time.localtime(t))) < t_start:
-            forecast_time = int(time.mktime(time.strptime(time.strftime('%Y-%m-%d '+ str(t_start) +':00:00', time.localtime(t)), "%Y-%m-%d %H:%M:%S")))
+        if t > t_stop - 1:
+            forecast_time = time.mktime(time.strptime(time.strftime('%Y-%m-%d ' + str(t_start - 1) + ':45:00', time.localtime(time.time() + 24 * 3600)), "%Y-%m-%d %H:%M:%S"))
 
-        if (forecast_time - time.time() < 80):
-            forehour(time.time() + 100, midnight)
-
-        if (forecast_time - time.time() < 3600):
-            print("redoing")
-            print(forecast_time - time.time())
-            forecast_time = forehour(h + 3 * 3600, midnight)
+        elif t < t_start:
+            forecast_time = time.mktime(time.strptime(time.strftime('%Y-%m-%d ' + str(t_start - 1) + ':45:00', time.localtime()), "%Y-%m-%d %H:%M:%S"))
 
         print("next forecast " + time.ctime(forecast_time))
         return int(forecast_time)
 
-
     global flux_client    
     global forecast_array
+    global status
     print("in forecast")
+    
+    forecast_time = forehour(time.time())
+    t = time.time()
+    if (h - t > 60):
+        return(h)
+    elif (forecast_time - t > 60 * 60):
+        return(forecast_time)
+    
     try:
         if (config.solfor == 1):
             r1 = solcast.get_rooftop_forecasts(config.site_UUID, api_key=config.solcast_key)
@@ -243,12 +240,12 @@ def forecast(midnight):
                                                  api_key=config.solcast_key)
 
         else:
-            return forehour(int(time.time() + 6 * 3600), midnight)
+            return forehour(int(time.time() + 6 * 3600))
 
     except Exception as e:
         print("forecast error: %s" % str(e))
         print("solcast off-line")
-        return forehour(int(time.time() + 30 * 60), midnight)
+        return forehour(int(time.time() + 30 * 60))
 
     try:
         forecast_array = {}
@@ -272,9 +269,9 @@ def forecast(midnight):
     except Exception as e:
         print("forecast 1 error: %s" % str(e))
         print("error in forecast")
-        return forehour(min(int(time.time() + 6 * 3600), midnight - time.altzone), midnight)
+        return forehour(min(int(time.time() + 6 * 3600), midnight - time.altzone))
 
-    return forehour(time.time(), midnight)
+    return(forecast_time)
 
 def supla():
     #api key
@@ -363,6 +360,7 @@ def main():
     last_loop = 0
     info_time = 0
     last_status = {}
+    status = {}
     y_exp = 0
     c_exp = 0
     y_tot = 0
@@ -377,6 +375,7 @@ def main():
     thread_time = [1]
     thread_mean = 1
     sleep = 0
+    forecast_time = 0
     midnight = (int(time.mktime(time.strptime(time.strftime( "%m/%d/%Y ") + " 00:00:00", "%m/%d/%Y %H:%M:%S"))))
     s = ('SELECT %s FROM "%s" WHERE time >= %s and time <= %s and P_daily > 0') % ('max("M_PExp") as "M_PExp", max("M_PTot") as "M_PTot", max("P_accum") as "P_accum", max("P_daily") as "P_daily", max("Temp") as "Temp"', config.model, str((midnight - 24 * 3600)*1000000000), str(midnight*1000000000))
     zeros=flux_client.query(s, database=config.influxdb_database)
@@ -395,7 +394,7 @@ def main():
         tmax = 0
 
     s = ('SELECT %s FROM "%s_info" WHERE time >= %s and time <= %s and Insulation > 0') % ('min("Insulation") as "Insulation"', config.model, str((midnight - 3600 * 24)*1000000000), str(midnight*1000000000))
-    zeros=flux_client.query(s , database=config.influxdb_database)
+    zeros=flux_client.query(s, database=config.influxdb_database)
     m = list(zeros.get_points(measurement=config.model+"_info"))
     try:
         if config.debug:
@@ -411,23 +410,23 @@ def main():
         min_ins = 1000
 
     midnight = int(time.mktime(time.strptime(time.strftime( "%m/%d/%Y ") + " 23:59:59", "%m/%d/%Y %H:%M:%S"))) + 1
+
+    utils.fill_blanks(flux_client, midnight)
+    forecast_time = forecast(forecast_time, midnight)
     if ((float(time.strftime("%S")) % 60) > 1):
         time.sleep(59 - float(time.strftime("%S")))
 
-    utils.fill_blanks(flux_client, midnight)
-    forecast_time = forecast(midnight)
     if config.debug:
         print("loop")
 
     ok = True
     low_prod = time.time() + 300
+    measurement = {}
+    info = {}
     while ok:
         current_time = time.time()
         if (current_time - last_loop + thread_mean >= int(config.scan_interval)):
             last_loop = current_time
-            measurement = {}
-            info = {}
-            status = {}
             j = 0
             while do_map(client, config, inverter):
                 j += 1
@@ -465,16 +464,8 @@ def main():
                     print(c_stop)
                     print(tmax)
                     print(min_ins)
-                if info["Insulation"] > 0 and info["Insulation"] < 1.5:
+                if info["Insulation"] >= 0 and info["Insulation"] < 1.5:
                     emails.send_mail("Insulation low: " + str(info["Insulation"]))
-
-            if (status != last_status):
-                utils.write_influx(flux_client, status, config.model + "_stat", config.influxdb_database)
-                last_status = status
-                if config.debug:
-                    print(status)
-                if ((status["Alarm1"] != "") or (status["Alarm2"] != "") or (status["Alarm3"] != "") or (status["Fault"] != '0')):
-                    emails.send_mail("Help\r\n" + str(status))
 
             if config.debug:
                 print("looking at low production")
@@ -532,6 +523,16 @@ def main():
 #                print(measurement)
 
             utils.write_influx(flux_client, measurement, config.model, config.influxdb_database)
+                
+            if (status != last_status):
+                print(status)
+                print(last_status)
+                last_status = status.copy()
+                if config.debug:
+                    print(status)
+                if ((status["Alarm1"] != "") or (status["Alarm2"] != "") or (status["Alarm3"] != "") or (status["Fault"] != '0')):
+                    emails.send_mail("Help\r\n" + str(status))
+                print(utils.write_influx(flux_client, status, config.model + "_stat", config.influxdb_database))
 
             if (measurement["Temp"] > 60):
                 emails.send_mail("Temperatur high: " + str(measurement["Temp"]))
@@ -594,11 +595,24 @@ def main():
                     print(time.ctime(midnight - 24 * 3600))
                     print(daily)
 
-                utils.send_measurements(midnight - 24 * 3600, midnight, flux_client)
+                utils.send_measurements(midnight - 24 * 3600 * 4, midnight, flux_client)
                 midnight = int(time.mktime(time.strptime(time.strftime( "%m/%d/%Y ") + " 23:59:59", "%m/%d/%Y %H:%M:%S"))) + 1
+                
+                if config.daily_reports:
+                    s = "Daily values\r\n\r\n\r\n"
+                    s = s + f"Insulation: {daily['Insulation']:3.2f}\r\n"
+                    s = s + f"Temp: {daily['Temp']:2.0f}\r\n\r\n"
+                    s = s + f"Forecasted: {daily['f_power']:3.1f}\r\n"
+                    s = s + f"Daily: {daily['P_daily']:3.1f}\r\n\r\n"
+                    s = s + f"Load: {daily['P_Load']:3.1f}\r\n"
+                    s = s + f"Exported: {daily['P_Exp']:3.1f}\r\n"
+                    s = s + f"Grid: {daily['P_Grid']:3.1f}\r\n\r\n"
+                    s = s + f"Peak: {daily['P_peak']:3.1f}\r\n"
+
+                    emails.send_mail(s)
 
             if (int(time.time()) > forecast_time):
-                forecast_time = forecast(midnight)
+                forecast_time = forecast(forecast_time, midnight)
 
         else:
             sleep = config.scan_interval - (float(time.strftime("%S")) % config.scan_interval) - thread_mean * 1.1

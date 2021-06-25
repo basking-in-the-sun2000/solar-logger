@@ -22,9 +22,7 @@
       "cacheTimeout": null,
       "datasource": "-- Mixed --",
       "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
+        "defaults": {},
         "overrides": []
       },
       "flowchartsData": {
@@ -970,9 +968,7 @@
       "datasource": "-- Mixed --",
       "decimals": 2,
       "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
+        "defaults": {},
         "overrides": []
       },
       "fill": 1,
@@ -1012,12 +1008,13 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.1",
+      "pluginVersion": "7.5.7",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
       "seriesOverrides": [
         {
+          "$$hashKey": "object:213",
           "alias": "Sun altitude",
           "dashes": true,
           "fill": 0,
@@ -1028,6 +1025,7 @@
           "zindex": 0
         },
         {
+          "$$hashKey": "object:214",
           "alias": "Daily total",
           "fill": 0,
           "fillGradient": 0,
@@ -1036,6 +1034,7 @@
           "zindex": -3
         },
         {
+          "$$hashKey": "object:215",
           "alias": "production",
           "bars": true,
           "fill": 0,
@@ -1045,11 +1044,13 @@
           "zindex": -3
         },
         {
+          "$$hashKey": "object:217",
           "alias": "solcast",
           "fillGradient": 2,
           "yaxis": 2
         },
         {
+          "$$hashKey": "object:218",
           "alias": "exp production",
           "fill": 0,
           "fillGradient": 0,
@@ -1057,22 +1058,26 @@
           "yaxis": 1
         },
         {
+          "$$hashKey": "object:219",
           "alias": "exp production 10",
           "fill": 0,
           "fillGradient": 0,
           "legend": false
         },
         {
+          "$$hashKey": "object:220",
           "alias": "exp production 90",
           "fill": 0,
           "fillGradient": 0,
           "legend": false
         },
         {
+          "$$hashKey": "object:518",
           "alias": "balance",
           "linewidth": 3
         },
         {
+          "$$hashKey": "object:1584",
           "alias": "solcast90",
           "dashes": true,
           "fill": 0,
@@ -1082,6 +1087,7 @@
           "zindex": 1
         },
         {
+          "$$hashKey": "object:1595",
           "alias": "solcast10",
           "dashes": true,
           "fill": 0,
@@ -1173,8 +1179,7 @@
               }
             ]
           ],
-          "tags": [],
-          "tz": "UTC"
+          "tags": []
         },
         {
           "alias": "exp production",
@@ -1461,6 +1466,7 @@
       ],
       "thresholds": [
         {
+          "$$hashKey": "object:932",
           "colorMode": "ok",
           "fill": false,
           "line": true,
@@ -1472,6 +1478,7 @@
       "timeFrom": null,
       "timeRegions": [
         {
+          "$$hashKey": "object:305",
           "colorMode": "yellow",
           "fill": true,
           "fillColor": "rgba(253, 123, 2, 0.11)",
@@ -1499,6 +1506,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:285",
           "decimals": null,
           "format": "kwatth",
           "label": null,
@@ -1508,6 +1516,7 @@
           "show": false
         },
         {
+          "$$hashKey": "object:286",
           "decimals": null,
           "format": "kwatt",
           "label": null,
@@ -1527,7 +1536,6 @@
       "description": "",
       "fieldConfig": {
         "defaults": {
-          "custom": {},
           "decimals": 2,
           "mappings": [],
           "min": 0,
@@ -1718,9 +1726,10 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "showThresholdMarkers": true,
+        "text": {}
       },
-      "pluginVersion": "7.3.1",
+      "pluginVersion": "7.5.7",
       "targets": [
         {
           "alias": "forecast",
@@ -1930,16 +1939,14 @@
         "div 0": "semi-dark-red",
         "div 1": "semi-dark-blue",
         "load": "light-blue",
-        "max": "rgba(255, 203, 125, 0.57)"
+        "max": "semi-dark-purple"
       },
       "bars": true,
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
       "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
+        "defaults": {},
         "overrides": []
       },
       "fill": 1,
@@ -1969,23 +1976,28 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.1",
+      "pluginVersion": "7.5.7",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
       "seriesOverrides": [
         {
+          "$$hashKey": "object:529",
           "alias": "Grid",
           "bars": false,
           "lines": true,
           "linewidth": 2
         },
         {
+          "$$hashKey": "object:184",
           "alias": "max",
           "zindex": -3
         },
-        {},
         {
+          "$$hashKey": "object:189"
+        },
+        {
+          "$$hashKey": "object:1122",
           "alias": "/div/",
           "bars": false,
           "legend": false,
@@ -2261,6 +2273,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:987",
           "format": "watt",
           "label": null,
           "logBase": 1,
@@ -2269,6 +2282,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:988",
           "decimals": 0,
           "format": "none",
           "label": "",
@@ -2289,10 +2303,6 @@
       "description": "",
       "fieldConfig": {
         "defaults": {
-          "custom": {
-            "align": null,
-            "filterable": false
-          },
           "mappings": [
             {
               "from": "",
@@ -2353,11 +2363,13 @@
           "fields": "",
           "values": false
         },
+        "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.3.1",
+      "pluginVersion": "7.5.7",
       "targets": [
         {
+          "$$hashKey": "object:177",
           "aggregation": "Last",
           "alias": "load 0",
           "decimals": 2,
@@ -2404,6 +2416,7 @@
           "valueHandler": "Number Threshold"
         },
         {
+          "$$hashKey": "object:177",
           "aggregation": "Last",
           "alias": "load 1",
           "decimals": 2,
@@ -2452,7 +2465,6 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "",
       "type": "stat"
     },
     {
@@ -2461,9 +2473,6 @@
       "description": "",
       "fieldConfig": {
         "defaults": {
-          "custom": {
-            "align": null
-          },
           "decimals": 1,
           "mappings": [],
           "max": 50,
@@ -2657,9 +2666,10 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "showThresholdMarkers": true,
+        "text": {}
       },
-      "pluginVersion": "7.3.1",
+      "pluginVersion": "7.5.7",
       "targets": [
         {
           "datasource": "InfluxDB",
@@ -2718,7 +2728,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "select cumulative_sum(diff)  as \"∑ balance\" from (SELECT first(\"P_Exp\") - first(\"P_Grid\") + first(\"Adj\") as diff FROM \"Huawei_daily\" WHERE time > now() -365d  GROUP BY time(1d) fill(0))",
+          "query": "select cumulative_sum(diff)  as \"∑ balance\" from (SELECT first(\"P_Exp\") - first(\"P_Grid\") + first(\"Adj\") as diff FROM \"Huawei_daily\" WHERE time > '${__to:date:YYYY-MM-18}' - 52w  GROUP BY time(1d) fill(0))",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "table",
@@ -2741,7 +2751,6 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "",
       "transformations": [],
       "transparent": true,
       "type": "gauge"
@@ -2758,9 +2767,7 @@
       "dashes": false,
       "datasource": null,
       "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
+        "defaults": {},
         "overrides": []
       },
       "fill": 1,
@@ -2794,16 +2801,18 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.1",
+      "pluginVersion": "7.5.7",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
       "seriesOverrides": [
         {
+          "$$hashKey": "object:6753",
           "alias": "Inverter",
           "yaxis": 2
         },
         {
+          "$$hashKey": "object:6754",
           "alias": "Grid",
           "bars": false,
           "lines": true,
@@ -2812,11 +2821,13 @@
           "zindex": -2
         },
         {
+          "$$hashKey": "object:6755",
           "alias": "load",
           "yaxis": 2,
           "zindex": 1
         },
         {
+          "$$hashKey": "object:184",
           "alias": "/div/",
           "bars": false,
           "points": true
@@ -3046,6 +3057,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:987",
           "decimals": 0,
           "format": "none",
           "label": "",
@@ -3055,6 +3067,7 @@
           "show": false
         },
         {
+          "$$hashKey": "object:988",
           "decimals": 1,
           "format": "none",
           "label": "",
@@ -3075,9 +3088,6 @@
       "description": "",
       "fieldConfig": {
         "defaults": {
-          "custom": {
-            "align": null
-          },
           "decimals": 1,
           "mappings": [],
           "thresholds": {
@@ -3182,9 +3192,10 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "showThresholdMarkers": true,
+        "text": {}
       },
-      "pluginVersion": "7.3.1",
+      "pluginVersion": "7.5.7",
       "targets": [
         {
           "alias": "Inverter",
@@ -3345,7 +3356,6 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "",
       "transformations": [],
       "transparent": true,
       "type": "gauge"
@@ -3361,9 +3371,7 @@
       "dashes": false,
       "datasource": null,
       "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
+        "defaults": {},
         "overrides": []
       },
       "fill": 1,
@@ -3395,12 +3403,13 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.1",
+      "pluginVersion": "7.5.7",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
       "seriesOverrides": [
         {
+          "$$hashKey": "object:659",
           "alias": "forecast",
           "fill": 2,
           "fillGradient": 2,
@@ -3548,6 +3557,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:579",
           "format": "kwatt",
           "label": null,
           "logBase": 1,
@@ -3556,6 +3566,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:580",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -3576,9 +3587,7 @@
       "dashes": false,
       "datasource": "InfluxDB lt",
       "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
+        "defaults": {},
         "overrides": []
       },
       "fill": 1,
@@ -3592,6 +3601,7 @@
       "hiddenSeries": false,
       "hideTimeOverride": true,
       "id": 53,
+      "interval": null,
       "legend": {
         "avg": false,
         "current": false,
@@ -3608,7 +3618,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.1",
+      "pluginVersion": "7.5.7",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -3635,7 +3645,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "select (balance) from (select cumulative_sum(diff)  as balance from (SELECT first(\"P_Exp\") - first(\"P_Grid\") + first(\"Adj\") as diff FROM \"Huawei_daily\"  GROUP BY time(1d) fill(0)) where time >  now() -61d)",
+          "query": "select (balance) from (select cumulative_sum(diff)  as balance from (SELECT first(\"P_Exp\") - first(\"P_Grid\") + first(\"Adj\") as diff FROM \"Huawei_daily\"  GROUP BY time(1d) fill(0)) where time > '${__to:date:YYYY-MM-18}' -60d )",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -3657,9 +3667,9 @@
         }
       ],
       "thresholds": [],
-      "timeFrom": "2M",
+      "timeFrom": "60d",
       "timeRegions": [],
-      "timeShift": null,
+      "timeShift": "2d",
       "title": "production balance",
       "tooltip": {
         "shared": true,
@@ -3676,6 +3686,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:92",
           "decimals": null,
           "format": "watth",
           "label": "",
@@ -3685,6 +3696,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:93",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -3717,9 +3729,7 @@
       "datasource": "-- Mixed --",
       "decimals": 1,
       "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
+        "defaults": {},
         "overrides": []
       },
       "fill": 0,
@@ -3752,24 +3762,27 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.1",
+      "pluginVersion": "7.5.7",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
       "seriesOverrides": [
         {
+          "$$hashKey": "object:392",
           "alias": "daily",
           "bars": true,
           "lines": false,
           "zindex": -2
         },
         {
+          "$$hashKey": "object:393",
           "alias": "radiance",
           "legend": false,
           "lines": true,
           "zindex": -3
         },
         {
+          "$$hashKey": "object:394",
           "alias": "peak",
           "lines": false,
           "pointradius": 4,
@@ -3778,11 +3791,13 @@
           "zindex": -3
         },
         {
+          "$$hashKey": "object:395",
           "alias": "load",
           "linewidth": 3,
           "zindex": 3
         },
         {
+          "$$hashKey": "object:396",
           "alias": "self",
           "lines": false,
           "points": true,
@@ -3790,17 +3805,20 @@
           "zindex": 1
         },
         {
+          "$$hashKey": "object:397",
           "alias": "expected",
           "lines": false,
           "points": true
         },
         {
+          "$$hashKey": "object:398",
           "alias": "export",
           "bars": true,
           "lines": false,
           "zindex": -1
         },
         {
+          "$$hashKey": "object:399",
           "alias": "Solcast",
           "lines": false,
           "points": true,
@@ -4091,7 +4109,7 @@
       "thresholds": [],
       "timeFrom": "31d",
       "timeRegions": [],
-      "timeShift": null,
+      "timeShift": "1d",
       "title": "daily production",
       "tooltip": {
         "shared": true,
@@ -4108,6 +4126,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:482",
           "decimals": null,
           "format": "kwatth",
           "label": "",
@@ -4117,6 +4136,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:483",
           "decimals": 1,
           "format": "kwatt",
           "label": "",
@@ -4152,9 +4172,7 @@
       "decimals": 1,
       "description": "",
       "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
+        "defaults": {},
         "overrides": []
       },
       "fill": 0,
@@ -4187,18 +4205,20 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.1",
+      "pluginVersion": "7.5.7",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
       "seriesOverrides": [
         {
+          "$$hashKey": "object:381",
           "alias": "daily",
           "bars": true,
           "lines": false,
           "zindex": -2
         },
         {
+          "$$hashKey": "object:382",
           "alias": "/solcast/",
           "dashLength": 4,
           "dashes": true,
@@ -4207,6 +4227,7 @@
           "zindex": -3
         },
         {
+          "$$hashKey": "object:383",
           "alias": "peak",
           "lines": false,
           "pointradius": 4,
@@ -4215,22 +4236,26 @@
           "zindex": -3
         },
         {
+          "$$hashKey": "object:384",
           "alias": "load",
           "linewidth": 3,
           "zindex": 3
         },
         {
+          "$$hashKey": "object:385",
           "alias": "self",
           "lines": false,
           "points": true,
           "yaxis": 2
         },
         {
+          "$$hashKey": "object:386",
           "alias": "expected",
           "lines": false,
           "points": true
         },
         {
+          "$$hashKey": "object:387",
           "alias": "export",
           "bars": true,
           "lines": false,
@@ -4519,7 +4544,7 @@
         }
       ],
       "thresholds": [],
-      "timeFrom": "1y",
+      "timeFrom": "13M",
       "timeRegions": [],
       "timeShift": null,
       "title": "daily production (monthly)",
@@ -4538,6 +4563,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:462",
           "decimals": null,
           "format": "kwatth",
           "label": "",
@@ -4547,6 +4573,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:463",
           "decimals": 1,
           "format": "kwatt",
           "label": "",
@@ -4566,10 +4593,6 @@
       "datasource": "InfluxDB ds",
       "fieldConfig": {
         "defaults": {
-          "custom": {
-            "align": null,
-            "filterable": false
-          },
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -4577,10 +4600,6 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           }
@@ -4609,9 +4628,10 @@
           "fields": "",
           "values": false
         },
+        "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.3.1",
+      "pluginVersion": "7.5.7",
       "targets": [
         {
           "alias": "Exports",
@@ -4754,6 +4774,22 @@
         {
           "id": "calculateField",
           "options": {
+            "alias": "Balance",
+            "binary": {
+              "left": "Exports",
+              "operator": "-",
+              "reducer": "sum",
+              "right": "Grid"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            }
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
             "alias": "Load",
             "binary": {
               "left": "Grid",
@@ -4775,10 +4811,6 @@
       "datasource": "InfluxDB ds",
       "fieldConfig": {
         "defaults": {
-          "custom": {
-            "align": null,
-            "filterable": false
-          },
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -4814,9 +4846,10 @@
           "fields": "",
           "values": false
         },
+        "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.3.1",
+      "pluginVersion": "7.5.7",
       "targets": [
         {
           "alias": "Exports",
@@ -4959,6 +4992,22 @@
         {
           "id": "calculateField",
           "options": {
+            "alias": "Balance",
+            "binary": {
+              "left": "Exports",
+              "operator": "-",
+              "reducer": "sum",
+              "right": "Grid"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            }
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
             "alias": "Load",
             "binary": {
               "left": "Grid",
@@ -4980,10 +5029,6 @@
       "datasource": "InfluxDB ds",
       "fieldConfig": {
         "defaults": {
-          "custom": {
-            "align": null,
-            "filterable": false
-          },
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -5019,9 +5064,10 @@
           "fields": "",
           "values": false
         },
+        "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.3.1",
+      "pluginVersion": "7.5.7",
       "targets": [
         {
           "alias": "Exports",
@@ -5164,6 +5210,22 @@
         {
           "id": "calculateField",
           "options": {
+            "alias": "Balance",
+            "binary": {
+              "left": "Exports",
+              "operator": "-",
+              "reducer": "sum",
+              "right": "Grid"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            }
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
             "alias": "Load",
             "binary": {
               "left": "Grid",
@@ -5185,10 +5247,6 @@
       "datasource": "InfluxDB ds",
       "fieldConfig": {
         "defaults": {
-          "custom": {
-            "align": null,
-            "filterable": false
-          },
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -5225,9 +5283,10 @@
           "fields": "",
           "values": false
         },
+        "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.3.1",
+      "pluginVersion": "7.5.7",
       "targets": [
         {
           "alias": "Exports",
@@ -5370,6 +5429,22 @@
         {
           "id": "calculateField",
           "options": {
+            "alias": "Balance",
+            "binary": {
+              "left": "Exports",
+              "operator": "-",
+              "reducer": "sum",
+              "right": "Grid"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            }
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
             "alias": "Load",
             "binary": {
               "left": "Grid",
@@ -5388,7 +5463,7 @@
     }
   ],
   "refresh": "15s",
-  "schemaVersion": 26,
+  "schemaVersion": 27,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -5411,8 +5486,8 @@
       "1d"
     ]
   },
-  "timezone": "browser",
+  "timezone": "",
   "title": "dashboard",
   "uid": "k6oNQgkRz",
-  "version": 294
+  "version": 312
 }

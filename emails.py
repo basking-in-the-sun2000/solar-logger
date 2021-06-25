@@ -8,12 +8,12 @@ From: %s <data-logger>
 To: <%s>
 Subject: %s
 MIME-Version: 1.0
-Content-Type: text/html
+Content-Type: text/plain
 Date: %s
 
 
 %s
-</br>
+\r\n
 """
 
 def send_mail(content):

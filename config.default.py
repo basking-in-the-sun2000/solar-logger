@@ -39,6 +39,7 @@ solfor = 1 # 0 off, 1 rooftop, 2 world pv power
 supla_api = ""
 supla_dev_id = 0
 debug = False
+daily_reports = True
 #emailing info
 email_sent = ""
 fromaddr = "datalogger@my_domain.com"
@@ -53,7 +54,7 @@ diverters_loads = {0: 2000, 1: 800}
 diverters_io = {0 : ("gpio", 10), 1 : ("gpio", 11)} #replace to reflect the output type and address
 
 # The load won't activate until the day set below. Time is assumed to be 0 hours
-diverters_holiday = {0 : "2020-10-25", 1 : "2020-10-25"}
+diverters_holiday = {0 : "2020-10-25", 1 : "2020-11-14"}
 
 #Higher priority will be first on and last off. If same priority any can be first or last
 #If priority is -1, then it won't activate at that hour
