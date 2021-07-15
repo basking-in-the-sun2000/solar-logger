@@ -93,6 +93,14 @@ if (config.has_optim) :
         'Optim_on':   {'addr': '37201', 'registers': 1,  'name': 'Number of online optimizers',      'scale': 1,    'type': 'U16',  'units': ''    , 'use': 'info',  'method': 'hold'},  
         'Optim_opt':  {'addr': '37202', 'registers': 1,  'name': 'Optimizer Feature data',           'scale': 1,    'type': 'U16',  'units': ''    , 'use': 'info',  'method': 'hold'}})
 
+if (config.has_ESU) :
+    _register_map.update({
+        'ESU_status':  {'addr': '37000', 'registers': 1,  'name': 'ESU status',                       'scale': 1,    'type': 'U16',  'units': ''  ,   'use': 'status',  'method': 'hold'},  
+        'ESU_power':   {'addr': '37001', 'registers': 2,  'name': 'ESU power',                        'scale': 1,    'type': 'I32',  'units': 'W'   , 'use': 'data',  'method': 'hold'},  
+        'ESU_soc':     {'addr': '37004', 'registers': 2,  'name': 'ESU SOC',                          'scale': 10,   'type': 'U16',  'units': '%'   , 'use': 'data',  'method': 'hold'},
+        'ESU_charge':  {'addr': '37015', 'registers': 2,  'name': 'ESU Current Charge',               'scale': 100,  'type': 'U32',  'units': 'kWh' , 'use': 'data',  'method': 'hold'},
+        'ESU_discharge':{'addr': '37017','registers': 2,  'name': 'ESU Current Discharge',            'scale': 100,  'type': 'U32',  'units': 'kWh' , 'use': 'data',  'method': 'hold'}})
+
 _status_map = {
     0x0000: 'Standby: initializing',
     0x0001: 'Standby: detecting insulation resistance',

@@ -1,4 +1,82 @@
 {
+  "__inputs": [
+    {
+      "name": "DS_INFLUXDB",
+      "label": "InfluxDB",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "influxdb",
+      "pluginName": "InfluxDB"
+    },
+    {
+      "name": "DS_SUN_AND MOON",
+      "label": "Sun and Moon",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "fetzerch-sunandmoon-datasource",
+      "pluginName": "Sun and Moon"
+    },
+    {
+      "name": "DS_INFLUXDB_LT",
+      "label": "InfluxDB lt",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "influxdb",
+      "pluginName": "InfluxDB"
+    },
+    {
+      "name": "DS_INFLUXDB_DS",
+      "label": "InfluxDB ds",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "influxdb",
+      "pluginName": "InfluxDB"
+    }
+  ],
+  "__requires": [
+    {
+      "type": "panel",
+      "id": "agenty-flowcharting-panel",
+      "name": "FlowCharting",
+      "version": "0.9.1"
+    },
+    {
+      "type": "panel",
+      "id": "blackmirror1-singlestat-math-panel",
+      "name": "Singlestat Math",
+      "version": "1.1.8"
+    },
+    {
+      "type": "datasource",
+      "id": "fetzerch-sunandmoon-datasource",
+      "name": "Sun and Moon",
+      "version": "0.2.1"
+    },
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "8.0.5"
+    },
+    {
+      "type": "panel",
+      "id": "graph",
+      "name": "Graph (old)",
+      "version": ""
+    },
+    {
+      "type": "datasource",
+      "id": "influxdb",
+      "name": "InfluxDB",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "yesoreyeram-boomtable-panel",
+      "name": "Boom Table",
+      "version": "1.4.1"
+    }
+  ],
   "annotations": {
     "list": [
       {
@@ -15,28 +93,23 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 1,
+  "id": null,
   "links": [],
   "panels": [
     {
       "cacheTimeout": null,
       "datasource": null,
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "flowchartsData": {
         "flowcharts": [
           {
             "allowDrawio": false,
             "bgColor": null,
             "center": false,
-            "csv": "",
+            "csv": "## See more information for the syntax at https://drawio-app.com/import-from-csv-to-drawio/\n##\n## Example CSV. Use ## for comments and # for configuration.\n## The following names are reserved and should not be used (or ignored):\n## id, tooltip, placeholder(s), link and label (see below)\n##\n#\n## Node label with placeholders and HTML.\n## Default is '%name_of_first_column%'.\n#\n# label: %name%<br><i style=\"color:gray;\">%position%</i><br><a href=\"mailto:%email%\">Email</a>\n#\n## Node style (placeholders are replaced once).\n## Default is the current style for nodes.\n#\n# style: label;image=%image%;whiteSpace=wrap;html=1;rounded=1;fillColor=%fill%;strokeColor=%stroke%;\n#\n## Parent style for nodes with child nodes (placeholders are replaced once).\n#\n# parentstyle: swimlane;whiteSpace=wrap;html=1;childLayout=stackLayout;horizontal=1;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;\n#\n## Optional column name that contains a reference to a named style in styles.\n## Default is the current style for nodes.\n#\n# stylename: -\n#\n## JSON for named styles of the form {\"name\": \"style\", \"name\": \"style\"} where style is a cell style with\n## placeholders that are replaced once.\n#\n# styles: -\n#\n## Optional column name that contains a reference to a named label in labels.\n## Default is the current label.\n#\n# labelname: -\n#\n## JSON for named labels of the form {\"name\": \"label\", \"name\": \"label\"} where label is a cell label with\n## placeholders.\n#\n# labels: -\n#\n## Uses the given column name as the identity for cells (updates existing cells).\n## Default is no identity (empty value or -).\n#\n# identity: -\n#\n## Uses the given column name as the parent reference for cells. Default is no parent (empty or -).\n## The identity above is used for resolving the reference so it must be specified.\n#\n# parent: -\n#\n## Adds a prefix to the identity of cells to make sure they do not collide with existing cells (whose\n## IDs are numbers from 0..n, sometimes with a GUID prefix in the context of realtime collaboration).\n## Default is csvimport-.\n#\n# namespace: csvimport-\n#\n## Connections between rows (\"from\": source colum, \"to\": target column).\n## Label, style and invert are optional. Defaults are '', current style and false.\n## If placeholders are used in the style, they are replaced with data from the source.\n## An optional placeholders can be set to target to use data from the target instead.\n## In addition to label, an optional fromlabel and tolabel can be used to name the column\n## that contains the text for the label in the edges source or target (invert ignored).\n## The label is concatenated in the form fromlabel + label + tolabel if all are defined.\n## The target column may contain a comma-separated list of values.\n## Multiple connect entries are allowed.\n#\n# connect: {\"from\": \"manager\", \"to\": \"name\", \"invert\": true, \"label\": \"manages\", \\\n#          \"style\": \"curved=1;endArrow=blockThin;endFill=1;fontSize=11;\"}\n# connect: {\"from\": \"refs\", \"to\": \"id\", \"style\": \"curved=1;fontSize=11;\"}\n#\n## Node x-coordinate. Possible value is a column name. Default is empty. Layouts will\n## override this value.\n#\n# left: \n#\n## Node y-coordinate. Possible value is a column name. Default is empty. Layouts will\n## override this value.\n#\n# top: \n#\n## Node width. Possible value is a number (in px), auto or an @ sign followed by a column\n## name that contains the value for the width. Default is auto.\n#\n# width: auto\n#\n## Node height. Possible value is a number (in px), auto or an @ sign followed by a column\n## name that contains the value for the height. Default is auto.\n#\n# height: auto\n#\n## Padding for autosize. Default is 0.\n#\n# padding: -12\n#\n## Comma-separated list of ignored columns for metadata. (These can be\n## used for connections and styles but will not be added as metadata.)\n#\n# ignore: id,image,fill,stroke,refs,manager\n#\n## Column to be renamed to link attribute (used as link).\n#\n# link: url\n#\n## Spacing between nodes. Default is 40.\n#\n# nodespacing: 40\n#\n## Spacing between levels of hierarchical layouts. Default is 100.\n#\n# levelspacing: 100\n#\n## Spacing between parallel edges. Default is 40. Use 0 to disable.\n#\n# edgespacing: 40\n#\n## Name or JSON of layout. Possible values are auto, none, verticaltree, horizontaltree,\n## verticalflow, horizontalflow, organic, circle or a JSON string as used in Layout, Apply.\n## Default is auto.\n#\n# layout: auto\n#\n## ---- CSV below this line. First line are column names. ----\nname,position,id,location,manager,email,fill,stroke,refs,url,image\nEvan Miller,CFO,emi,Office 1,,me@example.com,#dae8fc,#6c8ebf,,https://www.draw.io,https://cdn3.iconfinder.com/data/icons/user-avatars-1/512/users-9-2-128.png\nEdward Morrison,Brand Manager,emo,Office 2,Evan Miller,me@example.com,#d5e8d4,#82b366,,https://www.draw.io,https://cdn3.iconfinder.com/data/icons/user-avatars-1/512/users-10-3-128.png\nRon Donovan,System Admin,rdo,Office 3,Evan Miller,me@example.com,#d5e8d4,#82b366,\"emo,tva\",https://www.draw.io,https://cdn3.iconfinder.com/data/icons/user-avatars-1/512/users-2-128.png\nTessa Valet,HR Director,tva,Office 4,Evan Miller,me@example.com,#d5e8d4,#82b366,,https://www.draw.io,https://cdn3.iconfinder.com/data/icons/user-avatars-1/512/users-3-128.png\n",
             "download": false,
             "editorTheme": "dark",
             "editorUrl": "https://www.draw.io",
+            "enableAnim": true,
             "grid": false,
             "lock": true,
             "name": "Main",
@@ -58,14 +131,19 @@
         "y": 0
       },
       "id": 18,
-      "links": [],
+      "links": [
+        {
+          "targetBlank": true,
+          "title": "Status",
+          "url": "./d/UjSVubzRk/status?orgId=1&refresh=1h"
+        }
+      ],
       "newFlag": false,
       "rulesData": {
         "rulesData": [
           {
             "aggregation": "current",
             "alias": "Copy of myRule",
-            "colorOn": "a",
             "colors": [
               "#73BF69",
               "#F2CC0C",
@@ -74,14 +152,15 @@
             "column": "Time",
             "dateFormat": "YYYY-MM-DD HH:mm:ss",
             "decimals": 0,
+            "eventData": [],
+            "eventProp": "id",
+            "eventRegEx": false,
+            "gradient": false,
             "hidden": false,
             "invert": true,
-            "link": false,
             "linkData": [],
-            "linkOn": "a",
-            "linkParams": false,
             "linkProp": "id",
-            "linkUrl": "",
+            "linkRegEx": true,
             "mappingType": 1,
             "metricType": "serie",
             "order": 1,
@@ -93,27 +172,32 @@
             "sanitize": false,
             "shapeData": [
               {
+                "colorOn": "a",
                 "hidden": false,
-                "pattern": "32"
+                "pattern": "32",
+                "style": "fontColor"
               }
             ],
             "shapeProp": "id",
-            "stringCritical": "/^((?!OK).)*$/",
-            "stringWarning": "",
-            "style": "fontColor",
+            "shapeRegEx": true,
+            "stringThresholds": [
+              "/^((?!OK).)*$/",
+              "/.*/"
+            ],
             "textData": [
               {
                 "hidden": false,
-                "pattern": "32"
+                "pattern": "32",
+                "textOn": "wmd",
+                "textPattern": "/.*/",
+                "textReplace": "content"
               }
             ],
-            "textOn": "wmd",
-            "textPattern": "/.*/",
             "textProp": "id",
-            "textReplace": "content",
+            "textRegEx": true,
             "thresholds": [
-              "-1",
-              "1"
+              -1,
+              1
             ],
             "tooltip": false,
             "tooltipColors": false,
@@ -139,7 +223,6 @@
           {
             "aggregation": "current",
             "alias": "Copy of myRule",
-            "colorOn": "a",
             "colors": [
               "rgba(50, 172, 45, 0.97)",
               "rgba(237, 129, 40, 0.89)",
@@ -148,14 +231,15 @@
             "column": "Time",
             "dateFormat": "YYYY-MM-DD HH:mm:ss",
             "decimals": 2,
+            "eventData": [],
+            "eventProp": "id",
+            "eventRegEx": false,
+            "gradient": false,
             "hidden": false,
             "invert": true,
-            "link": false,
             "linkData": [],
-            "linkOn": "a",
-            "linkParams": false,
             "linkProp": "id",
-            "linkUrl": "",
+            "linkRegEx": true,
             "mappingType": 1,
             "metricType": "serie",
             "order": 2,
@@ -167,24 +251,29 @@
             "sanitize": false,
             "shapeData": [
               {
+                "colorOn": "a",
                 "hidden": false,
-                "pattern": "33"
+                "pattern": "33",
+                "style": "fontColor"
               }
             ],
             "shapeProp": "id",
-            "stringCritical": "/^((?!normally).)*$/",
-            "stringWarning": "/standby/",
-            "style": "fontColor",
+            "shapeRegEx": true,
+            "stringThresholds": [
+              "/^((?!normally).)*$/",
+              "/standby/"
+            ],
             "textData": [
               {
                 "hidden": false,
-                "pattern": "33"
+                "pattern": "33",
+                "textOn": "wmd",
+                "textPattern": "/.*/",
+                "textReplace": "content"
               }
             ],
-            "textOn": "wmd",
-            "textPattern": "/.*/",
             "textProp": "id",
-            "textReplace": "content",
+            "textRegEx": true,
             "thresholds": [],
             "tooltip": false,
             "tooltipColors": false,
@@ -204,7 +293,6 @@
           {
             "aggregation": "current",
             "alias": "Copy of myRule",
-            "colorOn": "a",
             "colors": [
               "rgba(50, 172, 45, 0.97)",
               "rgba(237, 129, 40, 0.89)",
@@ -213,14 +301,15 @@
             "column": "Time",
             "dateFormat": "YYYY-MM-DD HH:mm:ss",
             "decimals": 2,
+            "eventData": [],
+            "eventProp": "id",
+            "eventRegEx": false,
+            "gradient": false,
             "hidden": false,
             "invert": true,
-            "link": false,
             "linkData": [],
-            "linkOn": "a",
-            "linkParams": false,
             "linkProp": "id",
-            "linkUrl": "",
+            "linkRegEx": true,
             "mappingType": 1,
             "metricType": "serie",
             "order": 3,
@@ -232,24 +321,29 @@
             "sanitize": false,
             "shapeData": [
               {
+                "colorOn": "a",
                 "hidden": false,
-                "pattern": "34"
+                "pattern": "34",
+                "style": "fontColor"
               }
             ],
             "shapeProp": "id",
-            "stringCritical": "",
-            "stringWarning": "/^((?! connected).)*$/",
-            "style": "fontColor",
+            "shapeRegEx": true,
+            "stringThresholds": [
+              "/.*/",
+              "/^((?! connected).)*$/"
+            ],
             "textData": [
               {
                 "hidden": false,
-                "pattern": "34"
+                "pattern": "34",
+                "textOn": "wmd",
+                "textPattern": "/.*/",
+                "textReplace": "content"
               }
             ],
-            "textOn": "wmd",
-            "textPattern": "/.*/",
             "textProp": "id",
-            "textReplace": "content",
+            "textRegEx": true,
             "thresholds": [],
             "tooltip": false,
             "tooltipColors": false,
@@ -269,7 +363,6 @@
           {
             "aggregation": "current",
             "alias": "Copy of myRule",
-            "colorOn": "a",
             "colors": [
               "rgba(50, 172, 45, 0.97)",
               "rgba(237, 129, 40, 0.89)",
@@ -278,14 +371,15 @@
             "column": "Time",
             "dateFormat": "YYYY-MM-DD HH:mm:ss",
             "decimals": 2,
+            "eventData": [],
+            "eventProp": "id",
+            "eventRegEx": false,
+            "gradient": false,
             "hidden": false,
             "invert": true,
-            "link": false,
             "linkData": [],
-            "linkOn": "a",
-            "linkParams": false,
             "linkProp": "id",
-            "linkUrl": "",
+            "linkRegEx": true,
             "mappingType": 1,
             "metricType": "serie",
             "order": 4,
@@ -297,24 +391,29 @@
             "sanitize": false,
             "shapeData": [
               {
+                "colorOn": "a",
                 "hidden": false,
-                "pattern": "35"
+                "pattern": "35",
+                "style": "fontColor"
               }
             ],
             "shapeProp": "id",
-            "stringCritical": "/^((?!on-grid).)*$/",
-            "stringWarning": "",
-            "style": "fontColor",
+            "shapeRegEx": true,
+            "stringThresholds": [
+              "/^((?!on-grid).)*$/",
+              "/.*/"
+            ],
             "textData": [
               {
                 "hidden": false,
-                "pattern": "35"
+                "pattern": "35",
+                "textOn": "wmd",
+                "textPattern": "/.*/",
+                "textReplace": "content"
               }
             ],
-            "textOn": "wmd",
-            "textPattern": "/.*/",
             "textProp": "id",
-            "textReplace": "content",
+            "textRegEx": true,
             "thresholds": [],
             "tooltip": false,
             "tooltipColors": false,
@@ -334,7 +433,6 @@
           {
             "aggregation": "current",
             "alias": "Copy of myRule",
-            "colorOn": "a",
             "colors": [
               "rgba(50, 172, 45, 0.97)",
               "rgba(237, 129, 40, 0.89)",
@@ -343,14 +441,15 @@
             "column": "Time",
             "dateFormat": "YYYY-MM-DD HH:mm:ss",
             "decimals": 2,
+            "eventData": [],
+            "eventProp": "id",
+            "eventRegEx": false,
+            "gradient": false,
             "hidden": false,
             "invert": true,
-            "link": false,
             "linkData": [],
-            "linkOn": "a",
-            "linkParams": false,
             "linkProp": "id",
-            "linkUrl": "",
+            "linkRegEx": true,
             "mappingType": 1,
             "metricType": "serie",
             "order": 5,
@@ -362,27 +461,32 @@
             "sanitize": false,
             "shapeData": [
               {
+                "colorOn": "a",
                 "hidden": false,
-                "pattern": "36"
+                "pattern": "36",
+                "style": "fontColor"
               }
             ],
             "shapeProp": "id",
-            "stringCritical": "/^((?!On-grid).)*$/",
-            "stringWarning": "/(irradiation)|(initializing)/",
-            "style": "fontColor",
+            "shapeRegEx": true,
+            "stringThresholds": [
+              "/^((?!On-grid).)*$/",
+              "/(irradiation)|(initializing)/"
+            ],
             "textData": [
               {
                 "hidden": false,
-                "pattern": "36"
+                "pattern": "36",
+                "textOn": "wmd",
+                "textPattern": "/.*/",
+                "textReplace": "content"
               }
             ],
-            "textOn": "wmd",
-            "textPattern": "/.*/",
             "textProp": "id",
-            "textReplace": "content",
+            "textRegEx": true,
             "thresholds": [
-              "1",
-              "2.5"
+              1,
+              2.5
             ],
             "tooltip": false,
             "tooltipColors": false,
@@ -402,7 +506,6 @@
           {
             "aggregation": "current",
             "alias": "myRule",
-            "colorOn": "a",
             "colors": [
               "rgba(245, 54, 54, 0.9)",
               "rgba(237, 129, 40, 0.89)",
@@ -411,14 +514,15 @@
             "column": "Time",
             "dateFormat": "YYYY-MM-DD HH:mm:ss",
             "decimals": 2,
+            "eventData": [],
+            "eventProp": "id",
+            "eventRegEx": false,
+            "gradient": false,
             "hidden": false,
             "invert": false,
-            "link": false,
             "linkData": [],
-            "linkOn": "a",
-            "linkParams": false,
             "linkProp": "id",
-            "linkUrl": "",
+            "linkRegEx": true,
             "mappingType": 1,
             "metricType": "serie",
             "order": 6,
@@ -430,27 +534,32 @@
             "sanitize": false,
             "shapeData": [
               {
+                "colorOn": "a",
                 "hidden": false,
-                "pattern": "37"
+                "pattern": "37",
+                "style": "fontColor"
               }
             ],
             "shapeProp": "id",
-            "stringCritical": "",
-            "stringWarning": "",
-            "style": "fontColor",
+            "shapeRegEx": true,
+            "stringThresholds": [
+              "/.*/",
+              "/.*/"
+            ],
             "textData": [
               {
                 "hidden": false,
-                "pattern": "37"
+                "pattern": "37",
+                "textOn": "wmd",
+                "textPattern": "/.*/",
+                "textReplace": "as"
               }
             ],
-            "textOn": "wmd",
-            "textPattern": "/.*/",
             "textProp": "id",
-            "textReplace": "as",
+            "textRegEx": true,
             "thresholds": [
-              "1.5",
-              "2.5"
+              1.5,
+              2.5
             ],
             "tooltip": false,
             "tooltipColors": false,
@@ -714,7 +823,7 @@
       "title": "Status",
       "type": "agenty-flowcharting-panel",
       "valueName": "current",
-      "version": "0.6.1"
+      "version": "0.9.0"
     },
     {
       "aliasColors": {
@@ -730,12 +839,6 @@
       "dashes": false,
       "datasource": "-- Mixed --",
       "decimals": 2,
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
       "fillGradient": 5,
       "gridPos": {
@@ -762,13 +865,17 @@
       "lines": true,
       "linewidth": 1,
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
-      "pluginVersion": "7.1.5",
+      "pluginVersion": "8.0.5",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
       "seriesOverrides": [
         {
+          "$$hashKey": "object:280",
           "alias": "Sun altitude",
           "dashes": true,
           "hideTooltip": true,
@@ -777,11 +884,13 @@
           "zindex": 0
         },
         {
+          "$$hashKey": "object:281",
           "alias": "Daily",
           "yaxis": 1,
           "zindex": -3
         },
         {
+          "$$hashKey": "object:282",
           "alias": "production",
           "bars": true,
           "lines": false,
@@ -789,22 +898,27 @@
           "zindex": -3
         },
         {
+          "$$hashKey": "object:283",
           "alias": "load",
           "yaxis": 2
         },
         {
+          "$$hashKey": "object:284",
           "alias": "solcast",
           "yaxis": 2
         },
         {
+          "$$hashKey": "object:285",
           "alias": "exp production",
           "yaxis": 1
         },
         {
+          "$$hashKey": "object:286",
           "alias": "exp production 10",
           "legend": false
         },
         {
+          "$$hashKey": "object:287",
           "alias": "exp production 90",
           "legend": false
         }
@@ -815,7 +929,7 @@
       "targets": [
         {
           "alias": "exp production 90",
-          "datasource": "InfluxDB",
+          "datasource": "${DS_INFLUXDB}",
           "groupBy": [
             {
               "params": [
@@ -854,7 +968,7 @@
         },
         {
           "alias": "Daily total",
-          "datasource": "InfluxDB",
+          "datasource": "${DS_INFLUXDB}",
           "groupBy": [
             {
               "params": [
@@ -891,12 +1005,11 @@
               }
             ]
           ],
-          "tags": [],
-          "tz": "UTC"
+          "tags": []
         },
         {
           "alias": "exp production",
-          "datasource": "InfluxDB",
+          "datasource": "${DS_INFLUXDB}",
           "groupBy": [
             {
               "params": [
@@ -935,7 +1048,7 @@
         },
         {
           "alias": "exp production 10",
-          "datasource": "InfluxDB",
+          "datasource": "${DS_INFLUXDB}",
           "groupBy": [
             {
               "params": [
@@ -973,14 +1086,14 @@
           "tags": []
         },
         {
-          "datasource": "Sun and Moon",
+          "datasource": "${DS_SUN_AND MOON}",
           "hide": false,
           "refId": "I",
           "target": "sun_altitude"
         },
         {
           "alias": "production",
-          "datasource": "InfluxDB",
+          "datasource": "${DS_INFLUXDB}",
           "groupBy": [
             {
               "params": [
@@ -1021,7 +1134,7 @@
         },
         {
           "alias": "balance",
-          "datasource": "InfluxDB",
+          "datasource": "${DS_INFLUXDB}",
           "groupBy": [
             {
               "params": [
@@ -1061,7 +1174,7 @@
         },
         {
           "alias": "solcast",
-          "datasource": "InfluxDB",
+          "datasource": "${DS_INFLUXDB}",
           "groupBy": [
             {
               "params": [
@@ -1101,6 +1214,7 @@
       ],
       "thresholds": [
         {
+          "$$hashKey": "object:487",
           "colorMode": "ok",
           "fill": false,
           "line": true,
@@ -1112,6 +1226,7 @@
       "timeFrom": null,
       "timeRegions": [
         {
+          "$$hashKey": "object:372",
           "colorMode": "yellow",
           "fill": true,
           "fillColor": "rgba(253, 123, 2, 0.11)",
@@ -1139,6 +1254,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:352",
           "decimals": null,
           "format": "short",
           "label": null,
@@ -1148,6 +1264,7 @@
           "show": false
         },
         {
+          "$$hashKey": "object:353",
           "decimals": null,
           "format": "short",
           "label": null,
@@ -1165,22 +1282,17 @@
     {
       "cacheTimeout": null,
       "datasource": null,
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "flowchartsData": {
         "flowcharts": [
           {
             "allowDrawio": false,
             "bgColor": null,
             "center": true,
-            "csv": "",
+            "csv": "## See more information for the syntax at https://drawio-app.com/import-from-csv-to-drawio/\n##\n## Example CSV. Use ## for comments and # for configuration.\n## The following names are reserved and should not be used (or ignored):\n## id, tooltip, placeholder(s), link and label (see below)\n##\n#\n## Node label with placeholders and HTML.\n## Default is '%name_of_first_column%'.\n#\n# label: %name%<br><i style=\"color:gray;\">%position%</i><br><a href=\"mailto:%email%\">Email</a>\n#\n## Node style (placeholders are replaced once).\n## Default is the current style for nodes.\n#\n# style: label;image=%image%;whiteSpace=wrap;html=1;rounded=1;fillColor=%fill%;strokeColor=%stroke%;\n#\n## Parent style for nodes with child nodes (placeholders are replaced once).\n#\n# parentstyle: swimlane;whiteSpace=wrap;html=1;childLayout=stackLayout;horizontal=1;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;\n#\n## Optional column name that contains a reference to a named style in styles.\n## Default is the current style for nodes.\n#\n# stylename: -\n#\n## JSON for named styles of the form {\"name\": \"style\", \"name\": \"style\"} where style is a cell style with\n## placeholders that are replaced once.\n#\n# styles: -\n#\n## Optional column name that contains a reference to a named label in labels.\n## Default is the current label.\n#\n# labelname: -\n#\n## JSON for named labels of the form {\"name\": \"label\", \"name\": \"label\"} where label is a cell label with\n## placeholders.\n#\n# labels: -\n#\n## Uses the given column name as the identity for cells (updates existing cells).\n## Default is no identity (empty value or -).\n#\n# identity: -\n#\n## Uses the given column name as the parent reference for cells. Default is no parent (empty or -).\n## The identity above is used for resolving the reference so it must be specified.\n#\n# parent: -\n#\n## Adds a prefix to the identity of cells to make sure they do not collide with existing cells (whose\n## IDs are numbers from 0..n, sometimes with a GUID prefix in the context of realtime collaboration).\n## Default is csvimport-.\n#\n# namespace: csvimport-\n#\n## Connections between rows (\"from\": source colum, \"to\": target column).\n## Label, style and invert are optional. Defaults are '', current style and false.\n## If placeholders are used in the style, they are replaced with data from the source.\n## An optional placeholders can be set to target to use data from the target instead.\n## In addition to label, an optional fromlabel and tolabel can be used to name the column\n## that contains the text for the label in the edges source or target (invert ignored).\n## The label is concatenated in the form fromlabel + label + tolabel if all are defined.\n## The target column may contain a comma-separated list of values.\n## Multiple connect entries are allowed.\n#\n# connect: {\"from\": \"manager\", \"to\": \"name\", \"invert\": true, \"label\": \"manages\", \\\n#          \"style\": \"curved=1;endArrow=blockThin;endFill=1;fontSize=11;\"}\n# connect: {\"from\": \"refs\", \"to\": \"id\", \"style\": \"curved=1;fontSize=11;\"}\n#\n## Node x-coordinate. Possible value is a column name. Default is empty. Layouts will\n## override this value.\n#\n# left: \n#\n## Node y-coordinate. Possible value is a column name. Default is empty. Layouts will\n## override this value.\n#\n# top: \n#\n## Node width. Possible value is a number (in px), auto or an @ sign followed by a column\n## name that contains the value for the width. Default is auto.\n#\n# width: auto\n#\n## Node height. Possible value is a number (in px), auto or an @ sign followed by a column\n## name that contains the value for the height. Default is auto.\n#\n# height: auto\n#\n## Padding for autosize. Default is 0.\n#\n# padding: -12\n#\n## Comma-separated list of ignored columns for metadata. (These can be\n## used for connections and styles but will not be added as metadata.)\n#\n# ignore: id,image,fill,stroke,refs,manager\n#\n## Column to be renamed to link attribute (used as link).\n#\n# link: url\n#\n## Spacing between nodes. Default is 40.\n#\n# nodespacing: 40\n#\n## Spacing between levels of hierarchical layouts. Default is 100.\n#\n# levelspacing: 100\n#\n## Spacing between parallel edges. Default is 40. Use 0 to disable.\n#\n# edgespacing: 40\n#\n## Name or JSON of layout. Possible values are auto, none, verticaltree, horizontaltree,\n## verticalflow, horizontalflow, organic, circle or a JSON string as used in Layout, Apply.\n## Default is auto.\n#\n# layout: auto\n#\n## ---- CSV below this line. First line are column names. ----\nname,position,id,location,manager,email,fill,stroke,refs,url,image\nEvan Miller,CFO,emi,Office 1,,me@example.com,#dae8fc,#6c8ebf,,https://www.draw.io,https://cdn3.iconfinder.com/data/icons/user-avatars-1/512/users-9-2-128.png\nEdward Morrison,Brand Manager,emo,Office 2,Evan Miller,me@example.com,#d5e8d4,#82b366,,https://www.draw.io,https://cdn3.iconfinder.com/data/icons/user-avatars-1/512/users-10-3-128.png\nRon Donovan,System Admin,rdo,Office 3,Evan Miller,me@example.com,#d5e8d4,#82b366,\"emo,tva\",https://www.draw.io,https://cdn3.iconfinder.com/data/icons/user-avatars-1/512/users-2-128.png\nTessa Valet,HR Director,tva,Office 4,Evan Miller,me@example.com,#d5e8d4,#82b366,,https://www.draw.io,https://cdn3.iconfinder.com/data/icons/user-avatars-1/512/users-3-128.png\n",
             "download": false,
             "editorTheme": "dark",
             "editorUrl": "https://www.draw.io",
+            "enableAnim": true,
             "grid": false,
             "lock": true,
             "name": "Main",
@@ -1209,7 +1321,6 @@
           {
             "aggregation": "current",
             "alias": "PV",
-            "colorOn": "a",
             "colors": [
               "#E02F44",
               "#FFF899",
@@ -1218,14 +1329,15 @@
             "column": "Time",
             "dateFormat": "YYYY-MM-DD HH:mm:ss",
             "decimals": 2,
+            "eventData": [],
+            "eventProp": "id",
+            "eventRegEx": false,
+            "gradient": false,
             "hidden": false,
             "invert": false,
-            "link": false,
             "linkData": [],
-            "linkOn": "a",
-            "linkParams": false,
             "linkProp": "id",
-            "linkUrl": "",
+            "linkRegEx": true,
             "mappingType": 1,
             "metricType": "serie",
             "order": 1,
@@ -1237,27 +1349,32 @@
             "sanitize": false,
             "shapeData": [
               {
+                "colorOn": "a",
                 "hidden": false,
-                "pattern": "22"
+                "pattern": "22",
+                "style": "fillColor"
               }
             ],
             "shapeProp": "id",
-            "stringCritical": "",
-            "stringWarning": "",
-            "style": "fillColor",
+            "shapeRegEx": true,
+            "stringThresholds": [
+              "/.*/",
+              "/.*/"
+            ],
             "textData": [
               {
                 "hidden": false,
-                "pattern": "22"
+                "pattern": "22",
+                "textOn": "wmd",
+                "textPattern": "/.*/",
+                "textReplace": "anl"
               }
             ],
-            "textOn": "wmd",
-            "textPattern": "/.*/",
             "textProp": "id",
-            "textReplace": "anl",
+            "textRegEx": true,
             "thresholds": [
-              "0",
-              "1"
+              0,
+              1
             ],
             "tooltip": false,
             "tooltipColors": false,
@@ -1277,7 +1394,6 @@
           {
             "aggregation": "current",
             "alias": "Inverter",
-            "colorOn": "a",
             "colors": [
               "#E02F44",
               "#FFF899",
@@ -1286,14 +1402,15 @@
             "column": "Time",
             "dateFormat": "YYYY-MM-DD HH:mm:ss",
             "decimals": 2,
+            "eventData": [],
+            "eventProp": "id",
+            "eventRegEx": false,
+            "gradient": false,
             "hidden": false,
             "invert": false,
-            "link": false,
             "linkData": [],
-            "linkOn": "a",
-            "linkParams": false,
             "linkProp": "id",
-            "linkUrl": "",
+            "linkRegEx": true,
             "mappingType": 1,
             "metricType": "serie",
             "order": 2,
@@ -1305,27 +1422,32 @@
             "sanitize": false,
             "shapeData": [
               {
+                "colorOn": "a",
                 "hidden": false,
-                "pattern": "3"
+                "pattern": "3",
+                "style": "fillColor"
               }
             ],
             "shapeProp": "id",
-            "stringCritical": "",
-            "stringWarning": "",
-            "style": "fillColor",
+            "shapeRegEx": true,
+            "stringThresholds": [
+              "/.*/",
+              "/.*/"
+            ],
             "textData": [
               {
                 "hidden": false,
-                "pattern": "3"
+                "pattern": "3",
+                "textOn": "wmd",
+                "textPattern": "/.*/",
+                "textReplace": "anl"
               }
             ],
-            "textOn": "wmd",
-            "textPattern": "/.*/",
             "textProp": "id",
-            "textReplace": "anl",
+            "textRegEx": true,
             "thresholds": [
-              "0",
-              "1"
+              0,
+              1
             ],
             "tooltip": false,
             "tooltipColors": false,
@@ -1345,7 +1467,6 @@
           {
             "aggregation": "current",
             "alias": "Grid",
-            "colorOn": "a",
             "colors": [
               "#FF7383",
               "#FFF899",
@@ -1354,14 +1475,15 @@
             "column": "Time",
             "dateFormat": "YYYY-MM-DD HH:mm:ss",
             "decimals": 2,
+            "eventData": [],
+            "eventProp": "id",
+            "eventRegEx": false,
+            "gradient": false,
             "hidden": false,
             "invert": false,
-            "link": false,
             "linkData": [],
-            "linkOn": "a",
-            "linkParams": false,
             "linkProp": "id",
-            "linkUrl": "",
+            "linkRegEx": true,
             "mappingType": 1,
             "metricType": "serie",
             "order": 3,
@@ -1373,27 +1495,32 @@
             "sanitize": false,
             "shapeData": [
               {
+                "colorOn": "a",
                 "hidden": false,
-                "pattern": "27"
+                "pattern": "27",
+                "style": "fillColor"
               }
             ],
             "shapeProp": "id",
-            "stringCritical": "",
-            "stringWarning": "",
-            "style": "fillColor",
+            "shapeRegEx": true,
+            "stringThresholds": [
+              "/.*/",
+              "/.*/"
+            ],
             "textData": [
               {
                 "hidden": false,
-                "pattern": "27"
+                "pattern": "27",
+                "textOn": "wmd",
+                "textPattern": "/.*/",
+                "textReplace": "anl"
               }
             ],
-            "textOn": "wmd",
-            "textPattern": "/.*/",
             "textProp": "id",
-            "textReplace": "anl",
+            "textRegEx": true,
             "thresholds": [
-              "-2",
-              "-0.1"
+              -2,
+              -0.1
             ],
             "tooltip": false,
             "tooltipColors": false,
@@ -1413,7 +1540,6 @@
           {
             "aggregation": "current",
             "alias": "Load",
-            "colorOn": "a",
             "colors": [
               "#FF7383",
               "#C8F2C2",
@@ -1422,14 +1548,15 @@
             "column": "Time",
             "dateFormat": "YYYY-MM-DD HH:mm:ss",
             "decimals": 2,
+            "eventData": [],
+            "eventProp": "id",
+            "eventRegEx": false,
+            "gradient": false,
             "hidden": false,
             "invert": false,
-            "link": false,
             "linkData": [],
-            "linkOn": "a",
-            "linkParams": false,
             "linkProp": "id",
-            "linkUrl": "",
+            "linkRegEx": true,
             "mappingType": 1,
             "metricType": "serie",
             "order": 4,
@@ -1441,27 +1568,32 @@
             "sanitize": false,
             "shapeData": [
               {
+                "colorOn": "a",
                 "hidden": false,
-                "pattern": "24"
+                "pattern": "24",
+                "style": "fillColor"
               }
             ],
             "shapeProp": "id",
-            "stringCritical": "",
-            "stringWarning": "",
-            "style": "fillColor",
+            "shapeRegEx": true,
+            "stringThresholds": [
+              "/.*/",
+              "/.*/"
+            ],
             "textData": [
               {
                 "hidden": false,
-                "pattern": "24"
+                "pattern": "24",
+                "textOn": "wmd",
+                "textPattern": "/.*/",
+                "textReplace": "anl"
               }
             ],
-            "textOn": "wmd",
-            "textPattern": "/.*/",
             "textProp": "id",
-            "textReplace": "anl",
+            "textRegEx": true,
             "thresholds": [
-              "-3",
-              "-1.5"
+              -3,
+              -1.5
             ],
             "tooltip": false,
             "tooltipColors": false,
@@ -1650,7 +1782,7 @@
       "transparent": true,
       "type": "agenty-flowcharting-panel",
       "valueName": "current",
-      "version": "0.6.1"
+      "version": "0.9.0"
     },
     {
       "activePatternIndex": 3,
@@ -1706,12 +1838,6 @@
       },
       "default_title_for_rows": "Metric",
       "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "font_size": "11px",
       "gridPos": {
         "h": 4,
@@ -1853,7 +1979,7 @@
       "targets": [
         {
           "alias": "Peak",
-          "datasource": "default",
+          "datasource": "${DS_INFLUXDB}",
           "groupBy": [
             {
               "params": [
@@ -1892,7 +2018,7 @@
         },
         {
           "alias": "Today",
-          "datasource": "default",
+          "datasource": "${DS_INFLUXDB}",
           "groupBy": [
             {
               "params": [
@@ -1931,7 +2057,7 @@
         },
         {
           "alias": "Yesterday",
-          "datasource": "default",
+          "datasource": "${DS_INFLUXDB}",
           "groupBy": [
             {
               "params": [
@@ -1970,7 +2096,7 @@
         },
         {
           "alias": "Balance",
-          "datasource": "InfluxDB lt",
+          "datasource": "${DS_INFLUXDB_LT}",
           "groupBy": [
             {
               "params": [
@@ -2011,7 +2137,6 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "",
       "transparent": true,
       "type": "yesoreyeram-boomtable-panel"
     },
@@ -2023,12 +2148,6 @@
       "datasource": null,
       "decimals": 1,
       "defaultColor": "rgb(117, 117, 117)",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "format": "kwatth",
       "gauge": {
         "maxValue": 30,
@@ -2172,14 +2291,17 @@
       ],
       "thresholds": [
         {
+          "$$hashKey": "object:123",
           "color": "#F2495C",
           "value": -23
         },
         {
+          "$$hashKey": "object:126",
           "color": "#73BF69",
           "value": -22
         },
         {
+          "$$hashKey": "object:129",
           "color": "rgb(255, 255, 255)",
           "value": 0
         }
@@ -2205,12 +2327,6 @@
       "datasource": null,
       "decimals": 1,
       "defaultColor": "rgb(117, 117, 117)",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "format": "kwatth",
       "gauge": {
         "maxValue": 100,
@@ -2354,14 +2470,17 @@
       ],
       "thresholds": [
         {
+          "$$hashKey": "object:180",
           "color": "rgb(255, 255, 255)",
           "value": 0
         },
         {
+          "$$hashKey": "object:183",
           "color": "#C8F2C2",
           "value": 22
         },
         {
+          "$$hashKey": "object:186",
           "color": "#73BF69",
           "value": 23
         }
@@ -2393,12 +2512,6 @@
       "datasource": null,
       "decimals": 1,
       "defaultColor": "rgb(117, 117, 117)",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "format": "kwatth",
       "gauge": {
         "maxValue": 50,
@@ -2419,10 +2532,12 @@
       "mappingType": 2,
       "mappingTypes": [
         {
+          "$$hashKey": "object:123",
           "name": "value to text",
           "value": 1
         },
         {
+          "$$hashKey": "object:124",
           "name": "range to text",
           "value": 2
         }
@@ -2612,14 +2727,17 @@
       ],
       "thresholds": [
         {
+          "$$hashKey": "object:201",
           "color": "#F2495C",
           "value": -1
         },
         {
+          "$$hashKey": "object:235",
           "color": "rgb(255, 255, 255)",
           "value": 0
         },
         {
+          "$$hashKey": "object:238",
           "color": "#73BF69",
           "value": 1
         }
@@ -2636,6 +2754,7 @@
       "valueMappingColorBackground": "#767171",
       "valueMaps": [
         {
+          "$$hashKey": "object:126",
           "op": "=",
           "text": "",
           "value": ""
@@ -2688,12 +2807,6 @@
         "valueName": "current"
       },
       "default_title_for_rows": "Metric",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "font_size": "10.5px",
       "gridPos": {
         "h": 13,
@@ -3860,12 +3973,6 @@
         "valueName": "current"
       },
       "default_title_for_rows": "Metric",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "font_size": "10.5px",
       "gridPos": {
         "h": 13,
@@ -4911,12 +5018,6 @@
       "dashes": false,
       "datasource": "-- Mixed --",
       "decimals": 2,
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 2,
       "fillGradient": 5,
       "gridPos": {
@@ -4943,13 +5044,17 @@
       "lines": true,
       "linewidth": 1,
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
-      "pluginVersion": "7.1.5",
+      "pluginVersion": "8.0.5",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
       "seriesOverrides": [
         {
+          "$$hashKey": "object:917",
           "alias": "Inverter",
           "dashLength": 1,
           "dashes": true,
@@ -4960,11 +5065,13 @@
           "zindex": -3
         },
         {
+          "$$hashKey": "object:918",
           "alias": "Grid",
           "fill": 2,
           "yaxis": 2
         },
         {
+          "$$hashKey": "object:919",
           "alias": "Load",
           "dashLength": 1,
           "dashes": true,
@@ -4974,33 +5081,40 @@
           "yaxis": 2
         },
         {
+          "$$hashKey": "object:920",
           "alias": "Reactive",
           "linewidth": 2,
           "yaxis": 2
         },
         {
+          "$$hashKey": "object:921",
           "alias": "A",
           "yaxis": 2
         },
         {
+          "$$hashKey": "object:922",
           "alias": "B",
           "yaxis": 2
         },
         {
+          "$$hashKey": "object:923",
           "alias": "C",
           "yaxis": 2
         },
         {
+          "$$hashKey": "object:924",
           "alias": "solcast",
           "yaxis": 2
         },
         {
+          "$$hashKey": "object:925",
           "alias": "solcast90",
           "fillGradient": 0,
           "legend": false,
           "yaxis": 2
         },
         {
+          "$$hashKey": "object:926",
           "alias": "solcast10",
           "dashLength": 3,
           "dashes": true,
@@ -5018,7 +5132,7 @@
       "targets": [
         {
           "alias": "Inverter",
-          "datasource": "InfluxDB",
+          "datasource": "${DS_INFLUXDB}",
           "groupBy": [
             {
               "params": [
@@ -5058,7 +5172,7 @@
         },
         {
           "alias": "Grid",
-          "datasource": "InfluxDB",
+          "datasource": "${DS_INFLUXDB}",
           "groupBy": [
             {
               "params": [
@@ -5104,7 +5218,7 @@
         },
         {
           "alias": "Load",
-          "datasource": "InfluxDB",
+          "datasource": "${DS_INFLUXDB}",
           "groupBy": [
             {
               "params": [
@@ -5150,7 +5264,7 @@
         },
         {
           "alias": "Reactive",
-          "datasource": "InfluxDB",
+          "datasource": "${DS_INFLUXDB}",
           "groupBy": [
             {
               "params": [
@@ -5188,7 +5302,7 @@
         },
         {
           "alias": "A",
-          "datasource": "InfluxDB",
+          "datasource": "${DS_INFLUXDB}",
           "groupBy": [
             {
               "params": [
@@ -5234,7 +5348,7 @@
         },
         {
           "alias": "B",
-          "datasource": "InfluxDB",
+          "datasource": "${DS_INFLUXDB}",
           "groupBy": [
             {
               "params": [
@@ -5278,7 +5392,7 @@
         },
         {
           "alias": "C",
-          "datasource": "InfluxDB",
+          "datasource": "${DS_INFLUXDB}",
           "groupBy": [
             {
               "params": [
@@ -5322,7 +5436,7 @@
         },
         {
           "alias": "solcast90",
-          "datasource": "InfluxDB",
+          "datasource": "${DS_INFLUXDB}",
           "groupBy": [
             {
               "params": [
@@ -5363,7 +5477,7 @@
         },
         {
           "alias": "solcast10",
-          "datasource": "InfluxDB",
+          "datasource": "${DS_INFLUXDB}",
           "groupBy": [
             {
               "params": [
@@ -5404,7 +5518,7 @@
         },
         {
           "alias": "solcast",
-          "datasource": "InfluxDB",
+          "datasource": "${DS_INFLUXDB}",
           "groupBy": [
             {
               "params": [
@@ -5457,6 +5571,7 @@
       "timeFrom": null,
       "timeRegions": [
         {
+          "$$hashKey": "object:1053",
           "colorMode": "yellow",
           "fill": true,
           "fillColor": "rgba(253, 123, 2, 0.11)",
@@ -5484,6 +5599,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:1029",
           "decimals": null,
           "format": "locale",
           "label": null,
@@ -5493,6 +5609,7 @@
           "show": false
         },
         {
+          "$$hashKey": "object:1030",
           "decimals": null,
           "format": "kwatt",
           "label": "",
@@ -5525,12 +5642,6 @@
       "dashes": false,
       "datasource": "-- Mixed --",
       "decimals": 1,
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 0,
       "fillGradient": 0,
       "gridPos": {
@@ -5557,25 +5668,31 @@
       "lines": true,
       "linewidth": 2,
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
-      "pluginVersion": "7.1.5",
+      "pluginVersion": "8.0.5",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
       "seriesOverrides": [
         {
+          "$$hashKey": "object:803",
           "alias": "daily",
           "bars": true,
           "lines": false,
           "zindex": -2
         },
         {
+          "$$hashKey": "object:804",
           "alias": "radiance",
           "legend": false,
           "lines": true,
           "zindex": -3
         },
         {
+          "$$hashKey": "object:805",
           "alias": "peak",
           "lines": false,
           "pointradius": 4,
@@ -5584,11 +5701,13 @@
           "zindex": 2
         },
         {
+          "$$hashKey": "object:806",
           "alias": "load",
           "linewidth": 3,
           "zindex": 3
         },
         {
+          "$$hashKey": "object:807",
           "alias": "self",
           "lines": false,
           "points": true,
@@ -5596,17 +5715,20 @@
           "zindex": 1
         },
         {
+          "$$hashKey": "object:808",
           "alias": "expected",
           "lines": false,
           "points": true
         },
         {
+          "$$hashKey": "object:809",
           "alias": "export",
           "bars": true,
           "lines": false,
           "zindex": -1
         },
         {
+          "$$hashKey": "object:810",
           "alias": "Solcast",
           "lines": false,
           "points": true,
@@ -5619,7 +5741,7 @@
       "targets": [
         {
           "alias": "radiance",
-          "datasource": "InfluxDB",
+          "datasource": "${DS_INFLUXDB}",
           "groupBy": [
             {
               "params": [
@@ -5659,7 +5781,7 @@
         },
         {
           "alias": "daily",
-          "datasource": "InfluxDB lt",
+          "datasource": "${DS_INFLUXDB_LT}",
           "groupBy": [
             {
               "params": [
@@ -5698,7 +5820,7 @@
         },
         {
           "alias": "export",
-          "datasource": "InfluxDB lt",
+          "datasource": "${DS_INFLUXDB_LT}",
           "groupBy": [
             {
               "params": [
@@ -5737,7 +5859,7 @@
         },
         {
           "alias": "load",
-          "datasource": "InfluxDB lt",
+          "datasource": "${DS_INFLUXDB_LT}",
           "groupBy": [
             {
               "params": [
@@ -5777,7 +5899,7 @@
         },
         {
           "alias": "peak",
-          "datasource": "InfluxDB lt",
+          "datasource": "${DS_INFLUXDB_LT}",
           "groupBy": [
             {
               "params": [
@@ -5816,7 +5938,7 @@
         },
         {
           "alias": "Grid",
-          "datasource": "InfluxDB lt",
+          "datasource": "${DS_INFLUXDB_LT}",
           "groupBy": [
             {
               "params": [
@@ -5855,7 +5977,7 @@
         },
         {
           "alias": "Solcast",
-          "datasource": "InfluxDB lt",
+          "datasource": "${DS_INFLUXDB_LT}",
           "groupBy": [
             {
               "params": [
@@ -5914,6 +6036,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:891",
           "decimals": null,
           "format": "kwatth",
           "label": "",
@@ -5923,6 +6046,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:892",
           "decimals": 1,
           "format": "kwatt",
           "label": "",
@@ -5957,12 +6081,6 @@
       "datasource": "-- Mixed --",
       "decimals": 1,
       "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 0,
       "fillGradient": 0,
       "gridPos": {
@@ -5989,8 +6107,11 @@
       "lines": true,
       "linewidth": 2,
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
-      "pluginVersion": "7.1.5",
+      "pluginVersion": "8.0.5",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -6046,7 +6167,7 @@
       "targets": [
         {
           "alias": "daily",
-          "datasource": "InfluxDB lt",
+          "datasource": "${DS_INFLUXDB_LT}",
           "groupBy": [
             {
               "params": [
@@ -6085,7 +6206,7 @@
         },
         {
           "alias": "export",
-          "datasource": "InfluxDB lt",
+          "datasource": "${DS_INFLUXDB_LT}",
           "groupBy": [
             {
               "params": [
@@ -6124,7 +6245,7 @@
         },
         {
           "alias": "load",
-          "datasource": "InfluxDB lt",
+          "datasource": "${DS_INFLUXDB_LT}",
           "groupBy": [
             {
               "params": [
@@ -6164,7 +6285,7 @@
         },
         {
           "alias": "peak",
-          "datasource": "InfluxDB lt",
+          "datasource": "${DS_INFLUXDB_LT}",
           "groupBy": [
             {
               "params": [
@@ -6203,7 +6324,7 @@
         },
         {
           "alias": "Grid",
-          "datasource": "InfluxDB lt",
+          "datasource": "${DS_INFLUXDB_LT}",
           "groupBy": [
             {
               "params": [
@@ -6242,7 +6363,7 @@
         },
         {
           "alias": "solcast",
-          "datasource": "InfluxDB lt",
+          "datasource": "${DS_INFLUXDB_LT}",
           "groupBy": [
             {
               "params": [
@@ -6282,7 +6403,7 @@
         },
         {
           "alias": "solcast90",
-          "datasource": "InfluxDB lt",
+          "datasource": "${DS_INFLUXDB_LT}",
           "groupBy": [
             {
               "params": [
@@ -6379,12 +6500,6 @@
       "datasource": "-- Mixed --",
       "decimals": 1,
       "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 0,
       "fillGradient": 0,
       "gridPos": {
@@ -6411,8 +6526,11 @@
       "lines": true,
       "linewidth": 1,
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
-      "pluginVersion": "7.1.5",
+      "pluginVersion": "8.0.5",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -6423,7 +6541,7 @@
       "targets": [
         {
           "alias": "irradiance",
-          "datasource": "InfluxDB lt",
+          "datasource": "${DS_INFLUXDB_LT}",
           "groupBy": [
             {
               "params": [
@@ -6463,7 +6581,7 @@
         },
         {
           "alias": "irradiance fixed",
-          "datasource": "InfluxDB lt",
+          "datasource": "${DS_INFLUXDB_LT}",
           "groupBy": [
             {
               "params": [
@@ -6522,6 +6640,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:148",
           "format": "h",
           "label": null,
           "logBase": 1,
@@ -6530,6 +6649,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:149",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -6555,12 +6675,6 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "-- Mixed --",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 0,
       "fillGradient": 0,
       "gridPos": {
@@ -6587,26 +6701,33 @@
       "lines": true,
       "linewidth": 1,
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
-      "pluginVersion": "7.1.5",
+      "pluginVersion": "8.0.5",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
       "seriesOverrides": [
         {
+          "$$hashKey": "object:149",
           "alias": "balance sum",
           "linewidth": 3,
           "yaxis": 2
         },
         {
+          "$$hashKey": "object:150",
           "alias": "diff",
           "yaxis": 2
         },
         {
+          "$$hashKey": "object:151",
           "alias": "self",
           "yaxis": 2
         },
         {
+          "$$hashKey": "object:152",
           "alias": "daily",
           "yaxis": 2
         }
@@ -6617,7 +6738,7 @@
       "targets": [
         {
           "alias": "diff",
-          "datasource": "InfluxDB lt",
+          "datasource": "${DS_INFLUXDB_LT}",
           "groupBy": [
             {
               "params": [
@@ -6635,7 +6756,7 @@
           "measurement": "Huawei_daily",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "select cumulative_sum(diff)  as balance from (SELECT first(\"P_Exp\") - first(\"P_Grid\") + first(\"Adj\") as diff FROM \"Huawei_daily\"   GROUP BY time(1d) fill(0))",
+          "query": "select cumulative_sum(diff) * 1000  as balance from (SELECT first(\"P_Exp\") - first(\"P_Grid\") + first(\"Adj\") as diff FROM \"Huawei_daily\"   GROUP BY time(1d) fill(0))",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -6661,7 +6782,7 @@
         },
         {
           "alias": "grid",
-          "datasource": "InfluxDB lt",
+          "datasource": "${DS_INFLUXDB_LT}",
           "groupBy": [
             {
               "params": [
@@ -6705,7 +6826,7 @@
         },
         {
           "alias": "export",
-          "datasource": "InfluxDB lt",
+          "datasource": "${DS_INFLUXDB_LT}",
           "groupBy": [
             {
               "params": [
@@ -6768,6 +6889,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:179",
           "format": "kwatth",
           "label": null,
           "logBase": 2,
@@ -6776,11 +6898,13 @@
           "show": true
         },
         {
-          "format": "short",
-          "label": null,
+          "$$hashKey": "object:180",
+          "decimals": 2,
+          "format": "watth",
+          "label": "",
           "logBase": 1,
           "max": null,
-          "min": null,
+          "min": "0",
           "show": true
         }
       ],
@@ -6797,12 +6921,6 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 0,
       "fillGradient": 1,
       "gridPos": {
@@ -6825,21 +6943,27 @@
       "lines": true,
       "linewidth": 1,
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
-      "pluginVersion": "7.1.5",
+      "pluginVersion": "8.0.5",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
       "seriesOverrides": [
         {
+          "$$hashKey": "object:404",
           "alias": "reactive",
           "yaxis": 2
         },
         {
+          "$$hashKey": "object:405",
           "alias": "reactive grid",
           "yaxis": 2
         },
         {
+          "$$hashKey": "object:913",
           "alias": "grid power",
           "yaxis": 2
         }
@@ -7088,7 +7212,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Voltages",
+      "title": "Voltages ø-ø",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -7104,6 +7228,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:418",
           "format": "volt",
           "label": null,
           "logBase": 1,
@@ -7112,6 +7237,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:419",
           "format": "voltampreact",
           "label": null,
           "logBase": 1,
@@ -7134,12 +7260,6 @@
       "dashes": false,
       "datasource": null,
       "decimals": 1,
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 0,
       "fillGradient": 1,
       "gridPos": {
@@ -7162,13 +7282,17 @@
       "lines": true,
       "linewidth": 1,
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
-      "pluginVersion": "7.1.5",
+      "pluginVersion": "8.0.5",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
       "seriesOverrides": [
         {
+          "$$hashKey": "object:335",
           "alias": "reactive",
           "dashLength": 2,
           "dashes": true,
@@ -7176,6 +7300,7 @@
           "yaxis": 2
         },
         {
+          "$$hashKey": "object:336",
           "alias": "reactive grid",
           "dashLength": 2,
           "dashes": true,
@@ -7183,6 +7308,7 @@
           "yaxis": 2
         },
         {
+          "$$hashKey": "object:337",
           "alias": "grid power",
           "dashLength": 2,
           "dashes": true,
@@ -7471,7 +7597,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Voltages",
+      "title": "Voltages ø-n",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -7487,6 +7613,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:374",
           "format": "volt",
           "label": null,
           "logBase": 1,
@@ -7495,6 +7622,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:375",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -7518,12 +7646,6 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 0,
       "fillGradient": 1,
       "gridPos": {
@@ -7546,29 +7668,37 @@
       "lines": true,
       "linewidth": 1,
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
-      "pluginVersion": "7.1.5",
+      "pluginVersion": "8.0.5",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
       "seriesOverrides": [
         {
+          "$$hashKey": "object:780",
           "alias": "reactive",
           "yaxis": 2
         },
         {
+          "$$hashKey": "object:781",
           "alias": "reactive grid",
           "yaxis": 2
         },
         {
+          "$$hashKey": "object:782",
           "alias": "A",
           "yaxis": 2
         },
         {
+          "$$hashKey": "object:783",
           "alias": "B",
           "yaxis": 2
         },
         {
+          "$$hashKey": "object:784",
           "alias": "A_g",
           "dashLength": 1,
           "dashes": true,
@@ -7576,6 +7706,7 @@
           "yaxis": 2
         },
         {
+          "$$hashKey": "object:785",
           "alias": "B_g",
           "dashLength": 1,
           "dashes": true,
@@ -7832,7 +7963,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Voltages",
+      "title": "Voltages (inverter)",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -7848,6 +7979,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:834",
           "format": "volt",
           "label": null,
           "logBase": 1,
@@ -7856,6 +7988,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:835",
           "decimals": null,
           "format": "locale",
           "label": null,
@@ -7876,12 +8009,6 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -7904,8 +8031,11 @@
       "lines": true,
       "linewidth": 1,
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
-      "pluginVersion": "7.1.5",
+      "pluginVersion": "8.0.5",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -8063,12 +8193,6 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -8091,8 +8215,11 @@
       "lines": true,
       "linewidth": 1,
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
-      "pluginVersion": "7.1.5",
+      "pluginVersion": "8.0.5",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -8251,6 +8378,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:1332",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -8259,6 +8387,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:1333",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -8278,12 +8407,6 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 0,
       "fillGradient": 1,
       "gridPos": {
@@ -8307,22 +8430,28 @@
       "lines": true,
       "linewidth": 1,
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
-      "pluginVersion": "7.1.5",
+      "pluginVersion": "8.0.5",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
       "seriesOverrides": [
         {
+          "$$hashKey": "object:170",
           "alias": "PV_U",
           "yaxis": 2
         },
         {
+          "$$hashKey": "object:307",
           "alias": "inverter",
           "fill": 3,
           "fillGradient": 5
         },
         {
+          "$$hashKey": "object:328",
           "alias": "meter",
           "fill": 0
         }
@@ -8474,6 +8603,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:183",
           "decimals": null,
           "format": "none",
           "label": "",
@@ -8483,6 +8613,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:184",
           "decimals": null,
           "format": "short",
           "label": "",
@@ -8505,12 +8636,6 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 0,
       "fillGradient": 1,
       "gridPos": {
@@ -8534,22 +8659,29 @@
       "lines": true,
       "linewidth": 1,
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
-      "pluginVersion": "7.1.5",
+      "pluginVersion": "8.0.5",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
       "seriesOverrides": [
         {
+          "$$hashKey": "object:422",
           "alias": "Inverter Current"
         },
         {
+          "$$hashKey": "object:423",
           "alias": "wiring losses"
         },
         {
+          "$$hashKey": "object:424",
           "alias": "wiring resistance  (mΩ)"
         },
         {
+          "$$hashKey": "object:425",
           "alias": "Voltage diff",
           "yaxis": 2
         }
@@ -8673,7 +8805,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "select mean(q) from (SELECT (mean(\"U_A-B\") -  mean(\"M_U_AB\"))  * mean(\"I_A\") as q FROM \"Huawei\" WHERE (\"I_A\" > 15) AND $timeFilter GROUP BY time($__interval) ) GROUP BY time(10m)",
+          "query": "select mean(q) from (SELECT (mean(\"U_A-B\") -  mean(\"M_U_AB\"))  * mean(\"I_A\") as q FROM \"Huawei\" WHERE (\"I_A\" > 1) AND $timeFilter GROUP BY time($__interval) ) GROUP BY time(10m)",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -8718,9 +8850,54 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "select mean(q) from (SELECT (mean(\"U_A-B\") -  mean(\"M_U_AB\"))  / mean(\"I_A\") * 1000 as q FROM \"Huawei\" WHERE (\"I_A\" > 15) AND $timeFilter GROUP BY time($__interval) fill(null)) GROUP BY time(10m)",
+          "query": "select mean(q) from (SELECT (mean(\"U_A-B\") -  mean(\"M_U_AB\"))  / mean(\"I_A\") * 1000 as q FROM \"Huawei\" WHERE (\"I_A\" > 5) AND $timeFilter GROUP BY time($__interval) fill(null)) GROUP BY time(10m)",
           "rawQuery": true,
           "refId": "D",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "I_A"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "U_A-B",
+              "operator": ">",
+              "value": "10"
+            }
+          ]
+        },
+        {
+          "alias": "total losses",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "select cumulative_sum(integral(q))/3600 from (SELECT (mean(\"U_A-B\") -  mean(\"M_U_AB\"))  * mean(\"I_A\") as q FROM \"Huawei\" WHERE $timeFilter GROUP BY time(1m) ) GROUP BY time(1h)",
+          "rawQuery": true,
+          "refId": "E",
           "resultFormat": "time_series",
           "select": [
             [
@@ -8765,15 +8942,17 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:444",
           "decimals": null,
           "format": "locale",
           "label": "",
           "logBase": 1,
           "max": null,
-          "min": null,
+          "min": "0",
           "show": true
         },
         {
+          "$$hashKey": "object:445",
           "decimals": 2,
           "format": "percent",
           "label": null,
@@ -8797,12 +8976,6 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "-- Mixed --",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 0,
       "fillGradient": 1,
       "gridPos": {
@@ -8827,22 +9000,31 @@
       "lines": true,
       "linewidth": 1,
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
-      "pluginVersion": "7.1.5",
+      "pluginVersion": "8.0.5",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
       "seriesOverrides": [
         {
+          "$$hashKey": "object:321",
           "alias": "Inverter Current"
         },
         {
+          "$$hashKey": "object:322",
           "alias": "wiring losses"
         },
         {
-          "alias": "wiring resistance  (mΩ)"
+          "$$hashKey": "object:323",
+          "alias": "wiring resistance  (mΩ)",
+          "lines": true,
+          "nullPointMode": "connected"
         },
         {
+          "$$hashKey": "object:324",
           "alias": "Voltage diff",
           "yaxis": 2
         }
@@ -8853,7 +9035,7 @@
       "targets": [
         {
           "alias": "Voltage diff",
-          "datasource": "InfluxDB",
+          "datasource": "${DS_INFLUXDB}",
           "groupBy": [
             {
               "params": [
@@ -8899,7 +9081,7 @@
         },
         {
           "alias": "Inverter Current",
-          "datasource": "InfluxDB",
+          "datasource": "${DS_INFLUXDB}",
           "groupBy": [
             {
               "params": [
@@ -8946,7 +9128,7 @@
         },
         {
           "alias": "wiring losses",
-          "datasource": "InfluxDB",
+          "datasource": "${DS_INFLUXDB}",
           "groupBy": [
             {
               "params": [
@@ -8964,7 +9146,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "select max(q) from (SELECT (mean(\"U_A-B\") -  mean(\"M_U_AB\"))  * mean(\"I_A\") as q FROM \"Huawei\" WHERE (\"I_A\" > 15) AND $timeFilter GROUP BY time($__interval) ) GROUP BY time($__interval) fill(null)",
+          "query": "select max(q) from (SELECT (mean(\"U_A-B\") -  mean(\"M_U_AB\"))  * mean(\"I_A\") as q FROM \"Huawei\" WHERE (\"I_A\" > 20) AND $timeFilter GROUP BY time($__interval) ) GROUP BY time(1d) fill(null)",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -8992,7 +9174,7 @@
         },
         {
           "alias": "wiring resistance  (mΩ)",
-          "datasource": "InfluxDB",
+          "datasource": "${DS_INFLUXDB}",
           "groupBy": [
             {
               "params": [
@@ -9010,7 +9192,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "select max(q) from (SELECT (mean(\"U_A-B\") -  mean(\"M_U_AB\"))  / mean(\"I_A\") * 1000 as q FROM \"Huawei\" WHERE (\"I_A\" > 15) AND $timeFilter GROUP BY time($__interval) fill(null)) GROUP BY time($__interval) fill(null)",
+          "query": "select max(q) from (SELECT (mean(\"U_A-B\") -  mean(\"M_U_AB\"))  / mean(\"I_A\") * 1000 as q FROM \"Huawei\" WHERE (\"I_A\" > 20) AND $timeFilter GROUP BY time(1d) fill(null)) GROUP BY time($__interval) fill(null)",
           "rawQuery": true,
           "refId": "D",
           "resultFormat": "time_series",
@@ -9038,7 +9220,7 @@
         },
         {
           "alias": "Insulation (x10)",
-          "datasource": "InfluxDB lt",
+          "datasource": "${DS_INFLUXDB_LT}",
           "groupBy": [
             {
               "params": [
@@ -9107,6 +9289,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:343",
           "decimals": null,
           "format": "locale",
           "label": "",
@@ -9116,6 +9299,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:344",
           "decimals": 2,
           "format": "percent",
           "label": null,
@@ -9131,17 +9315,18 @@
       }
     },
     {
-      "aliasColors": {},
+      "aliasColors": {
+        "grid": "semi-dark-green",
+        "inverter": "light-orange",
+        "inverter max": "light-red",
+        "inverter min": "super-light-yellow",
+        "max": "light-red",
+        "min": "super-light-yellow"
+      },
       "bars": false,
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 0,
       "fillGradient": 1,
       "gridPos": {
@@ -9164,15 +9349,34 @@
       "lines": true,
       "linewidth": 1,
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
-      "pluginVersion": "7.1.5",
+      "pluginVersion": "8.0.5",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
       "seriesOverrides": [
         {
+          "$$hashKey": "object:226",
           "alias": "inverter",
           "yaxis": 1
+        },
+        {
+          "$$hashKey": "object:468",
+          "alias": "max",
+          "zindex": -2
+        },
+        {
+          "$$hashKey": "object:505",
+          "alias": "min",
+          "zindex": -2
+        },
+        {
+          "$$hashKey": "object:521",
+          "alias": "grid",
+          "zindex": -3
         }
       ],
       "spaceLength": 10,
@@ -9210,7 +9414,7 @@
               },
               {
                 "params": [],
-                "type": "last"
+                "type": "mean"
               }
             ]
           ],
@@ -9247,7 +9451,93 @@
               },
               {
                 "params": [],
-                "type": "last"
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "Frequency",
+              "operator": ">",
+              "value": "0"
+            }
+          ]
+        },
+        {
+          "alias": "max",
+          "groupBy": [
+            {
+              "params": [
+                "5m"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "Frequency"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "max"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "Frequency",
+              "operator": ">",
+              "value": "0"
+            }
+          ]
+        },
+        {
+          "alias": "min",
+          "groupBy": [
+            {
+              "params": [
+                "5m"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "D",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "Frequency"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "min"
               }
             ]
           ],
@@ -9280,6 +9570,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:233",
           "decimals": null,
           "format": "hertz",
           "label": "",
@@ -9289,6 +9580,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:234",
           "decimals": null,
           "format": "short",
           "label": "",
@@ -9308,14 +9600,8 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "InfluxDB ds",
+      "datasource": "${DS_INFLUXDB_DS}",
       "decimals": 1,
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 0,
       "fillGradient": 1,
       "gridPos": {
@@ -9340,21 +9626,27 @@
       "linewidth": 1,
       "maxDataPoints": 2000,
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
-      "pluginVersion": "7.1.5",
+      "pluginVersion": "8.0.5",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
       "seriesOverrides": [
         {
+          "$$hashKey": "object:1177",
           "alias": "inverter",
           "yaxis": 1
         },
         {
+          "$$hashKey": "object:1178",
           "alias": "PV_U",
           "yaxis": 2
         },
         {
+          "$$hashKey": "object:1179",
           "alias": "p",
           "yaxis": 2
         }
@@ -9462,6 +9754,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:1198",
           "decimals": null,
           "format": "celsius",
           "label": "",
@@ -9471,6 +9764,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:1199",
           "decimals": 1,
           "format": "kwatt",
           "label": "",
@@ -9487,7 +9781,7 @@
     }
   ],
   "refresh": "15s",
-  "schemaVersion": 26,
+  "schemaVersion": 30,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -9507,5 +9801,5 @@
   "timezone": "",
   "title": "Solar",
   "uid": "dtVwFFPWz",
-  "version": 135
+  "version": 150
 }

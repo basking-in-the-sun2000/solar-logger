@@ -25,6 +25,11 @@ offset_a = -0.5
 offset_b = 1.5
 extra_load = 1.0 # watts this is a permanent load not measured by the smart meter
 # 1W represents 0.72 kWh a month. Adjust this to refflect your offset
+billing_date = 18
+billing_period = 2
+billing_offset = 1
+billing_window = 6  # in number of periods. Usually billing_period * billing_window would be 12 (a year length)
+                    # or 0 if you don't have net metering and you only consider the current bill
 latitude = lat
 longitude = longitude
 forecast_capacity = 10 # in kW
@@ -40,6 +45,7 @@ supla_api = ""
 supla_dev_id = 0
 debug = False
 daily_reports = True
+has_ESU = False
 #emailing info
 email_sent = ""
 fromaddr = "datalogger@my_domain.com"

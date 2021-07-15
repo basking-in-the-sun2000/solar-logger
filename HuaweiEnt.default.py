@@ -3,6 +3,8 @@ import time
 import config
 import emails
 
+# Change use to ext for type you won't use or aren't defined by your inverter
+
 _register_map =  {
     'Model':      {'addr': '30000', 'registers': 15, 'name': 'Model',                            'scale': 1,    'type': 'str',  'units': ''    , 'use': 'info',  'method': 'hold'},  
     'SN':         {'addr': '30015', 'registers': 10, 'name': 'Serial Number',                    'scale': 1,    'type': 'str',  'units': ''    , 'use': 'info',  'method': 'hold'},  
@@ -65,6 +67,14 @@ if (config.has_optim) :
         'Optim_tot':  {'addr': '37200', 'registers': 1,  'name': 'Number of optimizers',             'scale': 1,    'type': 'U16',  'units': ''    , 'use': 'info',  'method': 'hold'},  
         'Optim_on':   {'addr': '37201', 'registers': 1,  'name': 'Number of online optimizers',      'scale': 1,    'type': 'U16',  'units': ''    , 'use': 'info',  'method': 'hold'},  
         'Optim_opt':  {'addr': '37202', 'registers': 1,  'name': 'Optimizer Feature data',           'scale': 1,    'type': 'U16',  'units': ''    , 'use': 'info',  'method': 'hold'}})
+
+if (config.has_ESU) :
+    _register_map.update({
+        'ESU_status':  {'addr': '37000', 'registers': 1,  'name': 'ESU status',                       'scale': 1,    'type': 'U16',  'units': ''  ,   'use': 'status',  'method': 'hold'},  
+        'ESU_power':   {'addr': '37001', 'registers': 2,  'name': 'ESU power',                        'scale': 1,    'type': 'I32',  'units': 'W'   , 'use': 'data',  'method': 'hold'},  
+        'ESU_soc':     {'addr': '37004', 'registers': 2,  'name': 'ESU SOC',                          'scale': 10,   'type': 'U16',  'units': '%'   , 'use': 'data',  'method': 'hold'},
+        'ESU_charge':  {'addr': '37015', 'registers': 2,  'name': 'ESU Current Charge',               'scale': 100,  'type': 'U32',  'units': 'kWh' , 'use': 'data',  'method': 'hold'},
+        'ESU_discharge':{'addr': '37017','registers': 2,  'name': 'ESU Current Discharge',            'scale': 100,  'type': 'U32',  'units': 'kWh' , 'use': 'data',  'method': 'hold'}})
 
 _status_map = {
     0x0000: 'Standby: initializing',
@@ -253,8 +263,9 @@ def inv_address():
     udp_message = bytes([0x5a, 0x5a, 0x5a, 0x5a, 0x00, 0x41, 0x3a, 0x04])
 
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
-    sock.connect(("8.8.8.8", 80))
+    sock.connect(("1.1.1.1", 80))
     ip = sock.getsockname()[0]
+    ip_self = ip
     ip = socket.inet_aton(ip)
     sock.close()
 
@@ -269,9 +280,8 @@ def inv_address():
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-    sock.settimeout(3.0)
+    sock.settimeout(10.0)
     sock.bind(("", 6600))
-    time.sleep(5)
     sock.sendto(udp_message, ('<broadcast>', 6600))
     i = 0
     while True:
@@ -296,7 +306,7 @@ def inv_address():
                     return config.inverter_ip
                 emails.send_mail("can't find inverter" + str(e))
 
-        if len(data) == 30:
+        if addr[0] != ip_self:
             addr = str(addr[0])
             if config.debug:
                 print("inverter address: " + addr)

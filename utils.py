@@ -71,23 +71,30 @@ def fill_blanks(flux_client, midnight):
                     s = ('SELECT first(P_active) from %s where P_active > 0 and time < %s and time > %s') % (config.model, str(i['time']), str(i['time'] - 24 * 3600 * 1000000000))
                     zeros=flux_client.query(s, epoch="s", database=config.influxdb_downsampled)
                     q = list(zeros.get_points(measurement=config.model))
-                    daily1["Start"] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(q[0]["time"]))
+                    try:
+                        daily1["Start"] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(q[0]["time"]))
+                    except:
+                        print("no start")
 
                     s = ('SELECT last(P_active) from %s where P_active > 0 and time < %s and time > %s') % (config.model, str(i['time']), str(i['time'] - 24 * 3600 * 1000000000))
                     zeros=flux_client.query(s, epoch="s", database=config.influxdb_downsampled)
                     q = list(zeros.get_points(measurement=config.model))
-                    daily1["Shutdown"] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(q[0]["time"]))
-
-
+                    try:
+                        daily1["Shutdown"] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(q[0]["time"]))
+                    except:
+                        print("no stop")
 
                 s = ('SELECT cumulative_sum(integral("power90")) /3600  as power90, cumulative_sum(integral("power10")) /3600  as power10, cumulative_sum(integral("power")) /3600  as power FROM "forcast" WHERE time < %s and time > %s group by time(1d)') % (str(i['time']), str(i['time'] - 24 * 3600 * 1000000000))
                 zeros = flux_client.query(s, database=config.influxdb_database)
                 q = list(zeros.get_points(measurement="forcast"))
 
-                if len(q) > 0:
-                    daily1['f_power'] = float(q[0]['power'])
-                    daily1['f_power10'] = float(q[0]['power10'])
-                    daily1['f_power90'] = float(q[0]['power90'])
+                try:
+                    if len(q) > 0:
+                        daily1['f_power'] = float(q[0]['power'])
+                        daily1['f_power10'] = float(q[0]['power10'])
+                        daily1['f_power90'] = float(q[0]['power90'])
+                except:
+                    print("no forecasts")
 
                 k += 1
                 if config.debug:
@@ -173,3 +180,60 @@ def send_measurements(m_start, m_end, flux_client):
         print("solcast not receiving tuning")
         if config.debug:
             print(vars(roof))
+
+def update_balance(flux_client, t):
+    try:
+        s = ("select last(Bal) from Huawei_daily where time > now() - %dd;") % (config.billing_period * 35)
+    #    print(s)
+        zeros=flux_client.query(s, epoch='ns', database=config.influxdb_longterm)
+        last_bal = list(zeros.get_points(measurement=config.model + "_daily"))
+        
+        s = ("select P_Exp, P_Grid, Adj, Bal from Huawei_daily where time > %d;") % (last_bal[0]['time'])
+    #    print(s)
+        zeros=flux_client.query(s, epoch='ns', database=config.influxdb_longterm)
+        last_bal = list(zeros.get_points(measurement=config.model + "_daily"))
+        
+        sum = 0
+    #    print(" data")
+        for i in last_bal:
+            if (i['Adj'] != None):
+    #            print(time.ctime(i['time']/1e9))
+    #            print("adj", i['Adj'] )
+                sum = sum + i['Adj']
+            sum = sum + i['P_Exp'] -i['P_Grid']
+            
+            #    print("sum ", sum)
+            #    print("days: ", (i['time'] - last_bal[0]['time']) / 1e9 / 24 / 3600)
+
+        if sum < 0:
+            s = ("select Bal from Huawei_daily where time > now() - %dd;") % (config.billing_period * 32 * config.billing_window)
+    #        print(s)
+            zeros=flux_client.query(s, epoch='ns', database=config.influxdb_longterm)
+            last_bal = list(zeros.get_points(measurement=config.model + "_daily"))
+            
+    #        for i in last_bal:
+    #            print(time.ctime(i['time']/1e9), i['Bal'])
+                
+    #        print("\n\nbalancing run")
+            for key, value in enumerate(last_bal):
+    #            print (key, value)
+                if value['Bal'] > 0:
+                    if last_bal[key]['Bal'] > -1 * sum:
+                        last_bal[key]['Bal'] = last_bal[key]['Bal'] + sum
+                        sum = 0.0
+                    elif last_bal[key]['Bal'] < -1 * sum:
+                        sum = sum + last_bal[key]['Bal']
+                        last_bal[key]['Bal'] = 0.0
+                        
+                    utils.write_influx(flux_client, {'Bal': float(last_bal[key]['Bal'])}, config.model + "_daily", config.influxdb_longterm, int(last_bal[key]['time']))
+                    if sum == 0:
+                        break
+                    
+#            print("\n\nfinal balance data")
+#            for value in last_bal:
+#                print(time.ctime(value['time']/1e9), value['Bal'])
+                
+        utils.write_influx(flux_client, {'Bal': float(sum)}, config.model + "_daily", config.influxdb_longterm, int(t * 1e9))
+
+    except Exception as e:
+        print("update_balance error: %s" % str(e))

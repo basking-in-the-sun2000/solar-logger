@@ -55,14 +55,14 @@ sudo chown ***me***:***me*** /var/log/solar  (use your user's name rather than *
 You might want to setup the `config.py` file with the parameter for your site
 
 You need grant privileges your user
-strart a session (type influx in the terminal)
-CREATE USER <username> WITH PASSWORD '<password>' (use the username and password you used in the config.py file for influx)
-grant write on logger to <username>
-grant write on logger_ds to <username>
-grant write on logger_lt to <username>
++ strart a session (type influx in the terminal)
+CREATE USER `<username>` WITH PASSWORD `<password>` (use the username and password you used in the config.py file for influx)
++ grant write on logger to `<username>`
++ grant write on logger_ds to `<username>`
++ grant write on logger_lt to `<username>`
 
-you can check it with
-SHOW GRANTS FOR <username>
++ you can check it with
+	+ SHOW GRANTS FOR `<username>`
 
 exit (when you are done)
 
@@ -90,4 +90,4 @@ influxd -config /usr/local/etc/influxdb.conf
 ```
 
 check the number of files with
-`sudo -u influxdb bash -c 'ulimit -a'`
+*  `sudo -u influxdb bash -c 'ulimit -a'`

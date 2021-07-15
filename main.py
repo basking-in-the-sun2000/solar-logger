@@ -214,13 +214,15 @@ def forecast(h, midnight):
         elif t < t_start:
             forecast_time = time.mktime(time.strptime(time.strftime('%Y-%m-%d ' + str(t_start - 1) + ':45:00', time.localtime()), "%Y-%m-%d %H:%M:%S"))
 
-        print("next forecast " + time.ctime(forecast_time))
+        if config.debug:
+            print("next forecast " + time.ctime(forecast_time))
         return int(forecast_time)
 
     global flux_client    
     global forecast_array
     global status
-    print("in forecast")
+    if config.debug:
+        print("in forecast")
     
     forecast_time = forehour(time.time())
     t = time.time()
@@ -264,7 +266,8 @@ def forecast(h, midnight):
 
             utils.write_influx(flux_client, measurement, "forcast", config.influxdb_database, int(dt) * 1000000000)
 
-        print("done getting forecast")
+        if config.debug:
+            print("done getting forecast")
 
     except Exception as e:
         print("forecast 1 error: %s" % str(e))
@@ -317,6 +320,11 @@ def main():
 
     config.loads = {}
     inverter_file = config.model
+    if not os.path.exists(inverter_file + ".py"):
+        import shutil
+        shutil.copy2(inverter_file + ".default.py", inverter_file + ".py")
+        
+        
     inverter = __import__(inverter_file)
     if config.debug:
         print("got it")
@@ -464,7 +472,7 @@ def main():
                     print(c_stop)
                     print(tmax)
                     print(min_ins)
-                if info["Insulation"] >= 0 and info["Insulation"] < 1.5:
+                if info["Insulation"] > 0 and info["Insulation"] < 1.5:
                     emails.send_mail("Insulation low: " + str(info["Insulation"]))
 
             if config.debug:
@@ -525,14 +533,14 @@ def main():
             utils.write_influx(flux_client, measurement, config.model, config.influxdb_database)
                 
             if (status != last_status):
-                print(status)
-                print(last_status)
+#                print(status)
+#                print(last_status)
                 last_status = status.copy()
                 if config.debug:
                     print(status)
                 if ((status["Alarm1"] != "") or (status["Alarm2"] != "") or (status["Alarm3"] != "") or (status["Fault"] != '0')):
                     emails.send_mail("Help\r\n" + str(status))
-                print(utils.write_influx(flux_client, status, config.model + "_stat", config.influxdb_database))
+                utils.write_influx(flux_client, status, config.model + "_stat", config.influxdb_database)
 
             if (measurement["Temp"] > 60):
                 emails.send_mail("Temperatur high: " + str(measurement["Temp"]))
@@ -588,6 +596,7 @@ def main():
 
                 y_tot = c_tot
                 daily['P_peak'] = float(c_peak)
+                c_peak = 0
                 daily['Start'] = c_start
                 daily['Shutdown'] = c_stop
                 utils.write_influx(flux_client, daily, config.model + "_daily", config.influxdb_longterm, (midnight - 24 * 3600) * 1000000000)
@@ -596,10 +605,9 @@ def main():
                     print(daily)
 
                 utils.send_measurements(midnight - 24 * 3600 * 4, midnight, flux_client)
-                midnight = int(time.mktime(time.strptime(time.strftime( "%m/%d/%Y ") + " 23:59:59", "%m/%d/%Y %H:%M:%S"))) + 1
-                
+
                 if config.daily_reports:
-                    s = "Daily values\r\n\r\n\r\n"
+                    s = "Daily values for the day of " + time.ctime(midnight - 24 * 3600) + "\r\n\r\n\r\n"
                     s = s + f"Insulation: {daily['Insulation']:3.2f}\r\n"
                     s = s + f"Temp: {daily['Temp']:2.0f}\r\n\r\n"
                     s = s + f"Forecasted: {daily['f_power']:3.1f}\r\n"
@@ -610,6 +618,37 @@ def main():
                     s = s + f"Peak: {daily['P_peak']:3.1f}\r\n"
 
                     emails.send_mail(s)
+
+                print("doing period balance")
+                diff = 1
+                dt = datetime.datetime.fromtimestamp(midnight - (config.billing_date + diff - 1) * 24 * 3600)
+                print(dt)
+
+                window = 12
+
+                billing_month = dt.month - config.billing_offset
+                billing_month = (billing_month + window) % window
+                if (billing_month == 0):
+                    billing_month = window
+
+                billing_month = (int(billing_month % config.billing_period != 0) + int(billing_month / config.billing_period)) * config.billing_period + config.billing_offset + 1
+                billing_month = (billing_month + window) % window
+                if (billing_month == 0):
+                    billing_month = window
+                billing_day = dt.day
+
+                print(billing_month)
+                print(billing_day)
+
+                dt = datetime.datetime.fromtimestamp(time.time())
+                print(dt)
+                print(dt.month)
+
+                if (billing_month != dt.month and billing_day == 1):
+                    print('updating balance')
+                    utils.update_balance(flux_client, midnight)
+
+                midnight = int(time.mktime(time.strptime(time.strftime( "%m/%d/%Y ") + " 23:59:59", "%m/%d/%Y %H:%M:%S"))) + 1
 
             if (int(time.time()) > forecast_time):
                 forecast_time = forecast(forecast_time, midnight)

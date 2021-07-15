@@ -14,26 +14,29 @@ So for now it is configured for a Huawei's Sun2000 usl0 version, but probably sh
 
 This code was inspired on a series of other repositories to as a guideline to create the current datalogger. Including portions from https://github.com/meltaxa/solariot/
 
-### Basics
+### Basics ###
 
 You will need these python packages pymodbus, influxdb, pytz, and influxdb (the database itself) and grafana. Read the setting_up.md for the full list.
 
 Also included the solcast folder from basking-in-the-sun2000/Radiation, hopefully FidFenix will incorporate the changes and keep it current
 
-For grafana you will need these plugins:
-- agenty-flowcharting-panel
-- blackmirror1-singlestat-math-panel
-- graph
-- yesoreyeram-boomtable-panel
+For grafana you will need some plugins/ You can install the using:
+
+```sudo grafana-cli plugins install fetzerch-sunandmoon-datasource
+sudo grafana-cli plugins install blackmirror1-singlestat-math-panel
+sudo grafana-cli plugins install yesoreyeram-boomtable-panel
+sudo grafana-cli plugins install agenty-flowcharting-panel
+sudo systemctl restart grafana-server.service
+```
 
 Some of the inverters don't work well after sunset, they disable all functions. So you might need to test the logger during sun up. 
 
 
-### Description of files
+### Description of files ###
 
 - `write_solar` populates the db with expected production values. These are daily average for the month in kWh. The values should account for your system, layout, shadowing, depreciation, etc, throughout the life of the system. This was used before solcast, but gives you an idea of how your production is going
 
-- `scanner` should allow to poll the inverterer for valid registers
+- `scanner` should allow to poll the inverter for valid registers
 
 - `scanner2` will display the values of the registers listed in regs
 
@@ -44,7 +47,7 @@ Some of the inverters don't work well after sunset, they disable all functions. 
 - `last_adjustment` allows to adjust the total energy balance (exported - from_grid + adj). Just fill the values (date and deviation in kWh)
 	- There is a adjustment in the config file (extra_load) to allow you to have a daily adjustment (this isn't used for hourly, but only for the daily values)
 
-- `Huawei` contains the inverter's registers, status constants. If you would be using a different inverter, this would serve as a template
+- `Huawei.default` contains the inverter's registers, status constants. If you would be using a different inverter, this would serve as a template. It copies this onto `Huawei.py` if you don't have one
 
 - `fill_daily_blanks` takes the data from the inverter (influxdb) and writes daily summaries. It now uses the 5m data (logger_ds), unlike the equivalent in the main file use 30s data from that day
 
@@ -60,12 +63,13 @@ Some of the inverters don't work well after sunset, they disable all functions. 
 
 - `setting_up.md` gives a detailed install to get up and running
 
+- `balance.py` update the balance field
+
 #### Grafana files:
 - `dashboard.json` is the main dashboard for the logger
 - `solar.json` is the detail view dashboard for the logger
 - `status.json` shows the historical values of the status registers
 - `data_sources.json` has information to setup the data sources for grafana
-
 
 ### Setup
 
