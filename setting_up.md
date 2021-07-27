@@ -30,7 +30,7 @@ sudo service grafana-server enable
 sudo service grafana-server start
 
 sudo service influxdb enable
-sudo service influxdb start 
+sudo service influxdb start
 ```
 
 
@@ -72,10 +72,10 @@ To start the logger as a service,
 
 - cd to the directory with the code
 - cp solar.service /lib/systemd/system/solar.service
-- change the text within the *** to what you need 
+- change the text within the *** to what you need
 - sudo systemctl enable solar.service
 - sudo systemctl start solar.service
-- check it 
+- check it
   - sudo systemctl status solar.service
 
 

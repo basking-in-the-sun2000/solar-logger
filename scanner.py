@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from pymodbus.client.sync import ModbusTcpClient as ModbusClient 
+from pymodbus.client.sync import ModbusTcpClient as ModbusClient
 from pymodbus import mei_message
 import time
 import random
@@ -26,10 +26,10 @@ def toI16(i):
     return (i ^ 0x8000) - 0x8000
 
 def toU32(i):
-    return ((i[0] << 16) + i[1])  
+    return ((i[0] << 16) + i[1])
 
 def toI32(i):
-    i = ((i[0] << 16) + i[1]) 
+    i = ((i[0] << 16) + i[1])
     i = i & 0xffffffff
     return (i ^ 0x80000000) - 0x80000000
 
@@ -53,7 +53,7 @@ PortN = config.inverter_port
 num_reg = 29000
 nb_reg = 1
 UnitID = 0
-j = 0 
+j = 0
 
 print("openning")
 client = ModbusClient(host=ip, port=PortN, timeout=5)

@@ -3,7 +3,7 @@ loads = {}
 
 inverter_ip = "192.168.8.1" # Default ip address in case it can't find it
 inverter_port = 502
-slave = 0x00
+slave = 0x00 # seems the dongle uses 0x01 for the slave id
 model = "Huawei"
 location = "main"
 strings = 1

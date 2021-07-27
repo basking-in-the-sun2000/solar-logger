@@ -1,4 +1,4 @@
-from pymodbus.client.sync import ModbusTcpClient as ModbusClient 
+from pymodbus.client.sync import ModbusTcpClient as ModbusClient
 import time
 
 
@@ -39,4 +39,3 @@ def read_registers(client, UnitID, data):
     except Exception as e:
         print("mdobus read_registers error: %s" % str(e))
         return -1
-

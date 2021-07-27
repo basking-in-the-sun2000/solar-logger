@@ -46,7 +46,7 @@ def check(p_available):
             continue
 
         if x[0] in config.loads:
-            if current_time - config.loads[x[0]]['time'] < 180:
+            if current_time - config.loads[x[0]]['time'] < 300:
 #                print("cont")
                 continue
         else:
@@ -75,7 +75,7 @@ def check(p_available):
 #        print(x)
 
         if x[0] in config.loads:
-            if current_time - config.loads[x[0]]['time'] < 180:
+            if current_time - config.loads[x[0]]['time'] < 300:
 #                print("cont")
                 continue
         else:
@@ -107,6 +107,4 @@ def check(p_available):
             changes[x[0]] = 1
             print(config.loads[x[0]])
             print(changes)
-
     return changes
-

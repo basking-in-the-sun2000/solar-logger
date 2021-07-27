@@ -2,6 +2,9 @@ import config
 import time
 import solcast
 from influxdb import InfluxDBClient
+import re
+import emails
+
 
 def fill_blanks(flux_client, midnight):
     k = 0
@@ -127,6 +130,9 @@ def write_influx(flux_client, measurement, iden, db, t = 0):
              measurement[x]=float(measurement[x])
 
         metrics['tags'] = tags
+        for x in measurement:
+            if type(measurement[x]) == float:
+                measurement[x]=round(measurement[x], 4)
         metrics['fields'] = measurement
         metrics =[metrics, ]
         try:
@@ -187,12 +193,12 @@ def update_balance(flux_client, t):
     #    print(s)
         zeros=flux_client.query(s, epoch='ns', database=config.influxdb_longterm)
         last_bal = list(zeros.get_points(measurement=config.model + "_daily"))
-        
+
         s = ("select P_Exp, P_Grid, Adj, Bal from Huawei_daily where time > %d;") % (last_bal[0]['time'])
     #    print(s)
         zeros=flux_client.query(s, epoch='ns', database=config.influxdb_longterm)
         last_bal = list(zeros.get_points(measurement=config.model + "_daily"))
-        
+
         sum = 0
     #    print(" data")
         for i in last_bal:
@@ -201,7 +207,7 @@ def update_balance(flux_client, t):
     #            print("adj", i['Adj'] )
                 sum = sum + i['Adj']
             sum = sum + i['P_Exp'] -i['P_Grid']
-            
+
             #    print("sum ", sum)
             #    print("days: ", (i['time'] - last_bal[0]['time']) / 1e9 / 24 / 3600)
 
@@ -210,10 +216,10 @@ def update_balance(flux_client, t):
     #        print(s)
             zeros=flux_client.query(s, epoch='ns', database=config.influxdb_longterm)
             last_bal = list(zeros.get_points(measurement=config.model + "_daily"))
-            
+
     #        for i in last_bal:
     #            print(time.ctime(i['time']/1e9), i['Bal'])
-                
+
     #        print("\n\nbalancing run")
             for key, value in enumerate(last_bal):
     #            print (key, value)
@@ -224,16 +230,60 @@ def update_balance(flux_client, t):
                     elif last_bal[key]['Bal'] < -1 * sum:
                         sum = sum + last_bal[key]['Bal']
                         last_bal[key]['Bal'] = 0.0
-                        
-                    utils.write_influx(flux_client, {'Bal': float(last_bal[key]['Bal'])}, config.model + "_daily", config.influxdb_longterm, int(last_bal[key]['time']))
+
+                    write_influx(flux_client, {'Bal': float(last_bal[key]['Bal'])}, config.model + "_daily", config.influxdb_longterm, int(last_bal[key]['time']))
                     if sum == 0:
                         break
-                    
+
 #            print("\n\nfinal balance data")
 #            for value in last_bal:
 #                print(time.ctime(value['time']/1e9), value['Bal'])
-                
-        utils.write_influx(flux_client, {'Bal': float(sum)}, config.model + "_daily", config.influxdb_longterm, int(t * 1e9))
+
+        write_influx(flux_client, {'Bal': float(sum)}, config.model + "_daily", config.influxdb_longterm, int(t * 1e9))
 
     except Exception as e:
         print("update_balance error: %s" % str(e))
+
+
+def check_default_files():
+
+    errors = ''
+
+    file = open("config.py", "r")
+    file1 = re.findall("([^=\r\n ]+) =.+\n", file.read())
+    file.close()
+
+    file = open("config.default.py", "r")
+    file2 =  re.findall("([^=\r\n ]+) =.+\n", file.read())
+    file.close()
+
+
+    for i in file2:
+        if i in file1:
+            pass
+        else:
+            print("config file missing parameter: ",'\033[1m' + i + '\033[0m')
+            errors = errors + "\nconfig.py file: missing parameter: " + i
+
+
+    file = open("Huawei.py", "r")
+    file1 = re.findall("([^\'\": \{\},\r\n\t]+)[\'\"]:.+\n", file.read())
+    file.close()
+
+    file = open("Huawei.default.py", "r")
+    file2 =  re.findall("([^\'\": \{\},\r\n\t]+)[\'\"]:.+\n", file.read())
+    file.close()
+
+
+    for i in file2:
+        if i in file1:
+            pass
+        else:
+            print("Huawei file missing parameter: ",'\033[1m' + i + '\033[0m')
+            errors = errors + "\nHuawei.py file: missing parameter: " + i
+
+    if errors != '':
+        errors = "You need to update your files. Look in the default file for the missing parameters\n\n" + errors
+        print(errors)
+        emails.send_mail(errors)
+        exit()

@@ -14,7 +14,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "8.0.5"
+      "version": "8.1.0-beta2"
     },
     {
       "type": "datasource",
@@ -38,6 +38,12 @@
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
         "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
         "type": "dashboard"
       }
     ]
@@ -67,7 +73,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "semi-dark-blue",
                 "value": null
               },
               {
@@ -164,6 +170,154 @@
                 }
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "State1"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "grid-connected | grid-connected normally": {
+                        "color": "semi-dark-green",
+                        "index": 3
+                      },
+                      "normal stop | shutdown": {
+                        "color": "super-light-green",
+                        "index": 2
+                      },
+                      "standby": {
+                        "color": "super-light-green",
+                        "index": 0
+                      },
+                      "stop due to faults": {
+                        "color": "semi-dark-orange",
+                        "index": 1
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "State2"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "locked | connected | DSP collecting": {
+                        "color": "super-light-green",
+                        "index": 3
+                      },
+                      "locked | disconnected | DSP collecting": {
+                        "color": "super-light-green",
+                        "index": 0
+                      },
+                      "locked | disconnected | DSP not collecting": {
+                        "color": "super-light-green",
+                        "index": 1
+                      },
+                      "unlocked | connected | DSP collecting": {
+                        "color": "semi-dark-green",
+                        "index": 2
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "State3"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "off-grid | off-grid switch enable": {
+                        "color": "light-orange",
+                        "index": 1
+                      },
+                      "on-grid | off-grid switch enable": {
+                        "color": "semi-dark-green",
+                        "index": 0
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Status"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "On-grid (Off-grid mode: running)": {
+                        "color": "semi-dark-green",
+                        "index": 5
+                      },
+                      "Shutdown: command": {
+                        "color": "super-light-orange",
+                        "index": 6
+                      },
+                      "Shutdown: fault": {
+                        "color": "semi-dark-red",
+                        "index": 7
+                      },
+                      "Shutdown: input underpower": {
+                        "color": "semi-dark-orange",
+                        "index": 8
+                      },
+                      "Standby: detecting insulation resistance": {
+                        "color": "super-light-green",
+                        "index": 3
+                      },
+                      "Standby: detecting irradiation": {
+                        "color": "super-light-green",
+                        "index": 2
+                      },
+                      "Standby: grid detecting": {
+                        "color": "super-light-orange",
+                        "index": 4
+                      },
+                      "Standby: initializing": {
+                        "color": "super-light-green",
+                        "index": 0
+                      },
+                      "Standby: no irradiation": {
+                        "color": "super-light-green",
+                        "index": 1
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              }
+            ]
           }
         ]
       },
@@ -183,7 +337,7 @@
           }
         ]
       },
-      "pluginVersion": "8.0.5",
+      "pluginVersion": "8.1.0-beta2",
       "targets": [
         {
           "alias": "Fault",
@@ -520,7 +674,7 @@
       "type": "table"
     }
   ],
-  "refresh": "1h",
+  "refresh": "",
   "schemaVersion": 30,
   "style": "dark",
   "tags": [],
@@ -535,5 +689,5 @@
   "timezone": "",
   "title": "Status",
   "uid": "UjSVubzRk",
-  "version": 3
+  "version": 10
 }

@@ -161,6 +161,17 @@ def do_map(client, config, inverter):
             if 0 < value < 20:
                 min_ins = min(min_ins, value)
 
+        elif re.match("PV_U\d", register) != None:
+            try:
+                measurement["PV_Un"] = value + measurement["PV_Un"]
+            except:
+                measurement["PV_Un"] = value
+        elif re.match("PV_I\d", register) != None:
+            try:
+                measurement["PV_In"] = value + measurement["PV_In"]
+            except:
+                measurement["PV_In"] = value
+
         elif register == "Start":
             c_start = value
 
@@ -218,22 +229,77 @@ def forecast(h, midnight):
             print("next forecast " + time.ctime(forecast_time))
         return int(forecast_time)
 
-    global flux_client    
+    global flux_client
     global forecast_array
+    global daily_forecast
+    global forecast_hours
+    global forecast_ratio
     global status
+
     if config.debug:
         print("in forecast")
-    
+
     forecast_time = forehour(time.time())
     t = time.time()
     if (h - t > 60):
         return(h)
     elif (forecast_time - t > 60 * 60):
         return(forecast_time)
-    
+
     try:
         if (config.solfor == 1):
             r1 = solcast.get_rooftop_forecasts(config.site_UUID, api_key=config.solcast_key)
+            if daily_forecast:
+                r2 = solcast.get_wpv_power_forecasts(config.latitude, config.longitude, config.forecast_capacity,
+                                                    tilt=config.tilt, azimuth=config.azimuth,
+                                                    install_date = config.install_date, hours = 24,
+                                                    api_key=config.solcast_key)
+
+                daily_forecast = False
+                sum1 = 0
+                t1 = 0
+                dtday = 0
+                times = []
+                for x in r1.content['forecasts'][:60]:
+                    if x['pv_estimate']  == 0:
+                        continue
+                    dt = x['period_end']
+                    dt = dt.replace(tzinfo=pytz.timezone('UTC'))
+                    dt = dt.astimezone(pytz.timezone(config.time_zone))
+                    dt = dt.timetuple()
+                    if dt.tm_hour < 14:
+                        if dtday == 0:
+                            dtday = dt.tm_yday
+                    if dtday != dt.tm_yday:
+                        continue
+                    dt = time.mktime(dt)
+                    times.append(dt)
+                    sum1 = sum1 + x['pv_estimate'] * 0.5
+                    t1 = t1 + 0.5
+
+                sum2= 0
+                t2 = 0
+                for x in r2.content['forecasts'][:60]:
+                    if x['pv_estimate']  == 0:
+                        continue
+                    t2 = t2 + 0.5
+                    dt = x['period_end']
+                    dt = dt.replace(tzinfo=pytz.timezone('UTC'))
+                    dt = dt.astimezone(pytz.timezone(config.time_zone))
+                    dt = dt.timetuple()
+                    dt = time.mktime(dt)
+                    if dt in times:
+                        pass
+                    else:
+                        continue
+
+                    sum2 = sum2 + x['pv_estimate'] * 0.5
+
+                if sum1 > 0 and sum2 > 0:
+                    forecast_hours = (t2 - t1) / t1
+                    forecast_ratio = sum2/sum1
+                    print("forcast info\n")
+                    print(forecast_hours, forecast_ratio)
 
         elif (config.solfor == 2):
             r1 = solcast.get_wpv_power_forecasts(config.latitude, config.longitude, config.forecast_capacity,
@@ -317,14 +383,17 @@ def main():
     global forecast_array
     global loads
     global loops
+    global daily_forecast
+    global forecast_hours
+    global forecast_ratio
 
     config.loads = {}
     inverter_file = config.model
     if not os.path.exists(inverter_file + ".py"):
         import shutil
         shutil.copy2(inverter_file + ".default.py", inverter_file + ".py")
-        
-        
+
+
     inverter = __import__(inverter_file)
     if config.debug:
         print("got it")
@@ -368,7 +437,6 @@ def main():
     last_loop = 0
     info_time = 0
     last_status = {}
-    status = {}
     y_exp = 0
     c_exp = 0
     y_tot = 0
@@ -384,6 +452,10 @@ def main():
     thread_mean = 1
     sleep = 0
     forecast_time = 0
+    daily_forecast = True
+    forecast_hours = 0
+    forecast_ratio = 0
+
     midnight = (int(time.mktime(time.strptime(time.strftime( "%m/%d/%Y ") + " 00:00:00", "%m/%d/%Y %H:%M:%S"))))
     s = ('SELECT %s FROM "%s" WHERE time >= %s and time <= %s and P_daily > 0') % ('max("M_PExp") as "M_PExp", max("M_PTot") as "M_PTot", max("P_accum") as "P_accum", max("P_daily") as "P_daily", max("Temp") as "Temp"', config.model, str((midnight - 24 * 3600)*1000000000), str(midnight*1000000000))
     zeros=flux_client.query(s, database=config.influxdb_database)
@@ -429,12 +501,14 @@ def main():
 
     ok = True
     low_prod = time.time() + 300
-    measurement = {}
-    info = {}
+
     while ok:
         current_time = time.time()
         if (current_time - last_loop + thread_mean >= int(config.scan_interval)):
             last_loop = current_time
+            measurement = {}
+            info = {}
+            status = {}
             j = 0
             while do_map(client, config, inverter):
                 j += 1
@@ -480,9 +554,10 @@ def main():
                 print(measurement)
                 print(low_prod)
 
-
             i = 0
             j = 0
+
+            measurement["PV_Un"] = measurement["PV_Un"] / config.strings
 
             try:
                 for j in forecast_array:
@@ -531,7 +606,7 @@ def main():
 #                print(measurement)
 
             utils.write_influx(flux_client, measurement, config.model, config.influxdb_database)
-                
+
             if (status != last_status):
 #                print(status)
 #                print(last_status)
@@ -576,6 +651,10 @@ def main():
                     daily['f_power90'] = float(m[0]['power'])
                     daily['f_power10'] = float(m[0]['power'])
 
+                if forecast_ratio > 0:
+                    daily['f_hours'] = float(forecast_hours)
+                    daily["f_ratio"] = float(forecast_ratio)
+
                 if config.debug:
                     print(midnight)
                     print(c_gen)
@@ -599,6 +678,7 @@ def main():
                 c_peak = 0
                 daily['Start'] = c_start
                 daily['Shutdown'] = c_stop
+
                 utils.write_influx(flux_client, daily, config.model + "_daily", config.influxdb_longterm, (midnight - 24 * 3600) * 1000000000)
                 if config.debug:
                     print(time.ctime(midnight - 24 * 3600))
@@ -644,11 +724,15 @@ def main():
                 print(dt)
                 print(dt.month)
 
-                if (billing_month != dt.month and billing_day == 1):
+                if (billing_month == dt.month and billing_day == 1):
                     print('updating balance')
                     utils.update_balance(flux_client, midnight)
 
                 midnight = int(time.mktime(time.strptime(time.strftime( "%m/%d/%Y ") + " 23:59:59", "%m/%d/%Y %H:%M:%S"))) + 1
+                daily_forecast = True
+                forecast_hours = 0
+                forecast_ratio = 0
+
 
             if (int(time.time()) > forecast_time):
                 forecast_time = forecast(forecast_time, midnight)
@@ -677,8 +761,9 @@ def main():
             ok = False
             return -1
 
+utils.check_default_files()
 emails.send_mail("Starting solar logger")
-loops = 0        
+loops = 0
 while True:
     print("starting")
     print(time.strftime("%c"))
@@ -691,7 +776,7 @@ while True:
     except Exception as e:
         print("top error: %s" % str(e))
         print("something went wrong")
-        loops = loops + 1 
+        loops = loops + 1
         if loops > 9:
             emails.send_mail("Doing the loopy loop \r\n" + str(e))
     print("done")

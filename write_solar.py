@@ -400,4 +400,3 @@ for month in solar:
 
 
         target=flux_client.write_points(metrics, database=config.influxdb_database)
-

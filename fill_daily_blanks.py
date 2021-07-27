@@ -10,7 +10,7 @@ flux_client = InfluxDBClient(host=config.influxdb_ip,
                              password=config.influxdb_password)
 
 
-midnight  = int(time.mktime(time.strptime(time.strftime( "%m/%d/%Y ") + " 23:59:59", "%m/%d/%Y %H:%M:%S"))) + 1 
+midnight  = int(time.mktime(time.strptime(time.strftime( "%m/%d/%Y ") + " 23:59:59", "%m/%d/%Y %H:%M:%S"))) + 1
 
 print(time.ctime(midnight))
 

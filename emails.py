@@ -21,7 +21,7 @@ def send_mail(content):
     if config.email_sent == content:
         return
 
-    config.email_sent = content 
+    config.email_sent = content
     subject = "Solar logger reporting"
 
     if config.mail_server == "":
@@ -36,7 +36,7 @@ def send_mail(content):
             if config.debug:
                 server.set_debuglevel(1)
             sc = ssl.create_default_context(purpose=ssl.Purpose.SERVER_AUTH)
-            sc.options |= ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1 
+            sc.options |= ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1
             sc.minimum_version = ssl.TLSVersion.TLSv1_2
             server.starttls(context=sc)
         else:
@@ -50,4 +50,3 @@ def send_mail(content):
         server.quit
     except Exception as e:
         print("mailing error: %s" % str(e))
-

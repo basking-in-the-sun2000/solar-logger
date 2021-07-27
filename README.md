@@ -4,15 +4,17 @@ This is a datalogger for a solar inverter. Tried to make it so it can be used wi
 
 
 ![Dashboard](dashboard.png)
+![daily](daily.png)
 ![longterm](longterm.png)
 
 I'm certain that by not having access to other inverters and only knowing mine, I did throw in some bias into the code. However, hope it isn't bad
 
 So for now it is configured for a Huawei's Sun2000 usl0 version, but probably should run with other residential models. For commercial models, you would need to update the register map (in Huawei.py).
 
-
-
 This code was inspired on a series of other repositories to as a guideline to create the current datalogger. Including portions from https://github.com/meltaxa/solariot/
+
+### Changes ###
+**This release has several changes. The interface, the way the grid energy balance is calculated, should be friendlier to those with more than 1 logical string, included ESU and other registers when polling the inverter,  will check to see if your config.py and Huawei.py files have all the parameters in the default files, and some bug fixes**
 
 ### Basics ###
 
@@ -29,7 +31,7 @@ sudo grafana-cli plugins install agenty-flowcharting-panel
 sudo systemctl restart grafana-server.service
 ```
 
-Some of the inverters don't work well after sunset, they disable all functions. So you might need to test the logger during sun up. 
+Some of the inverters don't work well after sunset, they disable all functions. So you might need to test the logger during sun up.
 
 
 ### Description of files ###
@@ -86,7 +88,7 @@ If everything is working, you can get it running as a service and will autostart
 
 ### Notes about raspberry pi 4
 
-Been running it off a raspberry pi 4 and has behaved well. Influx is a bit demanding, up to 40% of the cpu. Did eventually ran into trouble, since wal files had grown, and influxdb couldn't run (see below). You might want to turn off the vnc and desktop  to conserve resources. 
+Been running it off a raspberry pi 4 and has behaved well. Influx is a bit demanding, up to 40% of the cpu. Did eventually ran into trouble, since wal files had grown, and influxdb couldn't run (see below). You might want to turn off the vnc and desktop  to conserve resources.
 
 Also, my sd card started acting up (changes weren't saved to the drive). Ended up using an ssd, which hopefully will be enough for the next 25 years. On the positive side, it allowed me to do a clean install and test everything from scatch. Had to install it on the usb2. Wouldn't boot if it was on the usb3, maybe the case I'm using.
 
@@ -95,17 +97,17 @@ Did add this to the `/boot/cmdline.txt`, just to make sure it checked the drives
 
 You should have the log file at `~/var/log/solar/solar.log` (unless you changed the location). but you need to create the folde first (mkdir)
 
-You could also try something that moves a high frequency write directory (`/var/log`) to ram 
+You could also try something that moves a high frequency write directory (`/var/log`) to ram
 https://github.com/azlux/log2ram
 
 ### Diverter
-#### In development, haven't actually tested it. You need to remove the lines marked as _disable for actual use_ in divert.py to be able to control loads. 
+#### In development, haven't actually tested it. You need to remove the lines marked as _disable for actual use_ in divert.py to be able to control loads.
 
 Control loads to sink excess power. Don't actually have a setup to test this, so hope someone might provide some feedback. By not having tested it, I might have overcompensate for this
 
 The load itself would have whatever logic it needs. So a water heater would need a thermostat, an A/C also a thermostat, an EV charger would need the logic to control the charge (though it is conceivable to add a pwm that would show the available excess power),  etc. This control only provides a signal that can be used to power the loads.
 
-The logger runs every 30s, so it could be that in the previous iteration, a load was activated, but the load's logic turned it off. You would now have that power available, and would activate a second load (assuming you have several). If during the next two and a half minutes these two loads activate, you won't be able to turn them off (there is a freeze of 3 minutes between events). 
+The logger runs every 30s, so it could be that in the previous iteration, a load was activated, but the load's logic turned it off. You would now have that power available, and would activate a second load (assuming you have several). If during the next two and a half minutes these two loads activate, you won't be able to turn them off (there is a freeze of 3 minutes between events).
 
 You have to set some parameters in the config file
 
@@ -118,13 +120,13 @@ __diverters_io__ — defines the interface (currently only gpio) and the pin num
 
 __diverters_holiday__ Will disable a loas until that day (yyyy-mm-dd). At the start of the day (0 hours) the load will become active and controlled by __divert__ and the load's controller
 
-__divert__ — is a 24h profile for the loads. For each hour you define a tuple (load, priority, pstart, pstop). 
+__divert__ — is a 24h profile for the loads. For each hour you define a tuple (load, priority, pstart, pstop).
 
-__Load__ is the number (from 0) assigned to a load. 
+__Load__ is the number (from 0) assigned to a load.
 
 __priority__ defines how important the load is to you. The higher it is it will tested first when activating, and will turn off after the lower __priority__ loads.  Though the available power will determine if the load can be changed at that time.
 
-A value of  -1 disables the load at that hour. 
+A value of  -1 disables the load at that hour.
 
 
 __pstart__ is the available power you need to have, before the load turns on. The power at the grid (meter actually) has to be higher than __pstart.__ It is not the value of power produced by the inverter, but the net result (your production - your consumption).
@@ -134,21 +136,21 @@ You want this to be larger than the actual load and the value for __diverters_lo
 Since you could define values for nighttime (probably a negative value), you would still need the grid to be higher (i.e. a smaller negative number)
 
 
-__pstop__ will deactivate the load when the power at the grid drops. 
+__pstop__ will deactivate the load when the power at the grid drops.
 
 For nighttime loads, this value has to be the more negative of the two.
 
-You want to provide a deadband between __pstart__ and __pstop,__ to prevent the system from chattering. Basically it has to consider the load. So don't give a spread of 1kW when the load is 2kW (this might lead to some confusion by the controller). __pstart__ is larger than __pstop__, the load from __diverters_loads__ and then some extra. 
+You want to provide a deadband between __pstart__ and __pstop,__ to prevent the system from chattering. Basically it has to consider the load. So don't give a spread of 1kW when the load is 2kW (this might lead to some confusion by the controller). __pstart__ is larger than __pstop__, the load from __diverters_loads__ and then some extra.
 
 For instance you might want for a 1200 W WH values to be __pstart__= 2200 (maybe larger if you have several other loads), __pstop__= 300 and __diverters_loads__ = 1200
 
-Even when __priority__ will determine the order, the power settings have to be satisfied, for the load to change. However, the priority allows a load to be tested first. The case where two loads have the same __priority__, then larger __pstart__ loads will be given the opportunity to turn on first. This is the logic, however, the generated power increases in the morning, so probably smaller loads would be activated. 
+Even when __priority__ will determine the order, the power settings have to be satisfied, for the load to change. However, the priority allows a load to be tested first. The case where two loads have the same __priority__, then larger __pstart__ loads will be given the opportunity to turn on first. This is the logic, however, the generated power increases in the morning, so probably smaller loads would be activated.
 
 When turning off two loads with the same  __priority__, smaller __pstop__ loads are tested first. If you need a load to remain connected  over all others, use a larger  __priority__ for this load.
 
 #### Notes about diverters
 
-There is a 3 minute period during which no changes are allowed after an event for that load. This is to prevent an inrush load from freaking out the controller, and to prevent a nervous response. This could happen at the end of the day, or when it is very cloudy. Also if you are using a compressor as a load, you might want to increase this time. 
+There is a 3 minute period during which no changes are allowed after an event for that load. This is to prevent an inrush load from freaking out the controller, and to prevent a nervous response. This could happen at the end of the day, or when it is very cloudy. Also if you are using a compressor as a load, you might want to increase this time.
 
 A suggestion for resistive loads would be to use a zero-crossing relay. This would make contactor last longer, since it would commutate without a load. If your load is inductive, a zero-crossing might not work well
 
@@ -160,7 +162,7 @@ Didn't implement this, since I want to make sure the regular concept for load di
 
 ### Other notes
 
-It uses solcast.com, so you need to create an account (free) and a rooftop site. It pulls the forecast several times during the day, but only sends the measurements at midnight. 
+It uses solcast.com, so you need to create an account (free) and a rooftop site. It pulls the forecast several times during the day, but only sends the measurements at midnight.
 
 Also updates the daily summary data at midnight. In case you missed that time, there are tools that allow you to send data to solcast or update the daily db
 
@@ -173,7 +175,7 @@ My system is new, so I have panes that show the behaviour throughout the day. If
 
 ### About Influx
 
-Just had an issue with influxdb, by which it wouldn't start. Somehow it didn't worked as expected, and started leaving around a huge amount of files. Had he logger offline a couple of days, trying to figure a way to fix it. 
+Just had an issue with influxdb, by which it wouldn't start. Somehow it didn't worked as expected, and started leaving around a huge amount of files. Had he logger offline a couple of days, trying to figure a way to fix it.
 
 Got the 4gb raspberry pi, thinking i would need it. However, always thought that would suffice for this use. Eventually moved it to my computer, and ran influxd from there. Kept getting a out of memory error and later a too many files open error.
 
@@ -182,7 +184,7 @@ Not sure if this will sufice, but maybe these changes might help
 Add to `/etc/security/limits.d/influxd.conf` and `/etc/security/limits.conf`:
 
     *                hard    nofile          40962
-    *                soft    nofile          40962 
+    *                soft    nofile          40962
 
 Set these values to the influxdb config (`/etc/influxdb/influxdb.conf`), not certain they will solve the problem
 ```
@@ -196,12 +198,12 @@ Set these values to the influxdb config (`/etc/influxdb/influxdb.conf`), not cer
   cache-snapshot-memory-size = "64m"
   cache-snapshot-write-cold-duration = "15m"
   compact-full-write-cold-duration = "4h"
-  max-concurrent-compactions = 1  
+  max-concurrent-compactions = 1
   compact-throughput = "24m"
   compact-throughput-burst = "48m"
   max-index-log-file-size = "1m"
 ```
-### create a continuous query 
+### create a continuous query
 
 `CREATE DATABASE logger_ds`
 
