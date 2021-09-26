@@ -238,6 +238,7 @@ def forecast(h, midnight):
 
     if config.debug:
         print("in forecast")
+#    print(status)
 
     forecast_time = forehour(time.time())
     t = time.time()
@@ -599,7 +600,7 @@ def main():
                 time.sleep(x - 0.05)
 
             if (config.diverters):
-                changes = divert.check(measurement['M_P'])
+                changes = divert.check(measurement['M_P'], flux_client)
                 for x in changes:
                     measurement["load_" + str(x)] = changes[x]
 #                print(changes)
@@ -701,7 +702,7 @@ def main():
 
                 print("doing period balance")
                 diff = 1
-                dt = datetime.datetime.fromtimestamp(midnight - (config.billing_date + diff - 1) * 24 * 3600)
+                dt = datetime.datetime.fromtimestamp(midnight - (config.billing_date + diff) * 24 * 3600)
                 print(dt)
 
                 window = 12
@@ -715,6 +716,10 @@ def main():
                 billing_month = (billing_month + window) % window
                 if (billing_month == 0):
                     billing_month = window
+
+                dt = datetime.datetime.fromtimestamp(midnight - (config.billing_date + diff - 1) * 24 * 3600)
+                print(dt)
+
                 billing_day = dt.day
 
                 print(billing_month)
@@ -732,7 +737,6 @@ def main():
                 daily_forecast = True
                 forecast_hours = 0
                 forecast_ratio = 0
-
 
             if (int(time.time()) > forecast_time):
                 forecast_time = forecast(forecast_time, midnight)

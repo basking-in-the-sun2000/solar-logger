@@ -52,7 +52,8 @@ _register_map =  {
     'Temp':       {'addr': '32087', 'registers': 1,  'name': 'Internal temperature',             'scale': 10,   'type': 'I16',  'units': '°C'  , 'use': 'data',  'method': 'hold'},
     'P_accum':    {'addr': '32106', 'registers': 2,  'name': 'Accumulated energy yield',         'scale': 100,  'type': 'U32',  'units': 'kWh' , 'use': 'data',  'method': 'hold'},
     'P_daily':    {'addr': '32114', 'registers': 2,  'name': 'Daily energy yield',               'scale': 100,  'type': 'U32',  'units': 'kWh' , 'use': 'data',  'method': 'hold'},
-    'M_status':   {'addr': '37000', 'registers': 1,  'name': 'Meter status',                     'scale': 1,    'type': 'U16',  'units': ''    , 'use': 'stat',  'method': 'hold'},
+    'M_status':   {'addr': '37100', 'registers': 1,  'name': 'Meter status',                     'scale': 1,    'type': 'U16',  'units': ''    , 'use': 'stat',  'method': 'hold'},
+    'M_check':    {'addr': '37138', 'registers': 1,  'name': 'Meter detection result',           'scale': 1,    'type': 'U16',  'units': ''    , 'use': 'stat',  'method': 'hold'},
     'M_type':     {'addr': '37125', 'registers': 1,  'name': 'Meter type'  ,                     'scale': 1,    'type': 'U16',  'units': ''    , 'use': 'stat',  'method': 'hold'},
     'M_P':        {'addr': '37113', 'registers': 2,  'name': 'Active Grid power',                'scale': 1,    'type': 'I32',  'units': 'W'   , 'use': 'data',  'method': 'hold'},
     'M_Pr':       {'addr': '37115', 'registers': 2,  'name': 'Active Grid reactive power',       'scale': 1,    'type': 'I32',  'units': 'VAR' , 'use': 'data',  'method': 'hold'},
@@ -72,6 +73,7 @@ _register_map =  {
     'M_B-P':      {'addr': '37134', 'registers': 2,  'name': 'Active Grid B power',              'scale': 1,    'type': 'I32',  'units': 'W'   , 'use': 'data',  'method': 'hold'},
     'M_C-P':      {'addr': '37136', 'registers': 2,  'name': 'Active Grid C power',              'scale': 1,    'type': 'I32',  'units': 'W'   , 'use': 'data',  'method': 'hold'},
     'M_PTot':     {'addr': '37121', 'registers': 2,  'name': 'Grid Accumulated Energy',          'scale': 100,  'type': 'U32',  'units': 'kWh' , 'use': 'data',  'method': 'hold'},
+    'M_RPTot':    {'addr': '37123', 'registers': 2,  'name': 'Grid Accumulated Reactive Energy', 'scale': 100,  'type': 'I32',  'units': 'KVarh','use': 'data',  'method': 'hold'},
     'ModelID':    {'addr': '30070', 'registers': 1,  'name': 'Model ID',                         'scale': 1,    'type': 'U16',  'units': ''    , 'use': 'info',  'method': 'hold'},
     'MPPT_N':     {'addr': '30072', 'registers': 1,  'name': 'MPPT Number',                      'scale': 1,    'type': 'U16',  'units': ''    , 'use': 'info',  'method': 'hold'},
     'PF_comp':    {'addr': '40122', 'registers': 1,  'name': 'Reactive power compensation',      'scale': 1000, 'type': 'I16',  'units': ''    , 'use': 'data',  'method': 'hold'},
@@ -121,7 +123,16 @@ if (config.has_ESU) :
         'ESU_max_discharge': {'addr': '37048', 'registers': 2,  'name': 'ESU max discharge power',    'scale': 1,    'type': 'U32',  'units': 'W' ,   'use': 'info',  'method': 'hold'},
         'ESU_serialN':  {'addr': '37052', 'registers': 10,  'name': 'ESU serial number',              'scale': 1,    'type': 'str',  'units': '' ,    'use': 'info',  'method': 'hold'},
         'ESU_tot_charge':  {'addr': '37066', 'registers': 2,  'name': 'ESU total charge',             'scale': 100,  'type': 'U32',  'units': 'kWh' , 'use': 'info',  'method': 'hold'},
-        'ESU_tot_discharge':  {'addr': '37068', 'registers': 2,  'name': 'ESU total discharge',       'scale': 100,  'type': 'U32',  'units': 'kWh' , 'use': 'info',  'method': 'hold'}})
+        'ESU_tot_discharge':  {'addr': '37068', 'registers': 2,  'name': 'ESU total discharge',       'scale': 100,  'type': 'U32',  'units': 'kWh' , 'use': 'info',  'method': 'hold'},
+        'ESU_model':   {'addr': '47000', 'registers': 1,  'name': 'ESU battery type',                 'scale': 1,    'type': 'U16',  'units': '' ,    'use': 'info',  'method': 'hold'},
+        'ESU_charging':   {'addr': '47075', 'registers': 2,  'name': 'ESU max charging power',        'scale': 1,    'type': 'U32',  'units': 'W' ,    'use': 'info',  'method': 'hold'},
+        'ESU_discharging':   {'addr': '47077', 'registers': 2,  'name': 'ESU max discharging power',  'scale': 1,    'type': 'U32',  'units': 'W' ,    'use': 'info',  'method': 'hold'},
+        'ESU_charging_cutoff':  {'addr': '47081', 'registers': 1,  'name': 'ESU charging cutoff',     'scale': 10,   'type': 'U16',  'units': '%' ,    'use': 'info',  'method': 'hold'},
+        'ESU_discharging_cutoff': {'addr': '47082', 'registers': 1, 'name': 'ESU discharging cutoff', 'scale': 10,   'type': 'U16',  'units': '%' ,    'use': 'info',  'method': 'hold'},
+        'ESU_forced':  {'addr': '47083', 'registers': 1,  'name': 'ESU forced cutoff',                'scale': 1,    'type': 'U16',  'units': 'min' ,  'use': 'info',  'method': 'hold'},
+        'ESU_mode2':   {'addr': '47086', 'registers': 1,  'name': 'ESU mode 2',                       'scale': 1,    'type': 'U16',  'units': '' ,     'use': 'info',  'method': 'hold'},
+        'ESU_grid':    {'addr': '47087', 'registers': 1,  'name': 'ESU grid charging',                'scale': 1,    'type': 'U16',  'units': '' ,     'use': 'info',  'method': 'hold'},
+        'ESU_excess':  {'addr': '47299', 'registers': 1,  'name': 'ESU Excess energy use',            'scale': 1,    'type': 'U16',  'units': '' ,     'use': 'info',  'method': 'hold'}})
 
 
 _status_map = {
@@ -301,6 +312,16 @@ def status(register, value):
         s = _status_map[value]
     elif (register == 'Fault'):
         s = str(value)
+    elif (register == 'M_status'):
+        if value == 1:
+            s = "normal"
+        else:
+            s = "offline"
+    elif (register == 'M_type'):
+        if value == 1:
+            s = "three phase"
+        else:
+            s = "one phase"
     else:
         s = 'invalid status'
     if s.endswith(' | '):

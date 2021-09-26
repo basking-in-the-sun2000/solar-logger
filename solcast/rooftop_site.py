@@ -38,4 +38,3 @@ class RooftopSite(Base):
 
         if self.ok:
             self.site = self.content['site']
-

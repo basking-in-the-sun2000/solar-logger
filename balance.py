@@ -11,7 +11,7 @@ try:
                                 port=config.influxdb_port,
                                 username=config.influxdb_user,
                                 password=config.influxdb_password)
-    
+
 except Exception as e:
     print("main error: %s" % str(e))
     flux_client = None
@@ -56,7 +56,7 @@ for i in daily:
     m = (m + window) % window
     if (m == 0):
         m = window
-        #    print(int(m))    
+        #    print(int(m))
         #    print(int(m % config.billing_period))
         #    print(int(m / config.billing_period) )
 
@@ -101,7 +101,7 @@ for i in daily:
     sum = sum + i['P_Exp'] -i['P_Grid']
 #    print(time.ctime(i['time']/1e9), i['P_Grid']  - i['P_Exp'], sum)
 
-    
+
     if (last != m):
 #        diff = (adj[adj_index]['time'] - i['time']) / 1e9 / 24 / 3600
         last = m
@@ -113,7 +113,7 @@ for i in daily:
             sum_array.append([i['time']/1e9, sum])
         last_day = i['time']
         sum = 0
-                
+
 print("\n\nbalancing run")
 for key, value in enumerate(sum_array):
     print (key, value)

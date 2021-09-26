@@ -14,7 +14,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "8.1.0-beta2"
+      "version": "8.2.0-beta1"
     },
     {
       "type": "datasource",
@@ -24,8 +24,8 @@
     },
     {
       "type": "panel",
-      "id": "table",
-      "name": "Table",
+      "id": "state-timeline",
+      "name": "State timeline",
       "version": ""
     }
   ],
@@ -53,6 +53,7 @@
   "graphTooltip": 0,
   "id": null,
   "links": [],
+  "liveNow": false,
   "panels": [
     {
       "datasource": "${DS_INFLUXDB}",
@@ -62,27 +63,17 @@
             "mode": "thresholds"
           },
           "custom": {
-            "align": "right",
-            "displayMode": "color-text",
-            "filterable": false
+            "fillOpacity": 78,
+            "lineWidth": 0
           },
           "decimals": 0,
-          "displayName": "",
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "semi-dark-blue",
+                "color": "dark-red",
                 "value": null
-              },
-              {
-                "color": "light-green",
-                "value": 0
-              },
-              {
-                "color": "red",
-                "value": 0.1
               }
             ]
           },
@@ -92,39 +83,12 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Time"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "dateTimeAsIsoNoDateIfToday"
-              },
-              {
-                "id": "custom.align",
-                "value": "left"
-              },
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "super-light-green",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
               "options": "Fault"
             },
             "properties": [
               {
                 "id": "unit",
                 "value": "short"
-              },
-              {
-                "id": "custom.align",
-                "value": null
               },
               {
                 "id": "thresholds",
@@ -145,10 +109,6 @@
                     }
                   ]
                 }
-              },
-              {
-                "id": "custom.width",
-                "value": 54
               }
             ]
           },
@@ -159,15 +119,19 @@
             },
             "properties": [
               {
-                "id": "custom.width",
-                "value": 90
-              },
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "semi-dark-red",
-                  "mode": "fixed"
-                }
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "match": "empty",
+                      "result": {
+                        "color": "transparent",
+                        "index": 0
+                      }
+                    },
+                    "type": "special"
+                  }
+                ]
               }
             ]
           },
@@ -329,13 +293,17 @@
       },
       "id": 2,
       "options": {
-        "showHeader": true,
-        "sortBy": [
-          {
-            "desc": true,
-            "displayName": "Time"
-          }
-        ]
+        "alignValue": "left",
+        "legend": {
+          "displayMode": "hidden",
+          "placement": "bottom"
+        },
+        "mergeValues": true,
+        "rowHeight": 0.8,
+        "showValue": "never",
+        "tooltip": {
+          "mode": "single"
+        }
       },
       "pluginVersion": "8.1.0-beta2",
       "targets": [
@@ -671,23 +639,23 @@
           }
         }
       ],
-      "type": "table"
+      "type": "state-timeline"
     }
   ],
   "refresh": "",
-  "schemaVersion": 30,
+  "schemaVersion": 31,
   "style": "dark",
   "tags": [],
   "templating": {
     "list": []
   },
   "time": {
-    "from": "now/w",
-    "to": "now/w"
+    "from": "now-14d",
+    "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Status",
   "uid": "UjSVubzRk",
-  "version": 10
+  "version": 18
 }
