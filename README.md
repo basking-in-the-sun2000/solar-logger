@@ -29,7 +29,8 @@ sudo grafana-cli plugins install fetzerch-sunandmoon-datasource
 sudo grafana-cli plugins install blackmirror1-singlestat-math-panel
 sudo grafana-cli plugins install yesoreyeram-boomtable-panel
 sudo grafana-cli plugins install agenty-flowcharting-panel
-sudo systemctl restart grafana-server.service ```
+sudo systemctl restart grafana-server.service
+```
 
 
 Some of the inverters don't work well after sunset, they disable all functions. So you might need to test the logger during sun-up.
