@@ -238,8 +238,8 @@ def update_balance(flux_client, t):
 #            print("\n\nfinal balance data")
 #            for value in last_bal:
 #                print(time.ctime(value['time']/1e9), value['Bal'])
-
-        write_influx(flux_client, {'Bal': float(sum)}, config.model + "_daily", config.influxdb_longterm, int(t * 1e9))
+        if sum > 0:
+            write_influx(flux_client, {'Bal': float(sum)}, config.model + "_daily", config.influxdb_longterm, int(t * 1e9))
 
     except Exception as e:
         print("update_balance error: %s" % str(e))
