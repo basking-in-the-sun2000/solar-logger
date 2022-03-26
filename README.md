@@ -14,7 +14,9 @@ So for now it is configured for Huawei's Sun2000 usl0 version but probably shoul
 This code was inspired by a series of other repositories as a guideline to create the current datalogger. Including portions from https://github.com/meltaxa/solariot/
 
 ### Changes ###
+You can have two solcast forecasts added to provide a single value, since solcast stopped tuning rooftop sites. This allows you to have the two arrays pointed towards different directions as a single value. The value is capped at forecast_capacity.
 
+You need to enter the uuid for the second site in the config.py file
 
 ### Basics ###
 
