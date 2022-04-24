@@ -24,7 +24,6 @@ sudo apt-get install -y grafana
 pip3 install pymodbus
 pip3 install isodate
 pip3 install solcast
-pip3 install isodate
 pip3 install pytz
 pip3 install influxdb
 
@@ -33,6 +32,13 @@ sudo service grafana-server start
 
 sudo service influxdb enable
 sudo service influxdb start
+
+sudo grafana-cli plugins install fetzerch-sunandmoon-datasource
+sudo grafana-cli plugins install blackmirror1-singlestat-math-panel
+sudo grafana-cli plugins install yesoreyeram-boomtable-panel
+sudo grafana-cli plugins install agenty-flowcharting-panel
+sudo systemctl restart grafana-server.service
+
 ```
 
 
