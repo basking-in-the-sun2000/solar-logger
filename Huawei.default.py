@@ -372,7 +372,7 @@ def inv_address():
                 if config.debug:
                     print("can't find inverter")
                 if (config.inverter_ip != ""):
-                    return config.inverter_ip
+                    return ""
                 emails.send_mail("can't find inverter" + str(e))
 
         if addr[0] != ip_self:

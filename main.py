@@ -210,7 +210,7 @@ def forecast(h, midnight):
         if config.debug:
             print(time.ctime(h))
 
-        forecast_time = h + int(max((t_stop - t_start) * 3600 / 18, 25 * 60))
+        forecast_time = h + int(max((t_stop - t_start) * 3600 / 24, 25 * 60))
 
         if config.debug:
             print(t_start)
@@ -404,14 +404,8 @@ def main():
 
     inverter = __import__(inverter_file)
     if config.debug:
-        print("got it")
+        print("got inverter file")
 
-    inverter_ip = inverter.inv_address()
-    print(inverter_ip)
-    if inverter_ip != "":
-        config.inverter_ip = inverter_ip
-
-    print(config.inverter_ip)
     if config.debug:
         print("statring setup")
         print("opening modbus")
@@ -419,6 +413,21 @@ def main():
     client = connect_bus(ip=config.inverter_ip,
                          PortN = config.inverter_port,
                          timeout = config.timeout)
+    if (client.socket == None):
+        if config.debug:
+            print("bad inverter ip")
+            print("trying to find inverter")
+        inverter_ip = inverter.inv_address()
+        print(inverter_ip)
+        if inverter_ip == "":
+            raise Exception("Can't find inverter")
+        config.inverter_ip =inverter_ip
+
+        client = connect_bus(ip=config.inverter_ip,
+                         PortN = config.inverter_port,
+                         timeout = config.timeout)
+        
+    print(config.inverter_ip)
 
     if config.debug:
         print("opening db")
@@ -439,6 +448,7 @@ def main():
 
     flux_client.create_database(config.influxdb_database)
     flux_client.create_database(config.influxdb_longterm)
+    flux_client.create_database(config.influxdb_downsampled)
     if config.debug:
         print("setting params")
 
@@ -663,6 +673,12 @@ def main():
                     daily['f_hours'] = float(forecast_hours)
                     daily["f_ratio"] = float(forecast_ratio)
 
+                s = 'SELECT cumulative_sum(integral("power90")) /3600  as power90, cumulative_sum(integral("power10")) /3600  as power10, cumulative_sum(integral("power")) /3600  as power FROM "forcast" WHERE time > now() and time < now() + 22h  group by time(1d)'
+                zeros = flux_client.query(s, database=config.influxdb_database)
+                m = list(zeros.get_points(measurement="forcast"))
+                tomorrow = float(m[0]['power'])
+
+
                 if config.debug:
                     print(midnight)
                     print(c_gen)
@@ -692,7 +708,7 @@ def main():
                     print(time.ctime(midnight - 24 * 3600))
                     print(daily)
 
-                utils.send_measurements(midnight - 24 * 3600 * 4, midnight, flux_client)
+#                utils.send_measurements(midnight - 24 * 3600 * 4, midnight, flux_client)
 
                 if config.daily_reports:
                     s = "Daily values for the day of " + time.ctime(midnight - 24 * 3600) + "\r\n\r\n\r\n"
@@ -704,6 +720,7 @@ def main():
                     s = s + f"Exported: {daily['P_Exp']:3.1f}\r\n"
                     s = s + f"Grid: {daily['P_Grid']:3.1f}\r\n\r\n"
                     s = s + f"Peak: {daily['P_peak']:3.1f}\r\n"
+                    s = s + f"Tomorrow: {tomorrow:3.1f}\r\n"
 
                     emails.send_mail(s)
 

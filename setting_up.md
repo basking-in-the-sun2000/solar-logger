@@ -4,34 +4,36 @@ Setup your Pi
 
 Usually try to boost security a little – https://www.raspberrypi.org/documentation/configuration/security.md
 
-```
-sudo apt update
-sudo apt upgrade
-sudo apt install -y gnupg2 curl wget
 
-wget -qO- https://repos.influxdata.com/influxdb.key | sudo apt-key add -
-echo "deb https://repos.influxdata.com/debian buster stable" | sudo tee /etc/apt/sources.list.d/influxdb.list
+> sudo apt update
+> 
+> sudo apt upgrade
+> 
+> sudo apt install -y gnupg2 curl wget git python3-pip
+> 
+> wget -qO- https://repos.influxdata.com/influxdb.key | sudo apt-key add -
+> echo "deb https://repos.influxdata.com/debian buster stable" | sudo tee /etc/apt/sources.list.d/influxdb.list
+> 
+> wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -
+> echo "deb https://packages.grafana.com/oss/deb stable main" | sudo tee -a /etc/apt/sources.list.d/grafana.list
+> 
+> sudo apt update
+> sudo apt-get install -y influxdb
+> sudo apt-get install -y grafana
+> 
+> pip3 install pymodbus
+> pip3 install isodate
+> pip3 install solcast
+> pip3 install isodate
+> pip3 install pytz
+> pip3 install influxdb
+> 
+> sudo service grafana-server enable
+> sudo service grafana-server start
+> 
+> sudo service influxdb enable
+> sudo service influxdb start
 
-wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -
-echo "deb https://packages.grafana.com/oss/deb stable main" | sudo tee -a /etc/apt/sources.list.d/grafana.list
-
-sudo apt update
-sudo apt-get install -y influxdb
-sudo apt-get install -y grafana
-
-pip3 install pymodbus
-pip3 install isodate
-pip3 install solcast
-pip3 install isodate
-pip3 install pytz
-pip3 install influxdb
-
-sudo service grafana-server enable
-sudo service grafana-server start
-
-sudo service influxdb enable
-sudo service influxdb start
-```
 
 
 if you installed ufw:
@@ -56,6 +58,9 @@ You might want to setup the `config.py` file with the parameter for your site
 
 You need grant privileges your user
 + strart a session (type influx in the terminal)
++ CREATE DATABASE logger
++ CREATE DATABASE logger_ds
++ CREATE DATABASE logger_lt
 CREATE USER `<username>` WITH PASSWORD `<password>` (use the username and password you used in the config.py file for influx)
 + grant write on logger to `<username>`
 + grant write on logger_ds to `<username>`

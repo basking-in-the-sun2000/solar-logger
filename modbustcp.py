@@ -1,8 +1,9 @@
 from pymodbus.client.sync import ModbusTcpClient as ModbusClient
 import time
+import config
 
 
-def connect_bus(ip="192.168.8.1", PortN = 502, timeout = 3):
+def connect_bus(ip=config.inverter_ip, PortN = config.inverter_port, timeout = 3):
     client = ModbusClient(host=ip, port=PortN, timeout=timeout, RetryOnEmpty = True, retries = 3)
     time.sleep(1)
     client.connect()
@@ -19,9 +20,9 @@ def read_registers(client, UnitID, data):
     try:
         nb = int(data['registers'])
         if data['method'] == "hold":
-            result = client.read_holding_registers(int(data['addr']), nb, unit=UnitID)
+            result = client.read_holding_registers(int(data['addr']), count=nb, unit=UnitID)
         elif data['method'] == "input":
-            result = client.read_input_registers(int(data['addr']), nb, unit=UnitID)
+            result = client.read_input_registers(int(data['addr']), count=nb, unit=UnitID)
         ns = time.time()
         while (time.time() - ns < 1.5):
             try:
