@@ -5,9 +5,8 @@ Setup your Pi
 Usually try to boost security a little – https://www.raspberrypi.org/documentation/configuration/security.md
 
 ```
-sudo apt update
-sudo apt upgrade
-sudo apt install -y gnupg2 curl wget
+sudo apt update && sudo apt -y upgrade
+sudo apt install -y gnupg2 curl wget git python3-pip
 
 wget -qO- https://repos.influxdata.com/influxdb.key | sudo apt-key add -
 echo "deb https://repos.influxdata.com/debian buster stable" | sudo tee /etc/apt/sources.list.d/influxdb.list
@@ -22,7 +21,6 @@ sudo apt-get install -y grafana
 pip3 install pymodbus
 pip3 install isodate
 pip3 install solcast
-pip3 install isodate
 pip3 install pytz
 pip3 install influxdb
 
@@ -31,6 +29,13 @@ sudo service grafana-server start
 
 sudo service influxdb enable
 sudo service influxdb start
+
+sudo grafana-cli plugins install fetzerch-sunandmoon-datasource
+sudo grafana-cli plugins install blackmirror1-singlestat-math-panel
+sudo grafana-cli plugins install yesoreyeram-boomtable-panel
+sudo grafana-cli plugins install agenty-flowcharting-panel
+sudo systemctl restart grafana-server.service
+
 ```
 
 
