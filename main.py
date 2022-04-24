@@ -404,7 +404,7 @@ def main():
 
     inverter = __import__(inverter_file)
     if config.debug:
-        print("got inverter file")
+        print("Loaded: " + inverter_file)
 
     if config.debug:
         print("statring setup")
