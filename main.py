@@ -404,7 +404,7 @@ def main():
 
     inverter = __import__(inverter_file)
     if config.debug:
-        print("got it")
+        print("Loaded: " + inverter_file)
 
     inverter_ip = inverter.inv_address()
     print(inverter_ip)
@@ -413,7 +413,7 @@ def main():
 
     print(config.inverter_ip)
     if config.debug:
-        print("statring setup")
+        print("starting setup")
         print("opening modbus")
 
     client = connect_bus(ip=config.inverter_ip,
