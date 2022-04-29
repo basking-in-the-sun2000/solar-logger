@@ -31,8 +31,30 @@
       "type": "datasource",
       "pluginId": "influxdb",
       "pluginName": "InfluxDB"
+    },
+    {
+      "name": "VAR_TZONE",
+      "type": "constant",
+      "label": "tzone",
+      "value": "UTC",
+      "description": ""
+    },
+    {
+      "name": "VAR_SOLCAST_ADJ",
+      "type": "constant",
+      "label": "solcast_adj",
+      "value": "1.0",
+      "description": ""
+    },
+    {
+      "name": "VAR_PEAK_I",
+      "type": "constant",
+      "label": "peak_I",
+      "value": "41.7",
+      "description": ""
     }
   ],
+  "__elements": [],
   "__requires": [
     {
       "type": "panel",
@@ -56,13 +78,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "8.2.0-beta1"
-    },
-    {
-      "type": "panel",
-      "id": "graph",
-      "name": "Graph (old)",
-      "version": ""
+      "version": "8.4.4"
     },
     {
       "type": "datasource",
@@ -103,21 +119,22 @@
     ]
   },
   "editable": true,
-  "gnetId": null,
+  "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1632698563952,
+  "iteration": 1651202011969,
   "links": [],
   "liveNow": false,
   "panels": [
     {
-      "cacheTimeout": null,
-      "datasource": "-- Mixed --",
+      "datasource": {
+        "type": "datasource",
+        "uid": "-- Mixed --"
+      },
       "flowchartsData": {
         "flowcharts": [
           {
             "allowDrawio": false,
-            "bgColor": null,
             "center": false,
             "csv": "## See more information for the syntax at https://drawio-app.com/import-from-csv-to-drawio/\n##\n## Example CSV. Use ## for comments and # for configuration.\n## The following names are reserved and should not be used (or ignored):\n## id, tooltip, placeholder(s), link and label (see below)\n##\n#\n## Node label with placeholders and HTML.\n## Default is '%name_of_first_column%'.\n#\n# label: %name%<br><i style=\"color:gray;\">%position%</i><br><a href=\"mailto:%email%\">Email</a>\n#\n## Node style (placeholders are replaced once).\n## Default is the current style for nodes.\n#\n# style: label;image=%image%;whiteSpace=wrap;html=1;rounded=1;fillColor=%fill%;strokeColor=%stroke%;\n#\n## Parent style for nodes with child nodes (placeholders are replaced once).\n#\n# parentstyle: swimlane;whiteSpace=wrap;html=1;childLayout=stackLayout;horizontal=1;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;\n#\n## Optional column name that contains a reference to a named style in styles.\n## Default is the current style for nodes.\n#\n# stylename: -\n#\n## JSON for named styles of the form {\"name\": \"style\", \"name\": \"style\"} where style is a cell style with\n## placeholders that are replaced once.\n#\n# styles: -\n#\n## Optional column name that contains a reference to a named label in labels.\n## Default is the current label.\n#\n# labelname: -\n#\n## JSON for named labels of the form {\"name\": \"label\", \"name\": \"label\"} where label is a cell label with\n## placeholders.\n#\n# labels: -\n#\n## Uses the given column name as the identity for cells (updates existing cells).\n## Default is no identity (empty value or -).\n#\n# identity: -\n#\n## Uses the given column name as the parent reference for cells. Default is no parent (empty or -).\n## The identity above is used for resolving the reference so it must be specified.\n#\n# parent: -\n#\n## Adds a prefix to the identity of cells to make sure they do not collide with existing cells (whose\n## IDs are numbers from 0..n, sometimes with a GUID prefix in the context of realtime collaboration).\n## Default is csvimport-.\n#\n# namespace: csvimport-\n#\n## Connections between rows (\"from\": source colum, \"to\": target column).\n## Label, style and invert are optional. Defaults are '', current style and false.\n## If placeholders are used in the style, they are replaced with data from the source.\n## An optional placeholders can be set to target to use data from the target instead.\n## In addition to label, an optional fromlabel and tolabel can be used to name the column\n## that contains the text for the label in the edges source or target (invert ignored).\n## The label is concatenated in the form fromlabel + label + tolabel if all are defined.\n## The target column may contain a comma-separated list of values.\n## Multiple connect entries are allowed.\n#\n# connect: {\"from\": \"manager\", \"to\": \"name\", \"invert\": true, \"label\": \"manages\", \\\n#          \"style\": \"curved=1;endArrow=blockThin;endFill=1;fontSize=11;\"}\n# connect: {\"from\": \"refs\", \"to\": \"id\", \"style\": \"curved=1;fontSize=11;\"}\n#\n## Node x-coordinate. Possible value is a column name. Default is empty. Layouts will\n## override this value.\n#\n# left: \n#\n## Node y-coordinate. Possible value is a column name. Default is empty. Layouts will\n## override this value.\n#\n# top: \n#\n## Node width. Possible value is a number (in px), auto or an @ sign followed by a column\n## name that contains the value for the width. Default is auto.\n#\n# width: auto\n#\n## Node height. Possible value is a number (in px), auto or an @ sign followed by a column\n## name that contains the value for the height. Default is auto.\n#\n# height: auto\n#\n## Padding for autosize. Default is 0.\n#\n# padding: -12\n#\n## Comma-separated list of ignored columns for metadata. (These can be\n## used for connections and styles but will not be added as metadata.)\n#\n# ignore: id,image,fill,stroke,refs,manager\n#\n## Column to be renamed to link attribute (used as link).\n#\n# link: url\n#\n## Spacing between nodes. Default is 40.\n#\n# nodespacing: 40\n#\n## Spacing between levels of hierarchical layouts. Default is 100.\n#\n# levelspacing: 100\n#\n## Spacing between parallel edges. Default is 40. Use 0 to disable.\n#\n# edgespacing: 40\n#\n## Name or JSON of layout. Possible values are auto, none, verticaltree, horizontaltree,\n## verticalflow, horizontalflow, organic, circle or a JSON string as used in Layout, Apply.\n## Default is auto.\n#\n# layout: auto\n#\n## ---- CSV below this line. First line are column names. ----\nname,position,id,location,manager,email,fill,stroke,refs,url,image\nEvan Miller,CFO,emi,Office 1,,me@example.com,#dae8fc,#6c8ebf,,https://www.draw.io,https://cdn3.iconfinder.com/data/icons/user-avatars-1/512/users-9-2-128.png\nEdward Morrison,Brand Manager,emo,Office 2,Evan Miller,me@example.com,#d5e8d4,#82b366,,https://www.draw.io,https://cdn3.iconfinder.com/data/icons/user-avatars-1/512/users-10-3-128.png\nRon Donovan,System Admin,rdo,Office 3,Evan Miller,me@example.com,#d5e8d4,#82b366,\"emo,tva\",https://www.draw.io,https://cdn3.iconfinder.com/data/icons/user-avatars-1/512/users-2-128.png\nTessa Valet,HR Director,tva,Office 4,Evan Miller,me@example.com,#d5e8d4,#82b366,,https://www.draw.io,https://cdn3.iconfinder.com/data/icons/user-avatars-1/512/users-3-128.png\n",
             "download": false,
@@ -218,8 +235,6 @@
             "tooltipOn": "a",
             "tpDirection": "v",
             "tpGraph": false,
-            "tpGraphHigh": null,
-            "tpGraphLow": null,
             "tpGraphScale": "linear",
             "tpGraphSize": "100%",
             "tpGraphType": "line",
@@ -296,8 +311,6 @@
             "tooltipOn": "a",
             "tpDirection": "v",
             "tpGraph": false,
-            "tpGraphHigh": null,
-            "tpGraphLow": null,
             "tpGraphScale": "linear",
             "tpGraphSize": "100%",
             "tpGraphType": "line",
@@ -368,8 +381,6 @@
             "tooltipOn": "a",
             "tpDirection": "v",
             "tpGraph": false,
-            "tpGraphHigh": null,
-            "tpGraphLow": null,
             "tpGraphScale": "linear",
             "tpGraphSize": "100%",
             "tpGraphType": "line",
@@ -438,8 +449,6 @@
             "tooltipOn": "a",
             "tpDirection": "v",
             "tpGraph": false,
-            "tpGraphHigh": null,
-            "tpGraphLow": null,
             "tpGraphScale": "linear",
             "tpGraphSize": "100%",
             "tpGraphType": "line",
@@ -513,8 +522,6 @@
             "tooltipOn": "a",
             "tpDirection": "v",
             "tpGraph": false,
-            "tpGraphHigh": null,
-            "tpGraphLow": null,
             "tpGraphScale": "linear",
             "tpGraphSize": "100%",
             "tpGraphType": "line",
@@ -586,8 +593,6 @@
             "tooltipOn": "a",
             "tpDirection": "v",
             "tpGraph": false,
-            "tpGraphHigh": null,
-            "tpGraphLow": null,
             "tpGraphScale": "linear",
             "tpGraphSize": "100%",
             "tpGraphType": "line",
@@ -659,8 +664,6 @@
             "tooltipOn": "a",
             "tpDirection": "v",
             "tpGraph": false,
-            "tpGraphHigh": null,
-            "tpGraphLow": null,
             "tpGraphScale": "linear",
             "tpGraphSize": "100%",
             "tpGraphType": "line",
@@ -736,8 +739,6 @@
             "tooltipOn": "a",
             "tpDirection": "v",
             "tpGraph": false,
-            "tpGraphHigh": null,
-            "tpGraphLow": null,
             "tpGraphScale": "linear",
             "tpGraphSize": "100%",
             "tpGraphType": "line",
@@ -801,8 +802,6 @@
             "tooltipOn": "a",
             "tpDirection": "v",
             "tpGraph": false,
-            "tpGraphHigh": null,
-            "tpGraphLow": null,
             "tpGraphScale": "linear",
             "tpGraphSize": "100%",
             "tpGraphType": "line",
@@ -815,7 +814,10 @@
       "targets": [
         {
           "alias": "Fault",
-          "datasource": "${DS_INFLUXDB}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -833,7 +835,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT \"Fault\"  FROM \"Huawei_stat\" where 'Status' != null order by time desc limit 1",
+          "query": "SELECT \"Fault\"  FROM \"Huawei_stat\" where 'Status' != null order by time desc limit 1 tz('${tzone}')",
           "rawQuery": true,
           "refId": "B",
           "resultFormat": "time_series",
@@ -855,7 +857,10 @@
         },
         {
           "alias": "State1",
-          "datasource": "${DS_INFLUXDB}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -873,7 +878,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT \"State1\"  FROM \"Huawei_stat\" where 'Status' != null order by time desc limit 1",
+          "query": "SELECT \"State1\"  FROM \"Huawei_stat\" where 'Status' != null order by time desc limit 1 tz('${tzone}')",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -895,7 +900,10 @@
         },
         {
           "alias": "State2",
-          "datasource": "${DS_INFLUXDB}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -913,7 +921,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT \"State2\"  FROM \"Huawei_stat\" where 'Status' != null order by time desc limit 1",
+          "query": "SELECT \"State2\"  FROM \"Huawei_stat\" where 'Status' != null order by time desc limit 1 tz('${tzone}')",
           "rawQuery": true,
           "refId": "C",
           "resultFormat": "time_series",
@@ -935,7 +943,10 @@
         },
         {
           "alias": "State3",
-          "datasource": "${DS_INFLUXDB}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -953,7 +964,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT  \"State3\"  FROM \"Huawei_stat\" where 'Status' != null order by time desc limit 1",
+          "query": "SELECT  \"State3\"  FROM \"Huawei_stat\" where 'Status' != null order by time desc limit 1 tz('${tzone}')",
           "rawQuery": true,
           "refId": "D",
           "resultFormat": "time_series",
@@ -975,7 +986,10 @@
         },
         {
           "alias": "Status",
-          "datasource": "${DS_INFLUXDB}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -993,7 +1007,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT  \"Status\"  FROM \"Huawei_stat\" where 'Status' != null order by time desc limit 1",
+          "query": "SELECT  \"Status\"  FROM \"Huawei_stat\" where 'Status' != null order by time desc limit 1 tz('${tzone}')",
           "rawQuery": true,
           "refId": "E",
           "resultFormat": "time_series",
@@ -1015,7 +1029,10 @@
         },
         {
           "alias": "ins",
-          "datasource": "${DS_INFLUXDB}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -1034,7 +1051,7 @@
           "measurement": "Huawei_info",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT \"Insulation\" FROM \"Huawei_info\" WHERE $timeFilter and \"Insulation\" > 0",
+          "query": "SELECT \"Insulation\" FROM \"Huawei_info\" WHERE $timeFilter and \"Insulation\" > 0 tz('${tzone}')",
           "rawQuery": true,
           "refId": "F",
           "resultFormat": "time_series",
@@ -1080,7 +1097,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT max(\"Temp\") FROM \"Huawei\" WHERE $timeFilter GROUP BY time(1d) fill(previous)",
+          "query": "SELECT max(\"Temp\") FROM \"Huawei\" WHERE $timeFilter GROUP BY time(1d) fill(previous) tz('${tzone}')",
           "rawQuery": true,
           "refId": "H",
           "resultFormat": "time_series",
@@ -1102,7 +1119,10 @@
         },
         {
           "alias": "wiring",
-          "datasource": "${DS_INFLUXDB}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -1119,7 +1139,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "select mean(q) from (SELECT (mean(\"U_A-B\") -  mean(\"M_U_AB\"))  / mean(\"I_A\")  as q FROM \"Huawei\" WHERE (\"I_A\" > 15) AND $timeFilter GROUP BY time(1d) fill(null)) ",
+          "query": "select mean(q) from (SELECT (mean(\"U_A-B\") -  mean(\"M_U_AB\"))  / mean(\"I_A\")  as q FROM \"Huawei\" WHERE (\"I_A\" > 15) AND $timeFilter GROUP BY time(1d) fill(null)) tz('${tzone}')",
           "rawQuery": true,
           "refId": "G",
           "resultFormat": "time_series",
@@ -1166,15 +1186,16 @@
           "tz": "'${tzone}'"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Status",
       "type": "agenty-flowcharting-panel",
       "valueName": "current",
       "version": "0.9.0"
     },
     {
-      "datasource": "-- Mixed --",
+      "datasource": {
+        "type": "datasource",
+        "uid": "-- Mixed --"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1464,6 +1485,10 @@
               {
                 "id": "unit",
                 "value": "kwatt"
+              },
+              {
+                "id": "custom.axisPlacement",
+                "value": "left"
               }
             ]
           },
@@ -1479,6 +1504,10 @@
                   "fixedColor": "#CA95E5",
                   "mode": "fixed"
                 }
+              },
+              {
+                "id": "custom.axisPlacement",
+                "value": "right"
               }
             ]
           },
@@ -1494,6 +1523,10 @@
                   "fixedColor": "#DEB6F2",
                   "mode": "fixed"
                 }
+              },
+              {
+                "id": "custom.axisPlacement",
+                "value": "right"
               }
             ]
           },
@@ -1509,6 +1542,10 @@
                   "fixedColor": "#CA95E5",
                   "mode": "fixed"
                 }
+              },
+              {
+                "id": "custom.axisPlacement",
+                "value": "right"
               }
             ]
           },
@@ -1521,6 +1558,10 @@
               {
                 "id": "custom.lineWidth",
                 "value": 2
+              },
+              {
+                "id": "custom.axisPlacement",
+                "value": "right"
               }
             ]
           },
@@ -1550,6 +1591,10 @@
                   ],
                   "fill": "dash"
                 }
+              },
+              {
+                "id": "custom.axisPlacement",
+                "value": "left"
               }
             ]
           },
@@ -1579,6 +1624,41 @@
                   ],
                   "fill": "dash"
                 }
+              },
+              {
+                "id": "custom.axisPlacement",
+                "value": "left"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "load"
+            },
+            "properties": [
+              {
+                "id": "custom.axisPlacement",
+                "value": "right"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "light-blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byType",
+              "options": "time"
+            },
+            "properties": [
+              {
+                "id": "custom.axisPlacement",
+                "value": "auto"
               }
             ]
           }
@@ -1606,14 +1686,18 @@
           "placement": "bottom"
         },
         "tooltip": {
-          "mode": "multi"
+          "mode": "multi",
+          "sort": "none"
         }
       },
       "pluginVersion": "8.1.0-beta2",
       "targets": [
         {
           "alias": "exp production 90",
-          "datasource": "${DS_INFLUXDB}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -1630,7 +1714,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT cumulative_sum(integral(\"power90\")) * 1.0  /3600   FROM \"forcast\" WHERE $timeFilter GROUP BY time($__interval) fill(linear)",
+          "query": "SELECT cumulative_sum(integral(\"power90\")) * $solcast_adj  /3600   FROM \"forcast\" WHERE $timeFilter GROUP BY time($__interval) fill(linear) tz('${tzone}')",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -1652,7 +1736,10 @@
         },
         {
           "alias": "Daily total",
-          "datasource": "${DS_INFLUXDB}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -1671,7 +1758,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"P_daily\") FROM \"Huawei\" WHERE $timeFilter GROUP BY time($__interval) fill(none)",
+          "query": "SELECT mean(\"P_daily\") FROM \"Huawei\" WHERE $timeFilter GROUP BY time($__interval) fill(none) tz('${tzone}')",
           "rawQuery": true,
           "refId": "B",
           "resultFormat": "time_series",
@@ -1694,7 +1781,10 @@
         },
         {
           "alias": "exp production",
-          "datasource": "${DS_INFLUXDB}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -1711,7 +1801,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT cumulative_sum(integral(\"power\"))   /3600 * 1.0  FROM \"forcast\" WHERE $timeFilter GROUP BY time($__interval) fill(linear)",
+          "query": "SELECT cumulative_sum(integral(\"power\"))   /3600 * $solcast_adj  FROM \"forcast\" WHERE $timeFilter GROUP BY time($__interval) fill(linear) tz('${tzone}')",
           "rawQuery": true,
           "refId": "C",
           "resultFormat": "time_series",
@@ -1733,7 +1823,10 @@
         },
         {
           "alias": "exp production 10",
-          "datasource": "${DS_INFLUXDB}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -1750,7 +1843,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT cumulative_sum(integral(\"power10\"))   /3600 * 1.0  FROM \"forcast\" WHERE $timeFilter GROUP BY time($__interval) fill(linear)",
+          "query": "SELECT cumulative_sum(integral(\"power10\"))   /3600 * $solcast_adj  FROM \"forcast\" WHERE $timeFilter GROUP BY time($__interval) fill(linear) tz('${tzone}')",
           "rawQuery": true,
           "refId": "D",
           "resultFormat": "time_series",
@@ -1771,14 +1864,20 @@
           "tags": []
         },
         {
-          "datasource": "${DS_SUN_AND MOON}",
+          "datasource": {
+            "type": "fetzerch-sunandmoon-datasource",
+            "uid": "${DS_SUN_AND MOON}"
+          },
           "hide": false,
           "refId": "E",
           "target": "sun_altitude"
         },
         {
           "alias": "balance",
-          "datasource": "${DS_INFLUXDB}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -1796,7 +1895,7 @@
           "hide": false,
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT cumulative_sum(integral(\"M_P\")) /3600 / 1000  FROM \"Huawei\" WHERE $timeFilter and \"M_A-U\" != 0 GROUP BY time($__interval)  fill(linear)",
+          "query": "SELECT cumulative_sum(integral(\"M_P\")) /3600 / 1000  FROM \"Huawei\" WHERE $timeFilter and \"M_A-U\" != 0 GROUP BY time($__interval)  fill(linear) tz('${tzone}')",
           "rawQuery": true,
           "refId": "F",
           "resultFormat": "time_series",
@@ -1818,7 +1917,10 @@
         },
         {
           "alias": "solcast90",
-          "datasource": "${DS_INFLUXDB}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -1835,7 +1937,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT (integral(\"power90\"))   /1800  FROM \"forcast\" WHERE $timeFilter GROUP BY time($__interval) fill(linear)",
+          "query": "SELECT (integral(\"power90\")) * $solcast_adj  /1800  FROM \"forcast\" WHERE $timeFilter GROUP BY time($__interval) fill(linear) tz('${tzone}')",
           "rawQuery": true,
           "refId": "G",
           "resultFormat": "time_series",
@@ -1857,7 +1959,10 @@
         },
         {
           "alias": "production",
-          "datasource": "${DS_INFLUXDB}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -1876,7 +1981,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"P_active\")  as prod FROM \"Huawei\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
+          "query": "SELECT mean(\"P_active\")  as prod FROM \"Huawei\" WHERE $timeFilter GROUP BY time($__interval) fill(null) tz('${tzone}')",
           "rawQuery": true,
           "refId": "H",
           "resultFormat": "time_series",
@@ -1898,7 +2003,10 @@
         },
         {
           "alias": "solcast",
-          "datasource": "${DS_INFLUXDB}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -1915,7 +2023,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT (integral(\"power\"))   /1800  FROM \"forcast\" WHERE $timeFilter GROUP BY time($__interval) fill(linear)",
+          "query": "SELECT (integral(\"power\")) * $solcast_adj  /1800  FROM \"forcast\" WHERE $timeFilter GROUP BY time($__interval) fill(linear) tz('${tzone}')",
           "rawQuery": true,
           "refId": "I",
           "resultFormat": "time_series",
@@ -1937,7 +2045,10 @@
         },
         {
           "alias": "solcast10",
-          "datasource": "${DS_INFLUXDB}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -1954,7 +2065,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT (integral(\"power10\"))   /1800  FROM \"forcast\" WHERE $timeFilter GROUP BY time($__interval) fill(linear)",
+          "query": "SELECT (integral(\"power10\")) * $solcast_adj  /1800  FROM \"forcast\" WHERE $timeFilter GROUP BY time($__interval) fill(linear) tz('${tzone}')",
           "rawQuery": true,
           "refId": "J",
           "resultFormat": "time_series",
@@ -1973,20 +2084,63 @@
             ]
           ],
           "tags": []
+        },
+        {
+          "alias": "load",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "hide": false,
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT cumulative_sum(integral(\"M_P\")) /3600000 - cumulative_sum(integral(\"P_active\")) /3600  FROM \"Huawei\" WHERE $timeFilter and \"M_A-U\" != 0 GROUP BY time($__interval)  fill(linear) tz('${tzone}')",
+          "rawQuery": true,
+          "refId": "K",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Energy",
       "type": "timeseries"
     },
     {
-      "datasource": "-- Mixed --",
+      "datasource": {
+        "type": "datasource",
+        "uid": "-- Mixed --"
+      },
       "flowchartsData": {
         "flowcharts": [
           {
             "allowDrawio": false,
-            "bgColor": null,
             "center": true,
             "csv": "## See more information for the syntax at https://drawio-app.com/import-from-csv-to-drawio/\n##\n## Example CSV. Use ## for comments and # for configuration.\n## The following names are reserved and should not be used (or ignored):\n## id, tooltip, placeholder(s), link and label (see below)\n##\n#\n## Node label with placeholders and HTML.\n## Default is '%name_of_first_column%'.\n#\n# label: %name%<br><i style=\"color:gray;\">%position%</i><br><a href=\"mailto:%email%\">Email</a>\n#\n## Node style (placeholders are replaced once).\n## Default is the current style for nodes.\n#\n# style: label;image=%image%;whiteSpace=wrap;html=1;rounded=1;fillColor=%fill%;strokeColor=%stroke%;\n#\n## Parent style for nodes with child nodes (placeholders are replaced once).\n#\n# parentstyle: swimlane;whiteSpace=wrap;html=1;childLayout=stackLayout;horizontal=1;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;\n#\n## Optional column name that contains a reference to a named style in styles.\n## Default is the current style for nodes.\n#\n# stylename: -\n#\n## JSON for named styles of the form {\"name\": \"style\", \"name\": \"style\"} where style is a cell style with\n## placeholders that are replaced once.\n#\n# styles: -\n#\n## Optional column name that contains a reference to a named label in labels.\n## Default is the current label.\n#\n# labelname: -\n#\n## JSON for named labels of the form {\"name\": \"label\", \"name\": \"label\"} where label is a cell label with\n## placeholders.\n#\n# labels: -\n#\n## Uses the given column name as the identity for cells (updates existing cells).\n## Default is no identity (empty value or -).\n#\n# identity: -\n#\n## Uses the given column name as the parent reference for cells. Default is no parent (empty or -).\n## The identity above is used for resolving the reference so it must be specified.\n#\n# parent: -\n#\n## Adds a prefix to the identity of cells to make sure they do not collide with existing cells (whose\n## IDs are numbers from 0..n, sometimes with a GUID prefix in the context of realtime collaboration).\n## Default is csvimport-.\n#\n# namespace: csvimport-\n#\n## Connections between rows (\"from\": source colum, \"to\": target column).\n## Label, style and invert are optional. Defaults are '', current style and false.\n## If placeholders are used in the style, they are replaced with data from the source.\n## An optional placeholders can be set to target to use data from the target instead.\n## In addition to label, an optional fromlabel and tolabel can be used to name the column\n## that contains the text for the label in the edges source or target (invert ignored).\n## The label is concatenated in the form fromlabel + label + tolabel if all are defined.\n## The target column may contain a comma-separated list of values.\n## Multiple connect entries are allowed.\n#\n# connect: {\"from\": \"manager\", \"to\": \"name\", \"invert\": true, \"label\": \"manages\", \\\n#          \"style\": \"curved=1;endArrow=blockThin;endFill=1;fontSize=11;\"}\n# connect: {\"from\": \"refs\", \"to\": \"id\", \"style\": \"curved=1;fontSize=11;\"}\n#\n## Node x-coordinate. Possible value is a column name. Default is empty. Layouts will\n## override this value.\n#\n# left: \n#\n## Node y-coordinate. Possible value is a column name. Default is empty. Layouts will\n## override this value.\n#\n# top: \n#\n## Node width. Possible value is a number (in px), auto or an @ sign followed by a column\n## name that contains the value for the width. Default is auto.\n#\n# width: auto\n#\n## Node height. Possible value is a number (in px), auto or an @ sign followed by a column\n## name that contains the value for the height. Default is auto.\n#\n# height: auto\n#\n## Padding for autosize. Default is 0.\n#\n# padding: -12\n#\n## Comma-separated list of ignored columns for metadata. (These can be\n## used for connections and styles but will not be added as metadata.)\n#\n# ignore: id,image,fill,stroke,refs,manager\n#\n## Column to be renamed to link attribute (used as link).\n#\n# link: url\n#\n## Spacing between nodes. Default is 40.\n#\n# nodespacing: 40\n#\n## Spacing between levels of hierarchical layouts. Default is 100.\n#\n# levelspacing: 100\n#\n## Spacing between parallel edges. Default is 40. Use 0 to disable.\n#\n# edgespacing: 40\n#\n## Name or JSON of layout. Possible values are auto, none, verticaltree, horizontaltree,\n## verticalflow, horizontalflow, organic, circle or a JSON string as used in Layout, Apply.\n## Default is auto.\n#\n# layout: auto\n#\n## ---- CSV below this line. First line are column names. ----\nname,position,id,location,manager,email,fill,stroke,refs,url,image\nEvan Miller,CFO,emi,Office 1,,me@example.com,#dae8fc,#6c8ebf,,https://www.draw.io,https://cdn3.iconfinder.com/data/icons/user-avatars-1/512/users-9-2-128.png\nEdward Morrison,Brand Manager,emo,Office 2,Evan Miller,me@example.com,#d5e8d4,#82b366,,https://www.draw.io,https://cdn3.iconfinder.com/data/icons/user-avatars-1/512/users-10-3-128.png\nRon Donovan,System Admin,rdo,Office 3,Evan Miller,me@example.com,#d5e8d4,#82b366,\"emo,tva\",https://www.draw.io,https://cdn3.iconfinder.com/data/icons/user-avatars-1/512/users-2-128.png\nTessa Valet,HR Director,tva,Office 4,Evan Miller,me@example.com,#d5e8d4,#82b366,,https://www.draw.io,https://cdn3.iconfinder.com/data/icons/user-avatars-1/512/users-3-128.png\n",
             "download": false,
@@ -2000,7 +2154,7 @@
             "tooltip": true,
             "type": "xml",
             "url": "http://<YourUrl>/<Your XML/drawio file/api>",
-            "xml": "<mxfile host=\"app.diagrams.net\" modified=\"2021-08-03T07:02:33.393Z\" agent=\"5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.2 Safari/605.1.15\" etag=\"iOAtdYujCTT5GzZ_x4Xb\" version=\"14.9.2\" type=\"embed\"><diagram id=\"5sR0j5sy5Hubi7MNRoeB\" name=\"Page-1\">7Vpbc6M2FP41nmkf8HAzth+TbJxuJ53JTHba7hMjgwLayIgV8iX763sEwlgC3xLHyWbrBxsdhCyd7zs3oZ53NVvdcJSnf7EY055rx6ue96nnusNRAN9S8FQJBoNhJUg4iSuR0wjuyQ+shLaSzkmMC62jYIwKkuvCiGUZjoQmQ5yzpd7tgVH9X3OU4JbgPkK0Lf2HxCKtpKOB3cj/wCRJ6392bHVnhurOSlCkKGbLDZF33fOuOGOiupqtrjCVuqv1Uj032XJ3PTGOM3HQA2oeC0TnanFqYuKpXu0Cc0Fg8bdoiukdK4ggLINbUyYEm/W8y7rDBSWJvDEjcSwfvkzFjELbgUtYaC7Hm60SSYn+FBUk6hdz6H9J5cCXjMeYXzHKOHTLWIbXd1D0mHA2z2Lj7gPLRC3qud6k/Ci5Io3rQ7utFKUnOXG82hApJd1gNsOCP0EXdddTelKEdUdVc9mg79Rd0k3kayFSjEvWIzegwIXCpRsjf7gfo1q9ZFZSd1PzJjqC5RvSraBuUT3o+aH8QJfyzy6KvDIxGySobjyQFY7rLtBOhZC2eSEX7U6iOPP6BKzzgWQAej+Cf3QnMRIIfqS8gF88Y9+I5Vg+XAfyKywoxnn1TbIkVB3cUT/PEvgvzgRSq7A8+zS4u2Mdd78/6EDe7ULePRp5Nv0mtefape43kb5EFGWRwvoTIrQaZk0Rb7SxCkWfDXbgGNyXajIuUpawDNHrRnpZYiwRK2Fs+twyyZaSR9+wEE/KrNBcMMO+BeLiQvpWEEQUFWDetXhCaNONs8e10ww66LkmYMo4+QGWjOpnqUHVCGDFfAeXK6YjNfC6+26nst0ZmW5lm/vZSjsJw07ScUyBwQs9ynQRSD16x0gmGrL6ruGlfF8fomBzHmH11GZUMAYK7GD3QIBqgkVroJLP6/V0URyaiuXdvi4SX76jbHn/582A3n6/v/7xmd1Zg/3+r8PfbfVshxJi09V1O1GdzW4V5qp4Ls0oRkW6tikzABJWDEsfWPRTUNgp+HVMOBv3hwMNY2fo9X2v7dwcv8O5uU7f8U7o364zzBM1ketVDv4H9KZ5uE5iOO5Ot1ervIBoQbFyTpfLlAh8n6PSnS4BC92RnREF38wqArutf7sjrQiOzyoMwzsMis+zw6HwngFFTDjMojLPJS7E+0JnbBhI7QTfEp3PWbmAarluzpZwqWcCw7fOBPCKiH83rr/KoSBtqlqfVmrksvFUO8dWWnCqYL81vdhfWryIZ1WoVXatXGUVNfcHutPlCYfRrRWF6wm/i4pDIfKSYsPdW2xM5+CZcFFYKIstHM+jspKwQLWTgYwyE8fzwntGEQ/vUIZpWLnJUOAozWCicFnMINUNIyLa0o0ipZxjs0gjzSgesYhStb6z5gO6qwvGbVdX17x6IjA6mnxttrXr2y94JVqME1KoEW2vta93IrrCiu7pzqht19bVPbI7qkq/I7K4x0eWrlDSaPeWIQXCDQZCQ6mlBRN3d1n5YQCR6bAe7D0HKv2gKxuuO74Ql70uePyLGYU3OBSC8UkAaGnc+9U07g7f1g1Vg0AmUJBprdwJg4oAFUL3Q77d2+WHfrrNT2dvPnLFnwqB6BXFiMvswx2tylg7QXku7yconh+UUZyRT85Y51PXXmlw5npJZ9dXqDExj5Gxe+o7vxq9yl/rgXELWTA9XCa65SY7ihcoEzBwCGoKszCTOB2cv57TewXviW1NpNC26m84ia1CgFMz9lD83TtXHybGBM7osKAevEZWtcMvYPRYte/+NpDxdyKja/LI3apX39TQtp+1YjKRr2R6XbstzonsUcO5q4J0OzB+TgF5lDk2Fc49pg+W9HvzWcsaB0daY6VBc8+IUGqIzmi1dvk5US7uB+brAVDSa+WGzzBa6VcNCIPTme1W83otez4BZEPf3MJpH1Go9XhWA1xn9KU8xRwLBokH1uHzdqdgHyYeGlY1GhxYcjmDl6LU3mHomeVuzyx1P2Dmm3O2IFlEELUwhVE5kTu2FpoLed4Artw6E964HeJqtxdHLKzFzYWQb2HC8l1MSEmG32O2HDhmfO44wXSqHd5nevDD3iD+NFy093KxwNG85FzM5lCjQnICM7CgVijfQkwpTM1aMFq9hZDanlIWPYYhFBR5GOacLJDAYVhK4aGGdpvvVTP5Cq+DbKcglbGP7XRl9oOuoFMLXyNLaDI+2yDY7t1s84BGTuL+AhcFpoX6DX+LiTzRAe4gBvyu1i4A0TDFSJAs+V1nZi5PyGB+vQAlF/si18HnKyt+a6dLThGajILaaR9G6DriWB/dfV0oHQPK8f9Q7oLSfcdQujqUg8P2dn9iKFu4daC73ceO3ghKaDbH0KuDfc1Zfu/6Pw==</diagram></mxfile>",
+            "xml": "<mxfile host=\"app.diagrams.net\" modified=\"2022-04-08T21:13:56.323Z\" agent=\"5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.79 Safari/537.36\" etag=\"IY_H--knJcOMzc8FmBTv\" version=\"17.4.1\" type=\"embed\"><diagram id=\"5sR0j5sy5Hubi7MNRoeB\" name=\"Page-1\">7Vtdc6M2FP01nmkf8PBt+zHOxul20plMs9N2nxgZZKONjKiQv/bX9wqEMQJjZ+M42aR5sOEiZHHP1blHV6TnXC82txyl8R8swrRnm9Gm53zq2fZg6MOnNGwLgzcYFoY5J1FhsirDA/mOldFU1iWJcFZrKBijgqR1Y8iSBIeiZkOcs3W92YzR+q+maI4bhocQ0ab1bxKJuLAOPbOy/4bJPC5/2TLVlQUqGytDFqOIrfdMzk3PueaMieJosbnGVPqu9Etx3+TA1d3AOE7ESTeocawQXaqHUwMT2/JpV5gLAg9/h6aY3rOMCMISuDRlQrBFzxmXDa4omcsLCxJF8uZxLBYUzi04hAdNZX+LzVyGRH+KMhL2syW0H1PZ8ZjxCPNrRhmHZglL8O4KCh/nnC2TSLs6Y4koTT3bmeR/yq6CxnbhvOkU5Sc5cLzZMykn3WK2wIJvoYm66ig/qYC1VbyuK/Stskm8j3xpRCri5rueK1DgQOHSjpE7OI5R6V6yyEN33/M6OoKle9aDoB5wPfh5lv9Bk/zHrrK0mGImWFB5MiMbHJVN4DwWQs7NK/nQ9iSMEqdPYHbOSAKg90P4RXsSIYHgS9oz+MYL9o0YluHCsS8/goxinBafJJkHqoE97KfJHH6LM4HUUxiOeR7c7VEdd7fvtSBvtyFvPxl5Nv0mvWebue/3kR4jipJQYf0JEVp0swsRZ7j3FCp89qIDR0Bf6pRxEbM5SxC9qazjHGOJWA5j1eaOyWjJ4+gbFmKrphVaCqbNb4G4uJLcCoaQogymd2meEFo14+xxR5p+S3juAjBmnHyHmYzKe6kWqiHAinlHLBeRjlTHu+bdpHKYjHRaOUQ/B8NOwtAZdBxTiOBVPcu0BZC69Z6RRFTB6toaS7luvYuMLXmI1V37WUHryDf97o4A1TkWjY7yeN49T1uIw6mK8nauC8WXf1Gyfvj91qN3/z7cfP/M7g3vOP+18N1BZjs1IPaprp1E69FsF2muyOdyGkUoi3dzSk+AhGWDnAOzfgwOO0d8PSWdjfoDr4axNXD6rtMkN8ttITfb6lvOGfntJsF8rgZys0mBf8BvNYZrDQzL7qS90uUZZAuKFTmN1zER+CFFOZ2uAYs6kV0QBVdXFb7Z9L/ZIiv8p6sKbeKdBsXnxelQOD8ARUQ4jKKYnmucibeFzkibICUJviY6n5P8AYrHtVO2hsO6Ehi8thLAGyL+2Tv+KrsC2VScfdqonvOTbUmODVlwrmR/UF4cX1o8K86KVKvmtaLKImseT3Rn1gkw29B2r0Eq03Z2WEbYQ42WHKdTLRxpDwfFCNrvdsz2u19ea9jNddUXvBENbSGksRbiR6NstwJuo7P6DLsgo9maq4dmy2rGbWE0++mM1kZhlXfvGFIg3GLINyDxayRmdy9n3g0gUobVk4xjwQrTb1NhZcNn4nJ0Uow+2KRwvFMhGJ0FgIbHnY/mcXvwujRUdALSISPT0rkTBkoUZaLOQ67Z6+Khn67oZh0tul3zbSYQvaYYgbCcWPZwY0k2nqA0ldfnKFqqclv+K9VYtWFeMJ6sUT2e2mp0/oV1ej26vsLaBvMIaVU71/po4ZV/GzPGDWTA8LBhlcVdFK1QIqDjANwUJEEicdor7r6ZaNuFzZuItipT1ErEt5xERiaA1LS1u9tdMXk3Oca3hqcldf8lVNWp4vcB05khp8Ry0QDKeyJQxRJaX8YSSjXTBQE1878zyTTX1yuW4KSXkg2n8zxGj9WU0yD0OyGsu/JI3etgGUOH4Fx1kzNANnDrTGn5zV3T0o/16vLwZSfgTuzl9hhzLBjkJFyHz+nOzu+GKrVZNfROVOOW91yUmovPnr4S6umroHcoilLOViQJCaIGptArJyERWwMthdwChSO7FEl7lwOc1+kDHLKgNFcHQhaGg7w8HFCS4LcopHzLPkoPOyp4Lj/8IIOftqnx08SieTQWMxwu85iL2BKWLyBOYAQGyEgDJZExpTA0Y8Vorts96e0pZeFjEIDWTIMg5WSFBA6C3Ao3VWG3v9WTyF2FlmA7R1BpJU6rTfR5bUmnNL6ESqgUn6kFWHehU98zTknUX+EswzRT38EvEZGbzEAHEeB3vaMARIMYI0GS+a/1yMyr/5jfrLDcBDiSuU5+5auI79qG9zlSk7bWspr7o21vXXmDS0BpaVCO/oeyC0r7laBsiAyvHHuHyniSNm9deXXvO55BoGcwHgiJL/murFcZ7vCsTAzK8qdy59leiisr4bvEPWrqequFYp2OncpTq+XlXuqb0IgK6+ekZPtoSp4uM1BwWZZnYBwtw/wlxyIDSwk1sRwneGAU8eAeJcAjxRscgcBhnMBA4TBbIC6CXDbq1pOVYfaIRRhffnni6IvIZrBdVCXe/6XxvtvJ+09ikpdazB8ko9rrajWE5/IVzl7b2xkHKa9OQIZ1rldwj+PfBv8PkM3zRYDXXV796CLAH9SrshcTAXBa/U9F8eZI9Y8pzs1/</diagram></mxfile>",
             "zoom": "100%"
           }
         ]
@@ -2082,10 +2236,10 @@
             "textRegEx": true,
             "thresholds": [
               0.05,
-              10,
-              20,
-              30,
-              40
+              35,
+              40,
+              45,
+              50
             ],
             "tooltip": false,
             "tooltipColors": false,
@@ -2093,8 +2247,6 @@
             "tooltipOn": "a",
             "tpDirection": "v",
             "tpGraph": false,
-            "tpGraphHigh": null,
-            "tpGraphLow": null,
             "tpGraphScale": "linear",
             "tpGraphSize": "100%",
             "tpGraphType": "line",
@@ -2185,8 +2337,6 @@
             "tooltipOn": "a",
             "tpDirection": "v",
             "tpGraph": false,
-            "tpGraphHigh": null,
-            "tpGraphLow": null,
             "tpGraphScale": "linear",
             "tpGraphSize": "100%",
             "tpGraphType": "line",
@@ -2269,8 +2419,6 @@
             "tooltipOn": "a",
             "tpDirection": "v",
             "tpGraph": false,
-            "tpGraphHigh": null,
-            "tpGraphLow": null,
             "tpGraphScale": "linear",
             "tpGraphSize": "100%",
             "tpGraphType": "line",
@@ -2351,10 +2499,10 @@
             "textRegEx": true,
             "thresholds": [
               0.1,
-              6,
-              7,
-              9.2,
-              9.7
+              9,
+              11,
+              11.5,
+              12
             ],
             "tooltip": false,
             "tooltipColors": false,
@@ -2362,8 +2510,97 @@
             "tooltipOn": "a",
             "tpDirection": "v",
             "tpGraph": false,
-            "tpGraphHigh": null,
-            "tpGraphLow": null,
+            "tpGraphScale": "linear",
+            "tpGraphSize": "100%",
+            "tpGraphType": "line",
+            "type": "number",
+            "unit": "kwatt",
+            "valueData": []
+          },
+          {
+            "aggregation": "current",
+            "alias": "peak_max",
+            "colors": [
+              "rgb(204, 204, 220)",
+              "#FFB357",
+              "#C8F2C2",
+              "#96D98D",
+              "#FFB357",
+              "#FA6400"
+            ],
+            "column": "Time",
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 1,
+            "eventData": [
+              {
+                "eventOn": -1,
+                "hidden": false,
+                "pattern": "51",
+                "style": "height",
+                "value": "${_value} * 12.8"
+              }
+            ],
+            "eventProp": "id",
+            "eventRegEx": false,
+            "gradient": true,
+            "hidden": false,
+            "invert": false,
+            "linkData": [],
+            "linkProp": "id",
+            "linkRegEx": true,
+            "mappingType": 1,
+            "metricType": "serie",
+            "order": 5,
+            "overlayIcon": false,
+            "pattern": "peak_max",
+            "rangeData": [],
+            "reduce": true,
+            "refId": "A",
+            "sanitize": false,
+            "shapeData": [
+              {
+                "colorOn": "a",
+                "hidden": false,
+                "pattern": "51",
+                "style": "gradientColor"
+              },
+              {
+                "colorOn": "a",
+                "hidden": false,
+                "pattern": "51",
+                "style": "fontColor"
+              }
+            ],
+            "shapeProp": "id",
+            "shapeRegEx": true,
+            "stringThresholds": [
+              "/.*/",
+              "/.*/"
+            ],
+            "textData": [
+              {
+                "hidden": false,
+                "pattern": "51",
+                "textOn": "wmd",
+                "textPattern": "/.*/",
+                "textReplace": "content"
+              }
+            ],
+            "textProp": "id",
+            "textRegEx": true,
+            "thresholds": [
+              0.1,
+              9,
+              11,
+              11.5,
+              12
+            ],
+            "tooltip": false,
+            "tooltipColors": false,
+            "tooltipLabel": "",
+            "tooltipOn": "a",
+            "tpDirection": "v",
+            "tpGraph": false,
             "tpGraphScale": "linear",
             "tpGraphSize": "100%",
             "tpGraphType": "line",
@@ -2396,7 +2633,7 @@
             "linkRegEx": true,
             "mappingType": 1,
             "metricType": "serie",
-            "order": 5,
+            "order": 6,
             "overlayIcon": false,
             "pattern": "forecast",
             "rangeData": [],
@@ -2436,9 +2673,9 @@
             "thresholds": [
               0.05,
               10,
-              20,
               30,
-              40
+              45,
+              50
             ],
             "tooltip": false,
             "tooltipColors": false,
@@ -2446,8 +2683,6 @@
             "tooltipOn": "a",
             "tpDirection": "v",
             "tpGraph": false,
-            "tpGraphHigh": null,
-            "tpGraphLow": null,
             "tpGraphScale": "linear",
             "tpGraphSize": "100%",
             "tpGraphType": "line",
@@ -2477,7 +2712,7 @@
             "linkRegEx": true,
             "mappingType": 1,
             "metricType": "serie",
-            "order": 6,
+            "order": 7,
             "overlayIcon": false,
             "pattern": "yesterday",
             "rangeData": [],
@@ -2514,7 +2749,7 @@
             "textRegEx": true,
             "thresholds": [
               0.1,
-              40
+              45
             ],
             "tooltip": false,
             "tooltipColors": false,
@@ -2522,8 +2757,6 @@
             "tooltipOn": "a",
             "tpDirection": "v",
             "tpGraph": false,
-            "tpGraphHigh": null,
-            "tpGraphLow": null,
             "tpGraphScale": "linear",
             "tpGraphSize": "100%",
             "tpGraphType": "line",
@@ -2553,7 +2786,7 @@
             "linkRegEx": true,
             "mappingType": 1,
             "metricType": "serie",
-            "order": 7,
+            "order": 8,
             "overlayIcon": false,
             "pattern": "yet possible",
             "rangeData": [],
@@ -2590,7 +2823,7 @@
             "textRegEx": true,
             "thresholds": [
               0.1,
-              40
+              45
             ],
             "tooltip": false,
             "tooltipColors": false,
@@ -2598,8 +2831,6 @@
             "tooltipOn": "a",
             "tpDirection": "v",
             "tpGraph": false,
-            "tpGraphHigh": null,
-            "tpGraphLow": null,
             "tpGraphScale": "linear",
             "tpGraphSize": "100%",
             "tpGraphType": "line",
@@ -2627,7 +2858,7 @@
             "linkRegEx": true,
             "mappingType": 1,
             "metricType": "serie",
-            "order": 8,
+            "order": 9,
             "overlayIcon": false,
             "pattern": "Huawei.self_consumed",
             "rangeData": [],
@@ -2656,8 +2887,6 @@
             "tooltipOn": "a",
             "tpDirection": "v",
             "tpGraph": false,
-            "tpGraphHigh": null,
-            "tpGraphLow": null,
             "tpGraphScale": "linear",
             "tpGraphSize": "100%",
             "tpGraphType": "line",
@@ -2689,7 +2918,7 @@
             "linkRegEx": true,
             "mappingType": 1,
             "metricType": "serie",
-            "order": 9,
+            "order": 10,
             "overlayIcon": false,
             "pattern": "Huawei.load",
             "rangeData": [],
@@ -2727,10 +2956,10 @@
             "textProp": "id",
             "textRegEx": true,
             "thresholds": [
-              20,
-              25,
-              30,
-              35
+              35,
+              40,
+              45,
+              50
             ],
             "tooltip": false,
             "tooltipColors": false,
@@ -2738,8 +2967,6 @@
             "tooltipOn": "a",
             "tpDirection": "v",
             "tpGraph": false,
-            "tpGraphHigh": null,
-            "tpGraphLow": null,
             "tpGraphScale": "linear",
             "tpGraphSize": "100%",
             "tpGraphType": "line",
@@ -2785,7 +3012,7 @@
             "linkRegEx": false,
             "mappingType": 1,
             "metricType": "serie",
-            "order": 10,
+            "order": 11,
             "overlayIcon": false,
             "pattern": "Huawei.Inverter",
             "rangeData": [],
@@ -2825,7 +3052,7 @@
             "thresholds": [
               0.01,
               1,
-              2.5
+              5
             ],
             "tooltip": false,
             "tooltipColors": false,
@@ -2833,8 +3060,6 @@
             "tooltipOn": "a",
             "tpDirection": "v",
             "tpGraph": false,
-            "tpGraphHigh": null,
-            "tpGraphLow": null,
             "tpGraphScale": "linear",
             "tpGraphSize": "100%",
             "tpGraphType": "line",
@@ -2894,7 +3119,7 @@
             "linkRegEx": true,
             "mappingType": 1,
             "metricType": "serie",
-            "order": 11,
+            "order": 12,
             "overlayIcon": false,
             "pattern": "Huawei.balance",
             "rangeData": [],
@@ -2942,8 +3167,6 @@
             "tooltipOn": "a",
             "tpDirection": "v",
             "tpGraph": false,
-            "tpGraphHigh": null,
-            "tpGraphLow": null,
             "tpGraphScale": "linear",
             "tpGraphSize": "100%",
             "tpGraphType": "line",
@@ -2990,7 +3213,7 @@
             "linkRegEx": true,
             "mappingType": 1,
             "metricType": "serie",
-            "order": 12,
+            "order": 13,
             "overlayIcon": false,
             "pattern": "Huawei.export",
             "rangeData": [],
@@ -3024,9 +3247,9 @@
             "textRegEx": true,
             "thresholds": [
               0.1,
-              20,
-              23,
-              27
+              30,
+              35,
+              45
             ],
             "tooltip": false,
             "tooltipColors": false,
@@ -3034,8 +3257,6 @@
             "tooltipOn": "a",
             "tpDirection": "v",
             "tpGraph": false,
-            "tpGraphHigh": null,
-            "tpGraphLow": null,
             "tpGraphScale": "linear",
             "tpGraphSize": "100%",
             "tpGraphType": "line",
@@ -3066,7 +3287,7 @@
             "linkRegEx": true,
             "mappingType": 1,
             "metricType": "serie",
-            "order": 13,
+            "order": 14,
             "overlayIcon": false,
             "pattern": "Huawei.from grid",
             "rangeData": [],
@@ -3109,8 +3330,6 @@
             "tooltipOn": "a",
             "tpDirection": "v",
             "tpGraph": false,
-            "tpGraphHigh": null,
-            "tpGraphLow": null,
             "tpGraphScale": "linear",
             "tpGraphSize": "100%",
             "tpGraphType": "line",
@@ -3155,7 +3374,7 @@
             "linkRegEx": true,
             "mappingType": 1,
             "metricType": "serie",
-            "order": 14,
+            "order": 15,
             "overlayIcon": false,
             "pattern": "off-grid",
             "rangeData": [],
@@ -3181,8 +3400,6 @@
             "tooltipOn": "a",
             "tpDirection": "v",
             "tpGraph": false,
-            "tpGraphHigh": null,
-            "tpGraphLow": null,
             "tpGraphScale": "linear",
             "tpGraphSize": "100%",
             "tpGraphType": "line",
@@ -3194,15 +3411,16 @@
             "aggregation": "current",
             "alias": "yearly balance",
             "colors": [
-              "rgba(245, 54, 54, 0.9)",
-              "#FF780A",
+              "#C4162A",
+              "#FA6400",
+              "#FFCB7D",
               "#C8F2C2",
               "#96D98D",
               "#FF780A"
             ],
             "column": "Time",
             "dateFormat": "YYYY-MM-DD HH:mm:ss",
-            "decimals": 1,
+            "decimals": 2,
             "eventData": [],
             "eventProp": "id",
             "eventRegEx": false,
@@ -3214,7 +3432,7 @@
             "linkRegEx": true,
             "mappingType": 1,
             "metricType": "serie",
-            "order": 15,
+            "order": 16,
             "overlayIcon": false,
             "pattern": "Year_Bal",
             "rangeData": [],
@@ -3252,6 +3470,7 @@
             "textProp": "id",
             "textRegEx": true,
             "thresholds": [
+              -250,
               200,
               300,
               500,
@@ -3263,8 +3482,6 @@
             "tooltipOn": "a",
             "tpDirection": "v",
             "tpGraph": false,
-            "tpGraphHigh": null,
-            "tpGraphLow": null,
             "tpGraphScale": "linear",
             "tpGraphSize": "100%",
             "tpGraphType": "line",
@@ -3294,7 +3511,7 @@
             "linkRegEx": true,
             "mappingType": 1,
             "metricType": "serie",
-            "order": 16,
+            "order": 17,
             "overlayIcon": false,
             "pattern": "Huawei.last_load_2",
             "rangeData": [],
@@ -3305,7 +3522,7 @@
               {
                 "colorOn": "a",
                 "hidden": false,
-                "pattern": "50",
+                "pattern": "52",
                 "style": "fillColor"
               }
             ],
@@ -3328,8 +3545,6 @@
             "tooltipOn": "a",
             "tpDirection": "v",
             "tpGraph": false,
-            "tpGraphHigh": null,
-            "tpGraphLow": null,
             "tpGraphScale": "linear",
             "tpGraphSize": "100%",
             "tpGraphType": "line",
@@ -3359,7 +3574,7 @@
             "linkRegEx": true,
             "mappingType": 1,
             "metricType": "serie",
-            "order": 17,
+            "order": 18,
             "overlayIcon": false,
             "pattern": "Huawei.last_load_1",
             "rangeData": [],
@@ -3393,8 +3608,6 @@
             "tooltipOn": "a",
             "tpDirection": "v",
             "tpGraph": false,
-            "tpGraphHigh": null,
-            "tpGraphLow": null,
             "tpGraphScale": "linear",
             "tpGraphSize": "100%",
             "tpGraphType": "line",
@@ -3406,7 +3619,8 @@
             "aggregation": "current",
             "alias": "Load 0",
             "colors": [
-              "rgba(245, 54, 54, 0.9)",
+              "#1F60C4",
+              "#37872D",
               "rgb(204, 204, 220)",
               "#FF780A"
             ],
@@ -3424,7 +3638,7 @@
             "linkRegEx": true,
             "mappingType": 1,
             "metricType": "serie",
-            "order": 18,
+            "order": 19,
             "overlayIcon": false,
             "pattern": "Huawei.last_load_0",
             "rangeData": [],
@@ -3449,6 +3663,7 @@
             "textProp": "id",
             "textRegEx": true,
             "thresholds": [
+              null,
               0,
               1
             ],
@@ -3458,8 +3673,6 @@
             "tooltipOn": "a",
             "tpDirection": "v",
             "tpGraph": false,
-            "tpGraphHigh": null,
-            "tpGraphLow": null,
             "tpGraphScale": "linear",
             "tpGraphSize": "100%",
             "tpGraphType": "line",
@@ -3540,7 +3753,7 @@
             "linkRegEx": true,
             "mappingType": 1,
             "metricType": "serie",
-            "order": 19,
+            "order": 20,
             "overlayIcon": false,
             "pattern": "meter",
             "rangeData": [],
@@ -3568,8 +3781,67 @@
             "tooltipOn": "a",
             "tpDirection": "v",
             "tpGraph": false,
-            "tpGraphHigh": null,
-            "tpGraphLow": null,
+            "tpGraphScale": "linear",
+            "tpGraphSize": "100%",
+            "tpGraphType": "line",
+            "type": "number",
+            "unit": "short",
+            "valueData": []
+          },
+          {
+            "aggregation": "current",
+            "alias": "myRule",
+            "colors": [
+              "rgba(237, 129, 40, 0.89)",
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "column": "Time",
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 2,
+            "eventData": [
+              {
+                "eventOn": 0,
+                "hidden": false,
+                "pattern": "50",
+                "style": "shape",
+                "value": ""
+              }
+            ],
+            "eventProp": "id",
+            "eventRegEx": false,
+            "gradient": false,
+            "hidden": false,
+            "invert": false,
+            "linkData": [],
+            "linkProp": "id",
+            "linkRegEx": true,
+            "mappingType": 1,
+            "metricType": "serie",
+            "order": 21,
+            "overlayIcon": false,
+            "pattern": "/.*/",
+            "rangeData": [],
+            "reduce": true,
+            "refId": "A",
+            "sanitize": false,
+            "shapeData": [],
+            "shapeProp": "id",
+            "shapeRegEx": true,
+            "stringThresholds": [
+              "/.*/"
+            ],
+            "textData": [],
+            "textProp": "id",
+            "textRegEx": true,
+            "thresholds": [
+              50
+            ],
+            "tooltip": false,
+            "tooltipColors": false,
+            "tooltipLabel": "",
+            "tooltipOn": "a",
+            "tpDirection": "v",
+            "tpGraph": false,
             "tpGraphScale": "linear",
             "tpGraphSize": "100%",
             "tpGraphType": "line",
@@ -3582,99 +3854,159 @@
       "targets": [
         {
           "alias": "forecast",
-          "datasource": "${DS_INFLUXDB}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "hide": false,
-          "query": "SELECT cumulative_sum(integral(\"power\"))   /3600 * 1.0  FROM \"forcast\" WHERE $timeFilter and time <= now() GROUP BY time(1d) fill(linear)",
+          "query": "SELECT cumulative_sum(integral(\"power\"))   /3600 * $solcast_adj  FROM \"forcast\" WHERE $timeFilter and time <= now() GROUP BY time(1d) fill(linear) tz('${tzone}') ",
           "rawQuery": true,
-          "refId": "A"
+          "refId": "A",
+          "resultFormat": "time_series"
         },
         {
           "alias": "production",
-          "datasource": "${DS_INFLUXDB}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "hide": false,
-          "query": "select max(p) from (SELECT last(\"P_daily\") as p FROM \"Huawei\" WHERE $timeFilter ) GROUP BY time(1d)",
+          "query": "select max(p) from (SELECT last(\"P_daily\") as p FROM \"Huawei\" WHERE $timeFilter ) GROUP BY time(1d) tz('${tzone}') ",
           "rawQuery": true,
-          "refId": "B"
+          "refId": "B",
+          "resultFormat": "time_series"
         },
         {
           "alias": "yesterday",
-          "datasource": "${DS_INFLUXDB}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "hide": false,
-          "query": "SELECT max(\"P_daily\") -  first(\"P_daily\")  FROM \"Huawei\" WHERE time >= now() - 24h and  time <= ${__from}ms GROUP BY time(1d) fill(previous) order by time asc limit 1\n",
+          "query": "SELECT max(\"P_daily\") - min(\"P_daily\")  FROM \"Huawei\" WHERE time >= now() -24h and  time <= ${__from}ms GROUP BY time(1d) fill(previous) order by time asc  tz('${tzone}') ",
           "rawQuery": true,
-          "refId": "C"
+          "refId": "C",
+          "resultFormat": "time_series"
         },
         {
           "alias": "yet possible",
-          "datasource": "${DS_INFLUXDB}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "hide": false,
-          "query": "SELECT cumulative_sum(integral(\"power\")) /3600  as yet  FROM \"forcast\" WHERE time > now() and time < ${__to}ms  GROUP BY time(1d)",
+          "query": "SELECT cumulative_sum(integral(\"power\")) /3600 * $solcast_adj as yet  FROM \"forcast\" WHERE time > now() and time < ${__to}ms  GROUP BY time(1h) fill(linear) tz('${tzone}') ",
           "rawQuery": true,
-          "refId": "D"
+          "refId": "D",
+          "resultFormat": "time_series"
         },
         {
-          "alias": "peak",
-          "datasource": "${DS_INFLUXDB}",
+          "alias": "peak_max",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "hide": false,
-          "query": "select max(p) from (SELECT last(\"P_peak\") as p FROM \"Huawei\" WHERE $timeFilter ) GROUP BY time(1d)",
+          "query": "select max(p) from (SELECT last(\"P_peak\") as p FROM \"Huawei\" WHERE $timeFilter ) GROUP BY time(1d) tz('${tzone}') ",
           "rawQuery": true,
-          "refId": "E"
+          "refId": "E",
+          "resultFormat": "time_series"
         },
         {
           "alias": "",
-          "datasource": "${DS_INFLUXDB}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "hide": false,
-          "query": "SELECT last(\"M_PTot\") - first(\"M_PTot\") as \"from grid\",  last(\"M_PExp\") - first(\"M_PExp\") as \"export\",  first(\"M_PTot\") - last(\"M_PTot\") + last(\"M_PExp\") - first(\"M_PExp\") as \"balance\", last(\"P_active\")  as \"Inverter\",  last(\"P_daily\") - (first(\"M_PTot\") - last(\"M_PTot\") + last(\"M_PExp\") - first(\"M_PExp\")) as \"load\",  last(\"P_daily\") - (last(\"M_PExp\") - first(\"M_PExp\")) as self_consumed FROM \"Huawei\" WHERE  $timeFilter  fill(previous) order by time asc  \n",
+          "query": "SELECT last(\"M_PTot\") - first(\"M_PTot\") as \"from grid\",  last(\"M_PExp\") - first(\"M_PExp\") as \"export\",  first(\"M_PTot\") - last(\"M_PTot\") + last(\"M_PExp\") - first(\"M_PExp\") as \"balance\", last(\"P_active\")  as \"Inverter\",  last(\"P_daily\") - (first(\"M_PTot\") - last(\"M_PTot\") + last(\"M_PExp\") - first(\"M_PExp\")) as \"load\",  last(\"P_daily\") - (last(\"M_PExp\") - first(\"M_PExp\")) as self_consumed FROM \"Huawei\" WHERE  $timeFilter  fill(previous) order by time asc tz('${tzone}')",
           "rawQuery": true,
-          "refId": "F"
+          "refId": "F",
+          "resultFormat": "time_series"
         },
         {
           "alias": "Year_Bal",
-          "datasource": "${DS_INFLUXDB_LT}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_LT}"
+          },
           "hide": false,
-          "query": "select last(CBal) + last(DBal) as Year_Bal from (select cumulative_sum(diff)  as DBal from (SELECT (\"P_Exp\") - (\"P_Grid\") + (\"Adj\") as diff FROM \"Huawei_daily\"  fill(0)) where time > '${__to:date:YYYY-MM-18}' -60d), (select cumulative_sum(Bal) as CBal from Huawei_daily where time > now() -365d ) fill(previous)",
+          "query": "select last(CBal) + last(DBal) as Year_Bal from (select cumulative_sum(diff)  as DBal from (SELECT (\"P_Exp\") - (\"P_Grid\") + (\"Adj\") as diff FROM \"Huawei_daily\"  fill(0)) where time > '${__to:date:YYYY-MM-18}' -61d), (select cumulative_sum(Bal) as CBal from Huawei_daily where time > now() -365d ) fill(previous) tz('${tzone}') ",
           "rawQuery": true,
-          "refId": "H"
+          "refId": "H",
+          "resultFormat": "time_series"
         },
         {
           "alias": "off-grid",
-          "datasource": "${DS_INFLUXDB}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "hide": false,
-          "query": "SELECT \"State3\" FROM \"Huawei_stat\" order by time desc limit 1",
+          "query": "SELECT \"State3\" FROM \"Huawei_stat\" order by time desc limit 1 tz('${tzone}') ",
           "rawQuery": true,
-          "refId": "I"
+          "refId": "I",
+          "resultFormat": "time_series"
         },
         {
           "alias": "grid-peak",
-          "datasource": "${DS_INFLUXDB}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "hide": false,
-          "query": "SELECT min(\"M_P\")/(-1000) as peak FROM \"Huawei\" WHERE time > ${__from}ms  fill(none) ",
+          "query": "SELECT min(\"M_P\")/(-1000) as peak FROM \"Huawei\" WHERE time > ${__from}ms  fill(none)  tz('${tzone}') ",
           "rawQuery": true,
-          "refId": "G"
+          "refId": "G",
+          "resultFormat": "time_series"
         },
         {
           "alias": "pv_un",
-          "datasource": "${DS_INFLUXDB}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "hide": false,
-          "query": "SELECT last(\"PV_Un\") FROM \"Huawei\" WHERE time > ${__from}ms -10m  fill(none) ",
+          "query": "SELECT last(\"PV_Un\") FROM \"Huawei\" WHERE time > ${__from}ms -10m  fill(none) tz('${tzone}') ",
           "rawQuery": true,
-          "refId": "J"
+          "refId": "J",
+          "resultFormat": "time_series"
         },
         {
           "alias": "",
-          "datasource": "${DS_INFLUXDB}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "hide": false,
-          "query": "SELECT last(/load_(\\d)/)  FROM \"Huawei\" WHERE time > now() - 3d  fill(null) ",
+          "query": "SELECT last(/load_(\\d)/)  FROM \"Huawei\" WHERE time > now() - 3d  fill(null) tz('${tzone}') ",
           "rawQuery": true,
-          "refId": "K"
+          "refId": "K",
+          "resultFormat": "time_series"
         },
         {
           "alias": "meter",
-          "datasource": "${DS_INFLUXDB}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "hide": false,
-          "query": "SELECT mean(\"M_A-U\") FROM \"Huawei\" WHERE time > ${__from}ms -10m  fill(0) ",
+          "query": "SELECT mean(\"M_A-U\") FROM \"Huawei\" WHERE time > ${__from}ms -10m  fill(0) tz('${tzone}') ",
           "rawQuery": true,
-          "refId": "L"
+          "refId": "L",
+          "resultFormat": "time_series"
+        },
+        {
+          "alias": "peak",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
+          "hide": false,
+          "query": "select max(p) from (SELECT max(\"P_active\") as p FROM \"Huawei\" WHERE $timeFilter GROUP BY time(1d)) tz('${tzone}') ",
+          "rawQuery": true,
+          "refId": "M",
+          "resultFormat": "time_series"
         }
       ],
       "title": "Today",
@@ -3684,7 +4016,6 @@
       "version": "0.9.0"
     },
     {
-      "datasource": null,
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -3913,6 +4244,33 @@
                 "value": 4
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "limit"
+            },
+            "properties": [
+              {
+                "id": "custom.drawStyle",
+                "value": "points"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "super-light-purple",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.fillOpacity",
+                "value": 0
+              },
+              {
+                "id": "custom.pointSize",
+                "value": 3
+              }
+            ]
           }
         ]
       },
@@ -3938,13 +4296,72 @@
           "placement": "bottom"
         },
         "tooltip": {
-          "mode": "multi"
+          "mode": "multi",
+          "sort": "none"
         }
       },
       "pluginVersion": "8.0.6",
       "targets": [
         {
+          "alias": "limit",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "hide": false,
+          "measurement": "Huawei",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "H",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "U_A-B"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              },
+              {
+                "params": [
+                  " *$peak_I"
+                ],
+                "type": "math"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "I_A",
+              "operator": ">",
+              "value": "$peak_I - 0.05"
+            }
+          ]
+        },
+        {
           "alias": "max",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -3962,7 +4379,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT max(\"P_active\") * 1000 FROM \"Huawei\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
+          "query": "SELECT max(\"P_active\") * 1000 FROM \"Huawei\" WHERE $timeFilter GROUP BY time($__interval) fill(null) tz('${tzone}')",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -3990,6 +4407,10 @@
         },
         {
           "alias": "Inverter",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -4007,7 +4428,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"P_active\") * 1000 FROM \"Huawei\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
+          "query": "SELECT mean(\"P_active\") * 1000 FROM \"Huawei\" WHERE $timeFilter GROUP BY time($__interval) fill(null) tz('${tzone}')",
           "rawQuery": true,
           "refId": "C",
           "resultFormat": "time_series",
@@ -4035,6 +4456,10 @@
         },
         {
           "alias": "solcast",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -4053,7 +4478,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT (integral(\"power\"))   /1.8  FROM \"forcast\" WHERE $timeFilter GROUP BY time($__interval) fill(linear)",
+          "query": "SELECT (integral(\"power\")) * $solcast_adj  /1.8  FROM \"forcast\" WHERE $timeFilter GROUP BY time($__interval) fill(linear) tz('${tzone}')",
           "rawQuery": true,
           "refId": "Z",
           "resultFormat": "time_series",
@@ -4075,6 +4500,10 @@
         },
         {
           "alias": "Grid",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -4112,6 +4541,10 @@
         },
         {
           "alias": "load",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -4128,7 +4561,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"M_P\") - mean(\"P_active\") * 1000 FROM \"Huawei\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
+          "query": "SELECT mean(\"M_P\") - mean(\"P_active\") * 1000 FROM \"Huawei\" WHERE $timeFilter GROUP BY time($__interval) fill(null) tz('${tzone}')",
           "rawQuery": true,
           "refId": "E",
           "resultFormat": "time_series",
@@ -4150,6 +4583,10 @@
         },
         {
           "alias": "div_0",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -4167,7 +4604,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT last(load_0)  FROM \"Huawei\" WHERE $timeFilter GROUP BY time(30s) fill(none)",
+          "query": "SELECT last(load_0)  FROM \"Huawei\" WHERE $timeFilter GROUP BY time(30s) fill(none) tz('${tzone}')",
           "rawQuery": true,
           "refId": "F",
           "resultFormat": "time_series",
@@ -4189,6 +4626,10 @@
         },
         {
           "alias": "div_1",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -4207,7 +4648,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT last(load_1)  FROM \"Huawei\" WHERE $timeFilter GROUP BY time(30s) fill(none)",
+          "query": "SELECT last(load_1)  FROM \"Huawei\" WHERE $timeFilter GROUP BY time(30s) fill(none) tz('${tzone}')",
           "rawQuery": true,
           "refId": "G",
           "resultFormat": "time_series",
@@ -4229,6 +4670,10 @@
         },
         {
           "alias": "div_2",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -4247,7 +4692,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT last(load_2)  FROM \"Huawei\" WHERE $timeFilter GROUP BY time(30s) fill(none)",
+          "query": "SELECT last(load_2)  FROM \"Huawei\" WHERE $timeFilter GROUP BY time(30s) fill(none) tz('${tzone}')",
           "rawQuery": true,
           "refId": "B",
           "resultFormat": "time_series",
@@ -4268,13 +4713,10 @@
           "tags": []
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Power",
       "type": "timeseries"
     },
     {
-      "datasource": null,
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -4484,8 +4926,20 @@
           },
           {
             "matcher": {
-              "id": "byName",
-              "options": "solcast"
+              "id": "byType",
+              "options": "time"
+            },
+            "properties": [
+              {
+                "id": "custom.axisPlacement",
+                "value": "auto"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/solcast/"
             },
             "properties": [
               {
@@ -4501,9 +4955,40 @@
                 "value": 0
               },
               {
+                "id": "custom.lineInterpolation",
+                "value": "smooth"
+              },
+              {
+                "id": "custom.spanNulls",
+                "value": 3600000
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "solcast"
+            },
+            "properties": [
+              {
                 "id": "color",
                 "value": {
                   "fixedColor": "dark-orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "solcast10"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
                   "mode": "fixed"
                 }
               }
@@ -4527,13 +5012,18 @@
           "placement": "bottom"
         },
         "tooltip": {
-          "mode": "multi"
+          "mode": "multi",
+          "sort": "none"
         }
       },
       "pluginVersion": "8.0.6",
       "targets": [
         {
           "alias": "Inverter",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -4552,7 +5042,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT last(\"P_active\") FROM \"Huawei\" WHERE P_active > 0 and time > now() - 1h  GROUP BY time(30s) fill(null)",
+          "query": "SELECT last(\"P_active\") FROM \"Huawei\" WHERE P_active > 0 and time > now() - 1h  GROUP BY time(30s) fill(null) tz('${tzone}')",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -4580,6 +5070,10 @@
         },
         {
           "alias": "solcast",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -4597,7 +5091,7 @@
           "hide": false,
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT (integral(\"power\"))  / 1800  FROM \"forcast\" WHERE time > now() - 2h and time < now() + 1h GROUP BY time($__interval) fill(linear)",
+          "query": "SELECT (integral(\"power\")) * $solcast_adj / 1800  FROM \"forcast\" WHERE time > now() - 2h and time < now() + 1h GROUP BY time($__interval) fill(linear) tz('${tzone}')",
           "rawQuery": true,
           "refId": "F",
           "resultFormat": "time_series",
@@ -4619,6 +5113,10 @@
         },
         {
           "alias": "load",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -4636,7 +5134,7 @@
           "hide": false,
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT last(\"M_P\") / 1000 - last(\"P_active\")  FROM \"Huawei\" WHERE time > now() - 1h  GROUP BY time(30s) fill(null)",
+          "query": "SELECT last(\"M_P\") / 1000 - last(\"P_active\")  FROM \"Huawei\" WHERE time > now() - 1h  GROUP BY time(30s) fill(null) tz('${tzone}')",
           "rawQuery": true,
           "refId": "C",
           "resultFormat": "time_series",
@@ -4658,6 +5156,10 @@
         },
         {
           "alias": "Grid",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -4676,7 +5178,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT last(\"M_P\") / 1000 FROM \"Huawei\" WHERE time > now() - 1h  GROUP BY time(30s) fill(null)",
+          "query": "SELECT last(\"M_P\") / 1000 FROM \"Huawei\" WHERE time > now() - 1h  GROUP BY time(30s) fill(null) tz('${tzone}')",
           "rawQuery": true,
           "refId": "B",
           "resultFormat": "time_series",
@@ -4698,6 +5200,10 @@
         },
         {
           "alias": "div_0",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -4715,7 +5221,7 @@
           "hide": false,
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT last(\"load_0\") FROM \"Huawei\" WHERE time > now() - 1h  GROUP BY time(30s) fill(null)",
+          "query": "SELECT last(\"load_0\") FROM \"Huawei\" WHERE time > now() - 1h  GROUP BY time(30s) fill(null) tz('${tzone}')",
           "rawQuery": true,
           "refId": "D",
           "resultFormat": "time_series",
@@ -4737,6 +5243,10 @@
         },
         {
           "alias": "div_1",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -4754,7 +5264,7 @@
           "hide": false,
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT last(\"load_1\") FROM \"Huawei\" WHERE time > now() - 1h  GROUP BY time(30s) fill(null)",
+          "query": "SELECT last(\"load_1\") FROM \"Huawei\" WHERE time > now() - 1h  GROUP BY time(30s) fill(null) tz('${tzone}')",
           "rawQuery": true,
           "refId": "E",
           "resultFormat": "time_series",
@@ -4776,6 +5286,10 @@
         },
         {
           "alias": "div_2",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -4793,9 +5307,52 @@
           "hide": false,
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT last(\"load_2\") FROM \"Huawei\" WHERE time > now() - 1h  GROUP BY time(30s) fill(null)",
+          "query": "SELECT last(\"load_2\") FROM \"Huawei\" WHERE time > now() - 1h  GROUP BY time(30s) fill(null) tz('${tzone}')",
           "rawQuery": true,
           "refId": "G",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "solcast10",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "hide": false,
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT (integral(\"power10\")) * $solcast_adj / 1800  FROM \"forcast\" WHERE time > now() - 2h and time < now() + 1h GROUP BY time($__interval) fill(linear) tz('${tzone}')",
+          "rawQuery": true,
+          "refId": "H",
           "resultFormat": "time_series",
           "select": [
             [
@@ -4815,13 +5372,14 @@
         }
       ],
       "timeFrom": "1h",
-      "timeShift": null,
       "title": "Power (1h)",
       "type": "timeseries"
     },
     {
-      "cacheTimeout": null,
-      "datasource": "-- Mixed --",
+      "datasource": {
+        "type": "datasource",
+        "uid": "-- Mixed --"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -4833,6 +5391,10 @@
               {
                 "color": "dark-red",
                 "value": null
+              },
+              {
+                "color": "semi-dark-red",
+                "value": -10
               },
               {
                 "color": "semi-dark-yellow",
@@ -4849,114 +5411,24 @@
               {
                 "color": "light-blue",
                 "value": 5
+              },
+              {
+                "color": "semi-dark-blue",
+                "value": 8
               }
             ]
           },
           "unit": "kwatt"
         },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Inverter"
-            },
-            "properties": [
-              {
-                "id": "max",
-                "value": 9
-              },
-              {
-                "id": "thresholds",
-                "value": {
-                  "mode": "absolute",
-                  "steps": [
-                    {
-                      "color": "semi-dark-orange",
-                      "value": null
-                    },
-                    {
-                      "color": "rgb(255, 255, 255)",
-                      "value": 0
-                    },
-                    {
-                      "color": "semi-dark-orange",
-                      "value": 0.01
-                    },
-                    {
-                      "color": "#EAB839",
-                      "value": 1.5
-                    },
-                    {
-                      "color": "super-light-green",
-                      "value": 3
-                    },
-                    {
-                      "color": "light-green",
-                      "value": 5
-                    },
-                    {
-                      "color": "semi-dark-green",
-                      "value": 7
-                    }
-                  ]
-                }
-              },
-              {
-                "id": "min",
-                "value": 0
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Peak grid"
-            },
-            "properties": [
-              {
-                "id": "thresholds",
-                "value": {
-                  "mode": "absolute",
-                  "steps": [
-                    {
-                      "color": "rgb(255, 255, 255)",
-                      "value": null
-                    },
-                    {
-                      "color": "light-green",
-                      "value": 0.01
-                    },
-                    {
-                      "color": "light-yellow",
-                      "value": 4
-                    },
-                    {
-                      "color": "semi-dark-orange",
-                      "value": 5
-                    },
-                    {
-                      "color": "semi-dark-red",
-                      "value": 6
-                    }
-                  ]
-                }
-              },
-              {
-                "id": "min",
-                "value": 0
-              }
-            ]
-          }
-        ]
+        "overrides": []
       },
       "gridPos": {
-        "h": 4,
-        "w": 13,
+        "h": 5,
+        "w": 10,
         "x": 0,
         "y": 12
       },
       "id": 46,
-      "interval": null,
       "links": [],
       "maxDataPoints": 100,
       "options": {
@@ -4972,11 +5444,14 @@
         "showThresholdMarkers": true,
         "text": {}
       },
-      "pluginVersion": "8.2.0-beta1",
+      "pluginVersion": "8.4.4",
       "targets": [
         {
           "alias": "Inverter",
-          "datasource": "${DS_INFLUXDB}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -4994,7 +5469,7 @@
           "hide": true,
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT last(\"P_active\") FROM \"Huawei\" WHERE time > now() - 5m  GROUP BY time(1m) fill(none)",
+          "query": "SELECT last(\"P_active\") FROM \"Huawei\" WHERE time > now() - 5m  GROUP BY time(1m) fill(none) tz('${tzone}')",
           "rawQuery": true,
           "refId": "B",
           "resultFormat": "time_series",
@@ -5016,7 +5491,10 @@
         },
         {
           "alias": "load",
-          "datasource": "${DS_INFLUXDB}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -5033,7 +5511,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT (last(\"M_P\")  /1000  - last(\"P_active\")) as p FROM \"Huawei\" WHERE  time > now() - 5m  GROUP BY time(1m) fill(none)",
+          "query": "SELECT (last(\"M_P\")  /1000  - last(\"P_active\")) as p FROM \"Huawei\" WHERE  time > now() - 5m  GROUP BY time(1m) fill(none) tz('${tzone}')",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -5055,7 +5533,10 @@
         },
         {
           "alias": "grid",
-          "datasource": "${DS_INFLUXDB}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -5072,7 +5553,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT last(\"M_P\")  / 1000 FROM \"Huawei\" WHERE  time > now() - 5m GROUP BY time(1m) fill(none)",
+          "query": "SELECT last(\"M_P\")  / 1000 FROM \"Huawei\" WHERE  time > now() - 5m GROUP BY time(1m) fill(none) tz('${tzone}')",
           "rawQuery": true,
           "refId": "C",
           "resultFormat": "time_series",
@@ -5094,7 +5575,10 @@
         },
         {
           "alias": "grid (1h)",
-          "datasource": "${DS_INFLUXDB}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -5111,7 +5595,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT cumulative_sum(integral(\"M_P\")) / 3600 / 1000 FROM \"Huawei\" WHERE time > now() - 1h  GROUP BY time(1m) fill(none)",
+          "query": "SELECT cumulative_sum(integral(\"M_P\")) / 3600 / 1000 FROM \"Huawei\" WHERE time > now() - 1h  GROUP BY time(1m) fill(none) tz('${tzone}')",
           "rawQuery": true,
           "refId": "D",
           "resultFormat": "time_series",
@@ -5133,7 +5617,10 @@
         },
         {
           "alias": "Peak grid (1d)",
-          "datasource": "${DS_INFLUXDB}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -5152,7 +5639,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT min(\"M_P\")/(-1000) as peak FROM \"Huawei\" WHERE time > ${__from}ms  fill(none) ",
+          "query": "SELECT min(\"M_P\")/(-1000) as peak FROM \"Huawei\" WHERE time > ${__from}ms  fill(none) tz('${tzone}')",
           "rawQuery": true,
           "refId": "E",
           "resultFormat": "time_series",
@@ -5173,71 +5660,434 @@
           "tags": []
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "transformations": [],
       "transparent": true,
       "type": "gauge"
     },
     {
-      "aliasColors": {
-        "forecast": "super-light-blue",
-        "inverter": "semi-dark-yellow",
-        "today": "semi-dark-orange"
+      "datasource": {
+        "type": "datasource",
+        "uid": "-- Mixed --"
       },
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": null,
-      "fill": 1,
-      "fillGradient": 0,
+      "description": "Forecast available daily for next week",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "kwatth"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 10,
+        "y": 12
+      },
+      "hideTimeOverride": true,
+      "id": 69,
+      "links": [],
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.4.4",
+      "targets": [
+        {
+          "alias": "forecast",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "linear"
+              ],
+              "type": "fill"
+            }
+          ],
+          "hide": false,
+          "measurement": "forcast",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "select max(f) from (SELECT cumulative_sum(integral(\"power\")) / 3600 / 8 * $solcast_adj as f FROM \"forcast\" WHERE (\"time\" > ${__from}ms) AND $timeFilter GROUP BY time(1d) fill(linear) tz('${tzone}'))",
+          "rawQuery": true,
+          "refId": "D",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "power"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "integral"
+              },
+              {
+                "params": [],
+                "type": "cumulative_sum"
+              },
+              {
+                "params": [
+                  " / 3600 / 7"
+                ],
+                "type": "math"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "time",
+              "operator": ">",
+              "value": "${__from}ms"
+            }
+          ]
+        },
+        {
+          "alias": "load",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_LT}"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "7d"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "previous"
+              ],
+              "type": "fill"
+            }
+          ],
+          "hide": false,
+          "measurement": "Huawei_daily",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "select last(l) from (SELECT  mode(\"P_Load\") as l FROM \"Huawei_daily\" WHERE time >  ${__to}ms -7d  GROUP BY time(1d) fill(linear) tz('${tzone}'))",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "P_Load"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              },
+              {
+                "params": [
+                  "10",
+                  2
+                ],
+                "type": "holt_winters_with_fit"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "timeFrom": "+18d",
+      "timeShift": "11d",
+      "transformations": [
+        {
+          "id": "reduce",
+          "options": {
+            "reducers": [
+              "lastNotNull"
+            ]
+          }
+        },
+        {
+          "id": "rowsToFields",
+          "options": {}
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "forecast",
+            "binary": {
+              "left": "forecast",
+              "operator": "-",
+              "reducer": "sum",
+              "right": "load"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": true
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB_LT}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "kwatth"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 3,
+        "x": 10,
+        "y": 15
+      },
+      "id": 71,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^expiring$/",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.4.4",
+      "targets": [
+        {
+          "alias": "expiring",
+          "query": "SELECT cumulative_sum(Bal)  FROM \"Huawei_daily\" where time > '${__to:date:YYYY-MM-18}' - 365d  and  time < '${__to:date:YYYY-MM-18}' - 305d   tz('${tzone}')",
+          "rawQuery": true,
+          "refId": "A"
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "description": "forecast",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisGridShow": true,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": true,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "kwatt"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "forecast"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "super-light-blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "inverter"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-yellow",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "today"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "forecast"
+            },
+            "properties": [
+              {
+                "id": "custom.fillOpacity",
+                "value": 20
+              },
+              {
+                "id": "custom.fillOpacity",
+                "value": 20
+              },
+              {
+                "id": "custom.lineWidth",
+                "value": 2
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byType",
+              "options": "time"
+            },
+            "properties": [
+              {
+                "id": "custom.axisPlacement",
+                "value": "hidden"
+              }
+            ]
+          }
+        ]
+      },
       "gridPos": {
         "h": 4,
         "w": 16,
         "x": 0,
         "y": 17
       },
-      "hiddenSeries": false,
       "hideTimeOverride": true,
       "id": 51,
-      "legend": {
-        "alignAsTable": false,
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "rightSide": true,
-        "show": false,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
       "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "8.2.0-beta1",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [
-        {
-          "$$hashKey": "object:659",
-          "alias": "forecast",
-          "fill": 2,
-          "fillGradient": 2,
-          "linewidth": 2,
-          "zindex": -3
+        "legend": {
+          "calcs": [],
+          "displayMode": "hidden",
+          "placement": "right"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
         }
-      ],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
+      },
+      "pluginVersion": "8.4.4",
       "targets": [
         {
           "alias": "forecast",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -5268,6 +6118,12 @@
               {
                 "params": [],
                 "type": "mean"
+              },
+              {
+                "params": [
+                  "* $solcast_adj"
+                ],
+                "type": "math"
               }
             ]
           ],
@@ -5275,6 +6131,10 @@
         },
         {
           "alias": "inverter",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -5292,7 +6152,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"P_active\") FROM \"Huawei\" WHERE $timeFilter and time < ${__from}ms GROUP BY time(15m) fill(null)",
+          "query": "SELECT mean(\"P_active\") FROM \"Huawei\" WHERE $timeFilter and time < ${__from}ms GROUP BY time(15m) fill(null) tz('${tzone}')",
           "rawQuery": true,
           "refId": "B",
           "resultFormat": "time_series",
@@ -5314,6 +6174,10 @@
         },
         {
           "alias": "today",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -5331,7 +6195,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"P_active\") FROM \"Huawei\" WHERE $timeFilter and time > ${__from}ms GROUP BY time(15m) fill(null)",
+          "query": "SELECT mean(\"P_active\") FROM \"Huawei\" WHERE $timeFilter and time > ${__from}ms GROUP BY time(15m) fill(null) tz('${tzone}')",
           "rawQuery": true,
           "refId": "C",
           "resultFormat": "time_series",
@@ -5352,51 +6216,15 @@
           "tags": []
         }
       ],
-      "thresholds": [],
       "timeFrom": "+18d",
-      "timeRegions": [],
       "timeShift": "11d",
-      "title": "forecast",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": false,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "$$hashKey": "object:579",
-          "format": "kwatt",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "$$hashKey": "object:580",
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
+      "type": "timeseries"
     },
     {
-      "datasource": "${DS_INFLUXDB_LT}",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB_LT}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -5404,7 +6232,7 @@
           },
           "custom": {
             "axisLabel": "",
-            "axisPlacement": "auto",
+            "axisPlacement": "left",
             "barAlignment": 0,
             "drawStyle": "line",
             "fillOpacity": 10,
@@ -5456,7 +6284,7 @@
             "properties": [
               {
                 "id": "unit",
-                "value": "watth"
+                "value": "kwatth"
               },
               {
                 "id": "custom.axisPlacement",
@@ -5475,8 +6303,8 @@
                 "value": "kwatth"
               },
               {
-                "id": "decimals",
-                "value": 3
+                "id": "custom.axisPlacement",
+                "value": "left"
               }
             ]
           }
@@ -5490,7 +6318,6 @@
       },
       "hideTimeOverride": true,
       "id": 53,
-      "interval": null,
       "options": {
         "graph": {},
         "legend": {
@@ -5499,13 +6326,18 @@
           "placement": "bottom"
         },
         "tooltip": {
-          "mode": "multi"
+          "mode": "multi",
+          "sort": "none"
         }
       },
       "pluginVersion": "7.5.7",
       "targets": [
         {
           "alias": "period",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_LT}"
+          },
           "groupBy": [
             {
               "params": [
@@ -5520,10 +6352,10 @@
               "type": "fill"
             }
           ],
-          "hide": false,
+          "hide": true,
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "select cumulative_sum(diff)  as DBal from (SELECT (\"P_Exp\") - (\"P_Grid\") + (\"Adj\") as diff FROM \"Huawei_daily\"  fill(0)) where time > '${__to:date:YYYY-MM-18}' -60d",
+          "query": "select cumulative_sum(diff) as DBal from (SELECT (\"P_Exp\") - (\"P_Grid\") + (\"Adj\")  as diff FROM \"Huawei_daily\"  fill(0)) where time > '${__to:date:YYYY-MM-18}' -61d tz('${tzone}')",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -5544,7 +6376,11 @@
           "tags": []
         },
         {
-          "alias": "balance net",
+          "alias": "",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_LT}"
+          },
           "groupBy": [
             {
               "params": [
@@ -5562,7 +6398,7 @@
           "hide": false,
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "select (CBal) + (DBal) as Acct_Bal from (select cumulative_sum(diff)  as DBal from (SELECT (\"P_Exp\") - (\"P_Grid\") + (\"Adj\") as diff FROM \"Huawei_daily\"  fill(0)) where time > '${__to:date:YYYY-MM-18}' -60d), (select cumulative_sum(Bal) as CBal from Huawei_daily where time > now() -365d ) fill(previous)",
+          "query": "select (CBal) + (DBal) as Acct_Bal, Bal from (select cumulative_sum(diff)  as DBal from (SELECT (\"P_Exp\") - (\"P_Grid\") + (\"Adj\") as diff FROM \"Huawei_daily\"  fill(0)) where time > '${__to:date:YYYY-MM-18}' -61d), (select cumulative_sum(Bal) as CBal from Huawei_daily where time > now() -365d ), (select Bal from Huawei_daily where time > '${__to:date:YYYY-MM-18}' -61d)  fill(previous) tz('${tzone}')",
           "rawQuery": true,
           "refId": "B",
           "resultFormat": "time_series",
@@ -5584,6 +6420,10 @@
         },
         {
           "alias": "balance ",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_LT}"
+          },
           "groupBy": [
             {
               "params": [
@@ -5598,10 +6438,10 @@
               "type": "fill"
             }
           ],
-          "hide": false,
+          "hide": true,
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "select cumulative_sum(Bal) + cumulative_sum(Adj) from Huawei_daily where time > now() -365d fill(previous)",
+          "query": "select cumulative_sum(Bal) + cumulative_sum(Adj) from Huawei_daily where time > now() -365d fill(previous) tz('${tzone}')",
           "rawQuery": true,
           "refId": "C",
           "resultFormat": "time_series",
@@ -5622,13 +6462,33 @@
           "tags": []
         }
       ],
-      "timeFrom": "60d",
-      "timeShift": null,
+      "timeFrom": "66d",
       "title": "production balance",
+      "transformations": [
+        {
+          "id": "filterByValue",
+          "options": {
+            "filters": [
+              {
+                "config": {
+                  "id": "isNull",
+                  "options": {}
+                },
+                "fieldName": "Huawei_daily.Bal"
+              }
+            ],
+            "match": "all",
+            "type": "exclude"
+          }
+        }
+      ],
       "type": "timeseries"
     },
     {
-      "datasource": "-- Mixed --",
+      "datasource": {
+        "type": "datasource",
+        "uid": "-- Mixed --"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -5932,8 +6792,6 @@
       },
       "hideTimeOverride": true,
       "id": 34,
-      "interval": null,
-      "maxDataPoints": null,
       "options": {
         "legend": {
           "calcs": [
@@ -5943,15 +6801,18 @@
           "placement": "bottom"
         },
         "tooltip": {
-          "mode": "multi"
+          "mode": "multi",
+          "sort": "none"
         }
       },
       "pluginVersion": "8.0.5",
-      "repeat": null,
       "targets": [
         {
           "alias": "radiance",
-          "datasource": "${DS_INFLUXDB}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -5992,7 +6853,10 @@
         },
         {
           "alias": "daily",
-          "datasource": "${DS_INFLUXDB_LT}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_LT}"
+          },
           "groupBy": [
             {
               "params": [
@@ -6010,7 +6874,7 @@
           "hide": false,
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT (\"P_daily\") FROM \"Huawei_daily\" WHERE time > now() - 31d ",
+          "query": "SELECT (\"P_daily\") FROM \"Huawei_daily\" WHERE time > now() - 31d tz('${tzone}')",
           "rawQuery": true,
           "refId": "C",
           "resultFormat": "time_series",
@@ -6032,7 +6896,10 @@
         },
         {
           "alias": "export",
-          "datasource": "${DS_INFLUXDB_LT}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_LT}"
+          },
           "groupBy": [
             {
               "params": [
@@ -6050,7 +6917,7 @@
           "hide": false,
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT  (\"P_Exp\") as export FROM \"Huawei_daily\" WHERE time > now() - 31d ",
+          "query": "SELECT  (\"P_Exp\") as export FROM \"Huawei_daily\" WHERE time > now() - 31d tz('${tzone}')",
           "rawQuery": true,
           "refId": "D",
           "resultFormat": "time_series",
@@ -6072,7 +6939,10 @@
         },
         {
           "alias": "Grid",
-          "datasource": "${DS_INFLUXDB_LT}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_LT}"
+          },
           "groupBy": [
             {
               "params": [
@@ -6090,7 +6960,7 @@
           "hide": false,
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT (\"P_Grid\") FROM \"Huawei_daily\" WHERE time > now() - 31d ",
+          "query": "SELECT (\"P_Grid\") FROM \"Huawei_daily\" WHERE time > now() - 31d tz('${tzone}')",
           "rawQuery": true,
           "refId": "F",
           "resultFormat": "time_series",
@@ -6112,7 +6982,10 @@
         },
         {
           "alias": "load",
-          "datasource": "${DS_INFLUXDB_LT}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_LT}"
+          },
           "groupBy": [
             {
               "params": [
@@ -6131,7 +7004,7 @@
           "measurement": "Huawei_daily",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT (\"P_Load\") FROM \"Huawei_daily\" WHERE time > now() - 31d ",
+          "query": "SELECT (\"P_Load\") FROM \"Huawei_daily\" WHERE time > now() - 31d tz('${tzone}')",
           "rawQuery": true,
           "refId": "E",
           "resultFormat": "time_series",
@@ -6153,7 +7026,10 @@
         },
         {
           "alias": "Solcast",
-          "datasource": "${DS_INFLUXDB_LT}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_LT}"
+          },
           "groupBy": [
             {
               "params": [
@@ -6172,7 +7048,7 @@
           "measurement": "Huawei_daily",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT (\"f_power\") FROM \"Huawei_daily\" WHERE time > now() - 31d",
+          "query": "SELECT (\"f_power\") FROM \"Huawei_daily\" WHERE time > now() - 31d tz('${tzone}')",
           "rawQuery": true,
           "refId": "B",
           "resultFormat": "time_series",
@@ -6194,7 +7070,10 @@
         },
         {
           "alias": "peak grid",
-          "datasource": "${DS_INFLUXDB}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -6234,7 +7113,10 @@
         },
         {
           "alias": "peak",
-          "datasource": "${DS_INFLUXDB_LT}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_LT}"
+          },
           "groupBy": [
             {
               "params": [
@@ -6252,7 +7134,7 @@
           "hide": false,
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT (\"P_peak\") FROM \"Huawei_daily\" WHERE time > now() - 31d",
+          "query": "SELECT (\"P_peak\") FROM \"Huawei_daily\" WHERE time > now() - 31d tz('${tzone}')",
           "rawQuery": true,
           "refId": "G",
           "resultFormat": "time_series",
@@ -6279,7 +7161,10 @@
       "type": "timeseries"
     },
     {
-      "datasource": "-- Mixed --",
+      "datasource": {
+        "type": "datasource",
+        "uid": "-- Mixed --"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -6596,7 +7481,6 @@
       },
       "hideTimeOverride": true,
       "id": 45,
-      "interval": "",
       "options": {
         "legend": {
           "calcs": [
@@ -6606,14 +7490,18 @@
           "placement": "bottom"
         },
         "tooltip": {
-          "mode": "multi"
+          "mode": "multi",
+          "sort": "none"
         }
       },
       "pluginVersion": "8.0.5",
       "targets": [
         {
           "alias": "daily",
-          "datasource": "${DS_INFLUXDB_LT}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_LT}"
+          },
           "groupBy": [
             {
               "params": [
@@ -6630,7 +7518,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"P_daily\") FROM \"Huawei_daily\" group by time(30d) tz('${tzone}')",
+          "query": "SELECT mean(\"P_daily\") FROM \"Huawei_daily\" where time >  '${__to:date:YYYY-01-01}' - 396d group by time(30d) tz('${tzone}')",
           "rawQuery": true,
           "refId": "G",
           "resultFormat": "time_series",
@@ -6652,7 +7540,10 @@
         },
         {
           "alias": "export",
-          "datasource": "${DS_INFLUXDB_LT}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_LT}"
+          },
           "groupBy": [
             {
               "params": [
@@ -6669,7 +7560,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"P_Exp\") as export FROM \"Huawei_daily\" group by time(30d) tz('${tzone}')",
+          "query": "SELECT mean(\"P_Exp\") as export FROM \"Huawei_daily\" where time >  '${__to:date:YYYY-01-01}' - 396d group by time(30d) tz('${tzone}')",
           "rawQuery": true,
           "refId": "H",
           "resultFormat": "time_series",
@@ -6691,7 +7582,10 @@
         },
         {
           "alias": "load",
-          "datasource": "${DS_INFLUXDB_LT}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_LT}"
+          },
           "groupBy": [
             {
               "params": [
@@ -6709,7 +7603,7 @@
           "measurement": "Huawei_daily",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"P_Load\") FROM \"Huawei_daily\" group by time(30d) tz('${tzone}')",
+          "query": "SELECT mean(\"P_Load\") FROM \"Huawei_daily\"  where time >  '${__to:date:YYYY-01-01}' - 396d group by time(30d) tz('${tzone}')",
           "rawQuery": true,
           "refId": "E",
           "resultFormat": "time_series",
@@ -6731,7 +7625,10 @@
         },
         {
           "alias": "peak",
-          "datasource": "${DS_INFLUXDB_LT}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_LT}"
+          },
           "groupBy": [
             {
               "params": [
@@ -6748,7 +7645,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"P_peak\") FROM \"Huawei_daily\" group by time(30d) tz('${tzone}')",
+          "query": "SELECT mean(\"P_peak\") FROM \"Huawei_daily\"  where time >  '${__to:date:YYYY-01-01}' - 396d group by time(30d) tz('${tzone}')",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -6770,7 +7667,10 @@
         },
         {
           "alias": "Grid",
-          "datasource": "${DS_INFLUXDB_LT}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_LT}"
+          },
           "groupBy": [
             {
               "params": [
@@ -6787,7 +7687,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"P_Grid\") FROM \"Huawei_daily\" group by time(30d) tz('${tzone}')",
+          "query": "SELECT mean(\"P_Grid\") FROM \"Huawei_daily\"  where time >  '${__to:date:YYYY-01-01}' - 396d group by time(30d) tz('${tzone}')",
           "rawQuery": true,
           "refId": "D",
           "resultFormat": "time_series",
@@ -6809,7 +7709,10 @@
         },
         {
           "alias": "solcast",
-          "datasource": "${DS_INFLUXDB_LT}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_LT}"
+          },
           "groupBy": [
             {
               "params": [
@@ -6827,7 +7730,7 @@
           "measurement": "Huawei_daily",
           "orderByTime": "ASC",
           "policy": "autogen",
-          "query": "SELECT mean(\"f_power\") FROM \"Huawei_daily\"  GROUP BY time(30d) tz('${tzone}')",
+          "query": "SELECT mean(\"f_power\") FROM \"Huawei_daily\"   where time >  '${__to:date:YYYY-01-01}' - 396d GROUP BY time(30d) tz('${tzone}')",
           "rawQuery": true,
           "refId": "C",
           "resultFormat": "time_series",
@@ -6849,7 +7752,10 @@
         },
         {
           "alias": "solcast90",
-          "datasource": "${DS_INFLUXDB_LT}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_LT}"
+          },
           "groupBy": [
             {
               "params": [
@@ -6867,7 +7773,7 @@
           "measurement": "Huawei_daily",
           "orderByTime": "ASC",
           "policy": "autogen",
-          "query": "SELECT mean(\"f_power90\") FROM \"Huawei_daily\"  GROUP BY time(30d) tz('${tzone}')",
+          "query": "SELECT mean(\"f_power90\") FROM \"Huawei_daily\"  where time >  '${__to:date:YYYY-01-01}' - 396d  GROUP BY time(30d) tz('${tzone}')",
           "rawQuery": true,
           "refId": "B",
           "resultFormat": "time_series",
@@ -6888,13 +7794,15 @@
           "tags": []
         }
       ],
-      "timeFrom": "13M",
-      "timeShift": null,
+      "timeFrom": "15M/M",
       "title": "daily production (monthly)",
       "type": "timeseries"
     },
     {
-      "datasource": "-- Mixed --",
+      "datasource": {
+        "type": "datasource",
+        "uid": "-- Mixed --"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -7119,7 +8027,6 @@
       "hideTimeOverride": true,
       "id": 62,
       "interval": "30d",
-      "maxDataPoints": null,
       "options": {
         "legend": {
           "calcs": [
@@ -7129,14 +8036,18 @@
           "placement": "bottom"
         },
         "tooltip": {
-          "mode": "multi"
+          "mode": "multi",
+          "sort": "none"
         }
       },
       "pluginVersion": "8.0.5",
       "targets": [
         {
           "alias": "Month",
-          "datasource": "${DS_INFLUXDB_LT}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_LT}"
+          },
           "groupBy": [
             {
               "params": [
@@ -7176,7 +8087,10 @@
         },
         {
           "alias": "export",
-          "datasource": "${DS_INFLUXDB_LT}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_LT}"
+          },
           "groupBy": [
             {
               "params": [
@@ -7216,7 +8130,10 @@
         },
         {
           "alias": "solcast",
-          "datasource": "${DS_INFLUXDB_LT}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_LT}"
+          },
           "groupBy": [
             {
               "params": [
@@ -7256,7 +8173,10 @@
         },
         {
           "alias": "load",
-          "datasource": "${DS_INFLUXDB_LT}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_LT}"
+          },
           "groupBy": [
             {
               "params": [
@@ -7296,7 +8216,10 @@
         },
         {
           "alias": "grid",
-          "datasource": "${DS_INFLUXDB_LT}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_LT}"
+          },
           "groupBy": [
             {
               "params": [
@@ -7335,7 +8258,10 @@
         },
         {
           "alias": "balance",
-          "datasource": "${DS_INFLUXDB_LT}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_LT}"
+          },
           "groupBy": [
             {
               "params": [
@@ -7353,7 +8279,7 @@
           "hide": false,
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT cumulative_sum(Bal)  FROM \"Huawei_daily\" where time > '${__to:date:YYYY-MM-18}' - 800d tz('${tzone}')",
+          "query": "SELECT cumulative_sum(Bal)  FROM \"Huawei_daily\" where time > '${__to:date:YYYY-MM-18}' - 365d tz('${tzone}')",
           "rawQuery": true,
           "refId": "E",
           "resultFormat": "time_series",
@@ -7374,14 +8300,16 @@
           "tags": []
         }
       ],
-      "timeFrom": "25M",
-      "timeShift": null,
+      "timeFrom": "26M",
       "title": "monthly production",
       "transformations": [],
       "type": "timeseries"
     },
     {
-      "datasource": "-- Mixed --",
+      "datasource": {
+        "type": "datasource",
+        "uid": "-- Mixed --"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -7605,8 +8533,7 @@
       },
       "hideTimeOverride": true,
       "id": 68,
-      "interval": "365d",
-      "maxDataPoints": null,
+      "interval": "1y",
       "options": {
         "legend": {
           "calcs": [
@@ -7616,14 +8543,18 @@
           "placement": "bottom"
         },
         "tooltip": {
-          "mode": "multi"
+          "mode": "multi",
+          "sort": "none"
         }
       },
       "pluginVersion": "8.0.5",
       "targets": [
         {
           "alias": "Year",
-          "datasource": "${DS_INFLUXDB_LT}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_LT}"
+          },
           "groupBy": [
             {
               "params": [
@@ -7641,7 +8572,7 @@
           "hide": false,
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT sum(\"P_daily\") FROM \"Huawei_daily\"  group by time(365d) tz('${tzone}')",
+          "query": "SELECT sum(\"P_daily\") FROM \"Huawei_daily\" where time >  '${__to:date:YYYY-01-01}' - 4382d group by time(365d) tz('${tzone}')",
           "rawQuery": true,
           "refId": "B",
           "resultFormat": "time_series",
@@ -7663,7 +8594,10 @@
         },
         {
           "alias": "export",
-          "datasource": "${DS_INFLUXDB_LT}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_LT}"
+          },
           "groupBy": [
             {
               "params": [
@@ -7681,7 +8615,7 @@
           "hide": false,
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT sum(\"P_Exp\") as export FROM \"Huawei_daily\"  group by time(365d) tz('${tzone}')",
+          "query": "SELECT sum(\"P_Exp\") as export FROM \"Huawei_daily\" where time >  '${__to:date:YYYY-01-01}' - 4382d group by time(365d) tz('${tzone}')",
           "rawQuery": true,
           "refId": "C",
           "resultFormat": "time_series",
@@ -7703,7 +8637,10 @@
         },
         {
           "alias": "solcast",
-          "datasource": "${DS_INFLUXDB_LT}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_LT}"
+          },
           "groupBy": [
             {
               "params": [
@@ -7721,7 +8658,7 @@
           "hide": false,
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT sum(\"f_power\") FROM \"Huawei_daily\"  group by time(365d) tz('${tzone}')",
+          "query": "SELECT sum(\"f_power\") FROM \"Huawei_daily\" where time >  '${__to:date:YYYY-01-01}' - 4382d group by time(365d) tz('${tzone}')",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -7743,7 +8680,10 @@
         },
         {
           "alias": "load",
-          "datasource": "${DS_INFLUXDB_LT}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_LT}"
+          },
           "groupBy": [
             {
               "params": [
@@ -7761,7 +8701,7 @@
           "hide": false,
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT sum(\"P_Load\") FROM \"Huawei_daily\"  group by time(365d) tz('${tzone}')",
+          "query": "SELECT sum(\"P_Load\") FROM \"Huawei_daily\" where time >  '${__to:date:YYYY-01-01}' - 4382d group by time(365d) tz('${tzone}')",
           "rawQuery": true,
           "refId": "F",
           "resultFormat": "time_series",
@@ -7783,7 +8723,10 @@
         },
         {
           "alias": "grid",
-          "datasource": "${DS_INFLUXDB_LT}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_LT}"
+          },
           "groupBy": [
             {
               "params": [
@@ -7798,9 +8741,10 @@
               "type": "fill"
             }
           ],
+          "hide": false,
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT sum(\"P_Grid\") FROM \"Huawei_daily\"  group by time(365d) tz('${tzone}')",
+          "query": "SELECT sum(\"P_Grid\") FROM \"Huawei_daily\" where time >  '${__to:date:YYYY-01-01}' - 4382d group by time(365d) tz('${tzone}')",
           "rawQuery": true,
           "refId": "D",
           "resultFormat": "time_series",
@@ -7822,7 +8766,10 @@
         },
         {
           "alias": "balance",
-          "datasource": "${DS_INFLUXDB_LT}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_LT}"
+          },
           "groupBy": [
             {
               "params": [
@@ -7840,7 +8787,7 @@
           "hide": true,
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT cumulative_sum(Bal)  FROM \"Huawei_daily\"   group by time(365d) tz('${tzone}')",
+          "query": "SELECT cumulative_sum(Bal)  FROM \"Huawei_daily\" group by time(365d) tz('${tzone}')",
           "rawQuery": true,
           "refId": "E",
           "resultFormat": "time_series",
@@ -7861,15 +8808,16 @@
           "tags": []
         }
       ],
-      "timeFrom": "120M",
-      "timeShift": null,
+      "timeFrom": "12y",
       "title": "yearly production",
       "transformations": [],
       "type": "timeseries"
     },
     {
-      "cacheTimeout": null,
-      "datasource": "${DS_INFLUXDB_DS}",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB_DS}"
+      },
       "fieldConfig": {
         "defaults": {
           "mappings": [],
@@ -7892,7 +8840,6 @@
         "y": 37
       },
       "id": 57,
-      "interval": null,
       "links": [],
       "maxDataPoints": 100,
       "options": {
@@ -7910,7 +8857,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.2.0-beta1",
+      "pluginVersion": "8.4.4",
       "targets": [
         {
           "alias": "Exports",
@@ -7931,7 +8878,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "select max(l) - min(f)  from (SELECT first(\"M_PExp\") as f FROM \"Huawei\" WHERE time > now() - 366d ), (SELECT last(\"M_PExp\") as l  FROM \"Huawei\" WHERE time > now() - 1d)",
+          "query": "select max(l) - min(f)  from (SELECT first(\"M_PExp\") as f FROM \"Huawei\" WHERE time > now() - 366d ), (SELECT last(\"M_PExp\") as l  FROM \"Huawei\" WHERE time > now() - 1d) tz('${tzone}')",
           "rawQuery": true,
           "refId": "C",
           "resultFormat": "time_series",
@@ -7970,7 +8917,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "select max(l) - min(f)  from (SELECT first(\"M_PTot\") as f FROM \"Huawei\" WHERE time > now() - 366d ), (SELECT last(\"M_PTot\") as l  FROM \"Huawei\" WHERE time > now() - 1d)",
+          "query": "select max(l) - min(f)  from (SELECT first(\"M_PTot\") as f FROM \"Huawei\" WHERE time > now() - 366d ), (SELECT last(\"M_PTot\") as l  FROM \"Huawei\" WHERE time > now() - 1d) tz('${tzone}')",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -8009,7 +8956,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "select max(l) - min(f)  from (SELECT first(\"P_accum\") as f FROM \"Huawei\" WHERE time > now() - 366d ), (SELECT last(\"P_accum\") as l  FROM \"Huawei\" WHERE time > now() - 1d)",
+          "query": "select max(l) - min(f)  from (SELECT first(\"P_accum\") as f FROM \"Huawei\" WHERE time > now() - 366d ), (SELECT last(\"P_accum\") as l  FROM \"Huawei\" WHERE time > now() - 1d) tz('${tzone}')",
           "rawQuery": true,
           "refId": "B",
           "resultFormat": "time_series",
@@ -8030,8 +8977,6 @@
           "tags": []
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "12 months",
       "transformations": [
         {
@@ -8086,8 +9031,10 @@
       "type": "stat"
     },
     {
-      "cacheTimeout": null,
-      "datasource": "${DS_INFLUXDB_DS}",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB_DS}"
+      },
       "fieldConfig": {
         "defaults": {
           "mappings": [],
@@ -8110,7 +9057,6 @@
         "y": 37
       },
       "id": 59,
-      "interval": null,
       "links": [],
       "maxDataPoints": 100,
       "options": {
@@ -8128,7 +9074,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.2.0-beta1",
+      "pluginVersion": "8.4.4",
       "targets": [
         {
           "alias": "Exports",
@@ -8149,7 +9095,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "select max(l) - min(f)  from (SELECT first(\"M_PExp\") as f FROM \"Huawei\" WHERE time > now() - 181d  ), (SELECT last(\"M_PExp\") as l  FROM \"Huawei\" WHERE time > now() - 1d)",
+          "query": "select max(l) - min(f)  from (SELECT first(\"M_PExp\") as f FROM \"Huawei\" WHERE time > now() - 181d  ), (SELECT last(\"M_PExp\") as l  FROM \"Huawei\" WHERE time > now() - 1d) tz('${tzone}')",
           "rawQuery": true,
           "refId": "C",
           "resultFormat": "time_series",
@@ -8188,7 +9134,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "select max(l) - min(f)  from (SELECT first(\"M_PTot\") as f FROM \"Huawei\" WHERE time > now() - 181d  ), (SELECT last(\"M_PTot\") as l  FROM \"Huawei\" WHERE time > now() - 1d)",
+          "query": "select max(l) - min(f)  from (SELECT first(\"M_PTot\") as f FROM \"Huawei\" WHERE time > now() - 181d  ), (SELECT last(\"M_PTot\") as l  FROM \"Huawei\" WHERE time > now() - 1d) tz('${tzone}')",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -8227,7 +9173,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "select max(l) - min(f)  from (SELECT first(\"P_accum\") as f FROM \"Huawei\" WHERE time > now() - 181d ), (SELECT last(\"P_accum\") as l  FROM \"Huawei\" WHERE time > now() - 1d)",
+          "query": "select max(l) - min(f)  from (SELECT first(\"P_accum\") as f FROM \"Huawei\" WHERE time > now() - 181d ), (SELECT last(\"P_accum\") as l  FROM \"Huawei\" WHERE time > now() - 1d) tz('${tzone}')",
           "rawQuery": true,
           "refId": "B",
           "resultFormat": "time_series",
@@ -8248,8 +9194,6 @@
           "tags": []
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "6 months",
       "transformations": [
         {
@@ -8304,8 +9248,10 @@
       "type": "stat"
     },
     {
-      "cacheTimeout": null,
-      "datasource": "${DS_INFLUXDB_DS}",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB_DS}"
+      },
       "fieldConfig": {
         "defaults": {
           "mappings": [],
@@ -8328,7 +9274,6 @@
         "y": 40
       },
       "id": 58,
-      "interval": null,
       "links": [],
       "maxDataPoints": 100,
       "options": {
@@ -8346,7 +9291,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.2.0-beta1",
+      "pluginVersion": "8.4.4",
       "targets": [
         {
           "alias": "Exports",
@@ -8367,7 +9312,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "select max(l) - min(f)  from (SELECT first(\"M_PExp\") as f FROM \"Huawei\" WHERE time > now() - 91d ), (SELECT last(\"M_PExp\") as l  FROM \"Huawei\" WHERE time > now() - 1d)",
+          "query": "select max(l) - min(f)  from (SELECT first(\"M_PExp\") as f FROM \"Huawei\" WHERE time > now() - 91d ), (SELECT last(\"M_PExp\") as l  FROM \"Huawei\" WHERE time > now() - 1d) tz('${tzone}')",
           "rawQuery": true,
           "refId": "C",
           "resultFormat": "time_series",
@@ -8406,7 +9351,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "select max(l) - min(f)  from (SELECT first(\"M_PTot\") as f FROM \"Huawei\" WHERE time > now() - 90d ), (SELECT last(\"M_PTot\") as l  FROM \"Huawei\" WHERE time > now() - 1d)",
+          "query": "select max(l) - min(f)  from (SELECT first(\"M_PTot\") as f FROM \"Huawei\" WHERE time > now() - 90d ), (SELECT last(\"M_PTot\") as l  FROM \"Huawei\" WHERE time > now() - 1d) tz('${tzone}')",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -8445,7 +9390,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "select max(l) - min(f)  from (SELECT first(\"P_accum\") as f FROM \"Huawei\" WHERE time > now() - 90d ), (SELECT last(\"P_accum\") as l  FROM \"Huawei\" WHERE time > now() - 1d)",
+          "query": "select max(l) - min(f)  from (SELECT first(\"P_accum\") as f FROM \"Huawei\" WHERE time > now() - 90d ), (SELECT last(\"P_accum\") as l  FROM \"Huawei\" WHERE time > now() - 1d) tz('${tzone}')",
           "rawQuery": true,
           "refId": "B",
           "resultFormat": "time_series",
@@ -8466,8 +9411,6 @@
           "tags": []
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "3 months",
       "transformations": [
         {
@@ -8522,8 +9465,10 @@
       "type": "stat"
     },
     {
-      "cacheTimeout": null,
-      "datasource": "${DS_INFLUXDB_DS}",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB_DS}"
+      },
       "fieldConfig": {
         "defaults": {
           "mappings": [],
@@ -8547,7 +9492,6 @@
         "y": 40
       },
       "id": 56,
-      "interval": null,
       "links": [],
       "maxDataPoints": 100,
       "options": {
@@ -8565,7 +9509,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.2.0-beta1",
+      "pluginVersion": "8.4.4",
       "targets": [
         {
           "alias": "Exports",
@@ -8586,7 +9530,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "select max(l) - min(f)  from (SELECT first(\"M_PExp\") as f FROM \"Huawei\" WHERE time > now() - 31d ), (SELECT max(\"M_PExp\") as l  FROM \"Huawei\" WHERE time > now() - 1d)",
+          "query": "select max(l) - min(f)  from (SELECT first(\"M_PExp\") as f FROM \"Huawei\" WHERE time > now() - 31d ), (SELECT max(\"M_PExp\") as l  FROM \"Huawei\" WHERE time > now() - 1d) tz('${tzone}')",
           "rawQuery": true,
           "refId": "C",
           "resultFormat": "time_series",
@@ -8625,7 +9569,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "select max(l) - min(f)  from (SELECT first(\"M_PTot\") as f FROM \"Huawei\" WHERE time > now() - 31d  and time < now() - 25d), (SELECT last(\"M_PTot\") as l  FROM \"Huawei\" WHERE time > now() - 1d)",
+          "query": "select max(l) - min(f)  from (SELECT first(\"M_PTot\") as f FROM \"Huawei\" WHERE time > now() - 31d  and time < now() - 25d), (SELECT last(\"M_PTot\") as l  FROM \"Huawei\" WHERE time > now() - 1d) tz('${tzone}')",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -8664,7 +9608,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "select max(l) - min(f)  from (SELECT first(\"P_accum\") as f FROM \"Huawei\" WHERE time > now() - 31d  and time < now() - 25d), (SELECT last(\"P_accum\") as l  FROM \"Huawei\" WHERE time > now() - 1d)",
+          "query": "select max(l) - min(f)  from (SELECT first(\"P_accum\") as f FROM \"Huawei\" WHERE time > now() - 31d  and time < now() - 25d), (SELECT last(\"P_accum\") as l  FROM \"Huawei\" WHERE time > now() - 1d) tz('${tzone}')",
           "rawQuery": true,
           "refId": "B",
           "resultFormat": "time_series",
@@ -8685,8 +9629,6 @@
           "tags": []
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "1 months",
       "transformations": [
         {
@@ -8741,533 +9683,35 @@
       "type": "stat"
     },
     {
-      "datasource": null,
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB_LT}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "left",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "hue",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "line"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "#E24D42",
-                "value": 100
-              },
-              {
-                "color": "#EF843C",
-                "value": 200
-              },
-              {
-                "color": "light-blue",
-                "value": 1000
-              },
-              {
-                "color": "#1F78C1",
-                "value": 1800
-              }
-            ]
-          },
-          "unit": "watt"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Grid"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "semi-dark-yellow",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byRegexp",
-              "options": "/div_\\d/"
-            },
-            "properties": [
-              {
-                "id": "custom.drawStyle",
-                "value": "points"
-              },
-              {
-                "id": "unit",
-                "value": "none"
-              },
-              {
-                "id": "decimals",
-                "value": 0
-              },
-              {
-                "id": "max",
-                "value": 1
-              },
-              {
-                "id": "custom.axisPlacement",
-                "value": "hidden"
-              },
-              {
-                "id": "min",
-                "value": 0
-              },
-              {
-                "id": "custom.pointSize",
-                "value": 3
-              },
-              {
-                "id": "custom.hideFrom",
-                "value": {
-                  "legend": true,
-                  "tooltip": false,
-                  "viz": false
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "div_0"
-            },
-            "properties": [
-              {
-                "id": "custom.pointSize",
-                "value": 7
-              },
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "light-green",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Inverter"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "semi-dark-blue",
-                  "mode": "fixed"
-                }
-              },
-              {
-                "id": "custom.showPoints",
-                "value": "never"
-              },
-              {
-                "id": "custom.pointSize",
-                "value": 1
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "div_1"
-            },
-            "properties": [
-              {
-                "id": "custom.pointSize",
-                "value": 5
-              },
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "semi-dark-blue",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "div_2"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "semi-dark-red",
-                  "mode": "fixed"
-                }
-              },
-              {
-                "id": "custom.pointSize",
-                "value": 3
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "spiky"
-            },
-            "properties": [
-              {
-                "id": "custom.axisPlacement",
-                "value": "right"
-              },
-              {
-                "id": "unit",
-                "value": "short"
-              },
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "semi-dark-orange",
-                  "mode": "fixed"
-                }
-              },
-              {
-                "id": "max",
-                "value": 2
-              },
-              {
-                "id": "min",
-                "value": 0
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 14,
-        "x": 0,
-        "y": 43
-      },
-      "id": 67,
-      "interval": "30s",
-      "links": [
-        {
-          "targetBlank": true,
-          "title": "Loads",
-          "url": "/d/hu1xc8Zgz/loads?orgId=1"
-        }
-      ],
-      "maxDataPoints": 2000,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom"
-        },
-        "tooltip": {
-          "mode": "multi"
-        }
-      },
-      "pluginVersion": "8.0.6",
-      "targets": [
-        {
-          "alias": "Inverter",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "Huawei",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT (mean(\"P_active\") * 1000) FROM \"Huawei\" WHERE $timeFilter GROUP BY time($__interval) fill(previous)",
-          "rawQuery": true,
-          "refId": "C",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "P_active"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              },
-              {
-                "params": [
-                  "* 1000"
-                ],
-                "type": "math"
-              }
-            ]
-          ],
-          "tags": []
-        },
-        {
-          "alias": "Grid",
-          "groupBy": [],
-          "measurement": "Huawei",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT \"M_P\" - (load_1) *800 - (load_2) *800 FROM \"Huawei\" WHERE $timeFilter fill(previous)",
-          "rawQuery": true,
-          "refId": "D",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "M_P"
-                ],
-                "type": "field"
-              }
-            ]
-          ],
-          "tags": []
-        },
-        {
-          "alias": "div_0",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "Huawei",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT last(load_0)  FROM \"Huawei\" WHERE $timeFilter GROUP BY time(30s) fill(none)",
-          "rawQuery": true,
-          "refId": "F",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "load_1"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "last"
-              }
-            ]
-          ],
-          "tags": []
-        },
-        {
-          "alias": "div_1",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "hide": false,
-          "measurement": "Huawei",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT last(load_1)  FROM \"Huawei\" WHERE $timeFilter GROUP BY time(30s) fill(none)",
-          "rawQuery": true,
-          "refId": "G",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "load_1"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "last"
-              }
-            ]
-          ],
-          "tags": []
-        },
-        {
-          "alias": "div_2",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "hide": false,
-          "measurement": "Huawei",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT last(load_2)  FROM \"Huawei\" WHERE $timeFilter GROUP BY time(30s) fill(none)",
-          "rawQuery": true,
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "load_1"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "last"
-              }
-            ]
-          ],
-          "tags": []
-        },
-        {
-          "alias": "spiky",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "hide": false,
-          "measurement": "Huawei",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT max(M_P)/mean(M_P) as spiky FROM \"Huawei\" WHERE $timeFilter GROUP BY time(5m)",
-          "rawQuery": true,
-          "refId": "B",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "P_active"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              },
-              {
-                "params": [
-                  "* 1000"
-                ],
-                "type": "math"
-              }
-            ]
-          ],
-          "tags": []
-        }
-      ],
-      "timeFrom": "+10h",
-      "timeShift": "10h",
-      "title": "Power",
-      "type": "timeseries"
-    },
-    {
-      "datasource": "${DS_INFLUXDB_LT}",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
+            "mode": "continuous-RdYlGr",
+            "seriesBy": "last"
           },
           "custom": {
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
-            "drawStyle": "line",
+            "drawStyle": "bars",
             "fillOpacity": 0,
-            "gradientMode": "none",
+            "gradientMode": "scheme",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
             },
             "lineInterpolation": "linear",
-            "lineWidth": 1,
+            "lineWidth": 2,
             "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "auto",
+            "showPoints": "never",
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -9282,83 +9726,49 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "dark-red",
                 "value": null
               },
               {
                 "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "hours"
-            },
-            "properties": [
-              {
-                "id": "custom.axisPlacement",
-                "value": "right"
-              },
-              {
-                "id": "unit",
-                "value": "h"
-              },
-              {
-                "id": "custom.axisSoftMax",
-                "value": 1
+                "value": 10
               }
             ]
           },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "ratio"
-            },
-            "properties": [
-              {
-                "id": "custom.axisPlacement",
-                "value": "left"
-              },
-              {
-                "id": "unit",
-                "value": "none"
-              }
-            ]
-          }
-        ]
+          "unit": "kwatth"
+        },
+        "overrides": []
       },
       "gridPos": {
         "h": 8,
-        "w": 10,
-        "x": 14,
+        "w": 24,
+        "x": 0,
         "y": 43
       },
-      "id": 66,
+      "id": 73,
       "interval": "1d",
-      "maxDataPoints": null,
+      "maxDataPoints": 2000,
       "options": {
         "legend": {
-          "calcs": [
-            "mean"
-          ],
+          "calcs": [],
           "displayMode": "list",
           "placement": "bottom"
         },
         "tooltip": {
-          "mode": "multi"
+          "mode": "single",
+          "sort": "none"
         }
       },
       "targets": [
         {
-          "alias": "hours",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_LT}"
+          },
           "groupBy": [
             {
               "params": [
-                "$__interval"
+                "2d"
               ],
               "type": "time"
             },
@@ -9372,7 +9782,7 @@
           "measurement": "Huawei_daily",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT (1 - \"f_hours\") FROM \"Huawei_daily\"",
+          "query": "SELECT (\"P_daily\") FROM \"Huawei_daily\" tz('${tzone}')",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -9380,47 +9790,7 @@
             [
               {
                 "params": [
-                  "f_hours"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              }
-            ]
-          ],
-          "tags": []
-        },
-        {
-          "alias": "ratio",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "hide": false,
-          "measurement": "Huawei_daily",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT (\"f_ratio\") FROM \"Huawei_daily\"",
-          "rawQuery": true,
-          "refId": "B",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "f_ratio"
+                  "P_daily"
                 ],
                 "type": "field"
               },
@@ -9433,60 +9803,74 @@
           "tags": []
         }
       ],
-      "timeFrom": "30d",
-      "timeShift": null,
+      "timeFrom": "2000d",
       "title": "Panel Title",
-      "transformations": [
-        {
-          "id": "calculateField",
-          "options": {
-            "binary": {
-              "left": "hours",
-              "operator": "/",
-              "reducer": "sum",
-              "right": "ratio"
-            },
-            "mode": "binary",
-            "reduce": {
-              "reducer": "sum"
-            }
-          }
-        }
-      ],
       "type": "timeseries"
     }
   ],
   "refresh": "15s",
-  "schemaVersion": 31,
+  "schemaVersion": 35,
   "style": "dark",
   "tags": [],
   "templating": {
     "list": [
       {
-        "allValue": null,
-        "current": {
-          "selected": false,
-          "text": "UTC",
-          "value": "UTC"
-        },
-        "description": null,
-        "error": null,
         "hide": 2,
-        "includeAll": false,
-        "label": null,
-        "multi": false,
         "name": "tzone",
+        "query": "${VAR_TZONE}",
+        "skipUrlSync": false,
+        "type": "constant",
+        "current": {
+          "value": "${VAR_TZONE}",
+          "text": "${VAR_TZONE}",
+          "selected": false
+        },
         "options": [
           {
-            "selected": true,
-            "text": "UTC",
-            "value": "UTC"
+            "value": "${VAR_TZONE}",
+            "text": "${VAR_TZONE}",
+            "selected": false
           }
-        ],
-        "query": "UTC",
-        "queryValue": "",
+        ]
+      },
+      {
+        "hide": 2,
+        "label": "solcast_adj",
+        "name": "solcast_adj",
+        "query": "${VAR_SOLCAST_ADJ}",
         "skipUrlSync": false,
-        "type": "custom"
+        "type": "constant",
+        "current": {
+          "value": "${VAR_SOLCAST_ADJ}",
+          "text": "${VAR_SOLCAST_ADJ}",
+          "selected": false
+        },
+        "options": [
+          {
+            "value": "${VAR_SOLCAST_ADJ}",
+            "text": "${VAR_SOLCAST_ADJ}",
+            "selected": false
+          }
+        ]
+      },
+      {
+        "hide": 2,
+        "name": "peak_I",
+        "query": "${VAR_PEAK_I}",
+        "skipUrlSync": false,
+        "type": "constant",
+        "current": {
+          "value": "${VAR_PEAK_I}",
+          "text": "${VAR_PEAK_I}",
+          "selected": false
+        },
+        "options": [
+          {
+            "value": "${VAR_PEAK_I}",
+            "text": "${VAR_PEAK_I}",
+            "selected": false
+          }
+        ]
       }
     ]
   },
@@ -9507,8 +9891,9 @@
       "1d"
     ]
   },
-  "timezone": "",
+  "timezone": "browser",
   "title": "dashboard",
   "uid": "k6oNQgkRz",
-  "version": 707
+  "version": 808,
+  "weekStart": ""
 }

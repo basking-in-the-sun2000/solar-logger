@@ -7,14 +7,22 @@
       "type": "datasource",
       "pluginId": "influxdb",
       "pluginName": "InfluxDB"
+    },
+    {
+      "name": "VAR_TZONE",
+      "type": "constant",
+      "label": "tzone",
+      "value": "UTC",
+      "description": ""
     }
   ],
+  "__elements": [],
   "__requires": [
     {
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "8.2.0-beta1"
+      "version": "8.4.4"
     },
     {
       "type": "datasource",
@@ -49,14 +57,18 @@
     ]
   },
   "editable": true,
-  "gnetId": null,
+  "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": null,
+  "iteration": 1651202578915,
   "links": [],
   "liveNow": false,
   "panels": [
     {
-      "datasource": "${DS_INFLUXDB}",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -64,7 +76,8 @@
           },
           "custom": {
             "fillOpacity": 78,
-            "lineWidth": 0
+            "lineWidth": 0,
+            "spanNulls": false
           },
           "decimals": 0,
           "mappings": [],
@@ -302,7 +315,8 @@
         "rowHeight": 0.8,
         "showValue": "never",
         "tooltip": {
-          "mode": "single"
+          "mode": "single",
+          "sort": "none"
         }
       },
       "pluginVersion": "8.1.0-beta2",
@@ -326,7 +340,7 @@
           "measurement": "Huawei_stat",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT (\"Fault\") FROM \"Huawei_stat\" WHERE $timeFilter ",
+          "query": "SELECT (\"Fault\") FROM \"Huawei_stat\" WHERE $timeFilter tz('${tzone}')",
           "rawQuery": true,
           "refId": "B",
           "resultFormat": "time_series",
@@ -371,7 +385,7 @@
           "measurement": "Huawei_stat",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT (\"Alarm1\") FROM \"Huawei_stat\" WHERE $timeFilter",
+          "query": "SELECT (\"Alarm1\") FROM \"Huawei_stat\" WHERE $timeFilter tz('${tzone}')",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -411,7 +425,7 @@
           "measurement": "Huawei_stat",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT (\"Alarm2\") FROM \"Huawei_stat\" WHERE $timeFilter",
+          "query": "SELECT (\"Alarm2\") FROM \"Huawei_stat\" WHERE $timeFilter tz('${tzone}')",
           "rawQuery": true,
           "refId": "H",
           "resultFormat": "time_series",
@@ -451,7 +465,7 @@
           "measurement": "Huawei_stat",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT (\"Alarm3\") FROM \"Huawei_stat\" WHERE $timeFilter",
+          "query": "SELECT (\"Alarm3\") FROM \"Huawei_stat\" WHERE $timeFilter tz('${tzone}')",
           "rawQuery": true,
           "refId": "G",
           "resultFormat": "time_series",
@@ -490,7 +504,7 @@
           "measurement": "Huawei_stat",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT (\"State1\") FROM \"Huawei_stat\" WHERE $timeFilter",
+          "query": "SELECT (\"State1\") FROM \"Huawei_stat\" WHERE $timeFilter tz('${tzone}')",
           "rawQuery": true,
           "refId": "C",
           "resultFormat": "time_series",
@@ -529,7 +543,7 @@
           "measurement": "Huawei_stat",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT (\"State2\") FROM \"Huawei_stat\" WHERE $timeFilter",
+          "query": "SELECT (\"State2\") FROM \"Huawei_stat\" WHERE $timeFilter tz('${tzone}')",
           "rawQuery": true,
           "refId": "D",
           "resultFormat": "time_series",
@@ -568,7 +582,7 @@
           "measurement": "Huawei_stat",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT (\"State3\") FROM \"Huawei_stat\" WHERE $timeFilter",
+          "query": "SELECT (\"State3\") FROM \"Huawei_stat\" WHERE $timeFilter tz('${tzone}')",
           "rawQuery": true,
           "refId": "E",
           "resultFormat": "time_series",
@@ -607,7 +621,7 @@
           "measurement": "Huawei_stat",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT (\"Status\") FROM \"Huawei_stat\" WHERE $timeFilter",
+          "query": "SELECT (\"Status\") FROM \"Huawei_stat\" WHERE $timeFilter tz('${tzone}')",
           "rawQuery": true,
           "refId": "F",
           "resultFormat": "time_series",
@@ -628,8 +642,6 @@
           "tags": []
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Status",
       "transformations": [
         {
@@ -643,11 +655,31 @@
     }
   ],
   "refresh": "",
-  "schemaVersion": 31,
+  "schemaVersion": 35,
   "style": "dark",
   "tags": [],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "hide": 2,
+        "name": "tzone",
+        "query": "${VAR_TZONE}",
+        "skipUrlSync": false,
+        "type": "constant",
+        "current": {
+          "value": "${VAR_TZONE}",
+          "text": "${VAR_TZONE}",
+          "selected": false
+        },
+        "options": [
+          {
+            "value": "${VAR_TZONE}",
+            "text": "${VAR_TZONE}",
+            "selected": false
+          }
+        ]
+      }
+    ]
   },
   "time": {
     "from": "now-14d",
@@ -657,5 +689,6 @@
   "timezone": "",
   "title": "Status",
   "uid": "UjSVubzRk",
-  "version": 18
+  "version": 20,
+  "weekStart": ""
 }

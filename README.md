@@ -14,7 +14,9 @@ So for now it is configured for Huawei's Sun2000 usl0 version but probably shoul
 This code was inspired by a series of other repositories as a guideline to create the current datalogger. Including portions from https://github.com/meltaxa/solariot/
 
 ### Changes ###
-
+Updated the dashboards to use timezone better
+Improved the inverter connection (previous commit)
+Some issues fixed
 
 ### Basics ###
 
@@ -79,10 +81,17 @@ Some of the inverters don't work well after sunset, they disable all functions. 
 
 
 #### Grafana files:
+Import the dashboards in the Dashboards > Browse > Import (button on the right top)
 - `dashboard.json` is the main dashboard for the logger
-- `solar.json` is the detail view dashboard for the logger
-- `status.json` shows the historical values of the status registers
-- `data_sources.json` has information to setup the data sources for grafana
+	- Will ask for you to set the variables besides the db locations
+		- tzone - your local timezone
+		- solcast_adj - if you need to adjust the forecast,  1.0 doesn't change it
+		- peak_I - the maximum current the inverter produces
+- `Solar.json` is the detail view dashboard for the logger
+- `Status.json` shows the historical values of the status registers
+- `loads.json` shows information about the loads for the diverter
+- `info.json` provides a snapshot of the current values of the inverter
+ - `data_sources.json` has information to setup the data sources for grafana
 
 ### Setup
 
