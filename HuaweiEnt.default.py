@@ -25,8 +25,8 @@ _register_map =  {
     'Alarm3':     {'addr': '32010', 'registers': 1,  'name': 'Alarm 3',                          'scale': 1,    'type': 'Bit16','units': ''    , 'use': 'stat',  'method': 'hold'},
     'Status':     {'addr': '32089', 'registers': 1,  'name': 'Device status',                    'scale': 1,    'type': 'U16',  'units': ''    , 'use': 'stat',  'method': 'hold'},
     'Fault':      {'addr': '32090', 'registers': 1,  'name': 'Fault code',                       'scale': 1,    'type': 'U16',  'units': ''    , 'use': 'stat',  'method': 'hold'},
-    'PV_Un':      {'addr': '32016', 'registers': 1,  'name': 'PVn voltage',                      'scale': 10,   'type': 'I16',  'units': 'V'   , 'use': 'mult',  'method': 'hold'},
-    'PV_In':      {'addr': '32017', 'registers': 1,  'name': 'PVn current',                      'scale': 100,  'type': 'I16',  'units': 'A'   , 'use': 'mult',  'method': 'hold'},
+#    'PV_Un':      {'addr': '32016', 'registers': 1,  'name': 'PVn voltage',                      'scale': 10,   'type': 'I16',  'units': 'V'   , 'use': 'mult',  'method': 'hold'},
+#    'PV_In':      {'addr': '32017', 'registers': 1,  'name': 'PVn current',                      'scale': 100,  'type': 'I16',  'units': 'A'   , 'use': 'mult',  'method': 'hold'},
     'PV_P':       {'addr': '32064', 'registers': 2,  'name': 'Input power',                      'scale': 1000, 'type': 'I32',  'units': 'kW'  , 'use': 'data',  'method': 'hold'},
     'U_A-B':      {'addr': '32066', 'registers': 1,  'name': 'Line Voltage A-B',                 'scale': 10,   'type': 'U16',  'units': 'V'   , 'use': 'data',  'method': 'hold'},
     'U_B-C':      {'addr': '32067', 'registers': 1,  'name': 'Line Voltage B-C',                 'scale': 10,   'type': 'U16',  'units': 'V'   , 'use': 'ext' ,  'method': 'hold'},
@@ -53,14 +53,20 @@ _register_map =  {
     'Derating':   {'addr': '40125', 'registers': 1,  'name': 'Active power derating percent',    'scale': 10,   'type': 'U16',  'units': ''    , 'use': 'info',  'method': 'hold'},
     'Derating_w': {'addr': '40126', 'registers': 2,  'name': 'Active power derating',            'scale': 1,    'type': 'U32',  'units': 'W'   , 'use': 'info',  'method': 'hold'},
     'Power_on':   {'addr': '40200', 'registers': 1,  'name': 'Power on',                         'scale': 1,    'type': 'U16',  'units': ''    , 'use': 'info',  'method': 'hold'},
-    'Power_off':  {'addr': '40201', 'registers': 1,  'name': 'Power off',                        'scale': 1,    'type': 'U16',  'units': ''    , 'use': 'info',  'method': 'hold'}
+    'Power_off':  {'addr': '40201', 'registers': 1,  'name': 'Power off',                        'scale': 1,    'type': 'U16',  'units': ''    , 'use': 'info',  'method': 'hold'},
+    'Grid':       {'addr': '42000', 'registers': 1,  'name': 'Grid Code',                        'scale': 1,    'type': 'U16',  'units': ''    , 'use': 'info',  'method': 'hold'},
+    'TZ':         {'addr': '43006', 'registers': 1,  'name': 'Time Zone',                        'scale': 1,    'type': 'I16',  'units': 'min' , 'use': 'info',  'method': 'hold'}
 }
 
 if (config.strings > 1):
-    for i in range(2, config.strings + 1):
+    for i in range(1, config.strings + 1):
         _register_map.update({
             'PV_U' + str(i):      {'addr': str(32014 + i * 2), 'registers': 1,  'name': 'PV' + str(i) + ' voltage',                      'scale': 10,   'type': 'I16',  'units': 'V'   , 'use': 'mult',  'method': 'hold'},
             'PV_I' + str(i):      {'addr': str(32015 + i * 2), 'registers': 1,  'name': 'PV' + str(i) + ' current',                      'scale': 100,  'type': 'I16',  'units': 'A'   , 'use': 'mult',  'method': 'hold'}})
+else:
+    _register_map.update({
+        'PV_Un':      {'addr': '32016', 'registers': 1,  'name': 'PVn voltage',                      'scale': 10,   'type': 'I16',  'units': 'V'   , 'use': 'mult',  'method': 'hold'},
+        'PV_In':      {'addr': '32017', 'registers': 1,  'name': 'PVn current',                      'scale': 100,  'type': 'I16',  'units': 'A'   , 'use': 'mult',  'method': 'hold'}})
 
 if (config.has_optim) :
     _register_map.update({
@@ -253,6 +259,16 @@ def status(register, value):
         s = _status_map[value]
     elif (register == 'Fault'):
         s = str(value)
+    elif (register == 'M_status'):
+        if value == 1:
+            s = "normal"
+        else:
+            s = "offline"
+    elif (register == 'M_type'):
+        if value == 1:
+            s = "three phase"
+        else:
+            s = "one phase"
     else:
         s = 'invalid status'
     if s.endswith(' | '):
@@ -303,7 +319,7 @@ def inv_address():
                 if config.debug:
                     print("can't find inverter")
                 if (config.inverter_ip != ""):
-                    return config.inverter_ip
+                    return ""
                 emails.send_mail("can't find inverter" + str(e))
 
         if addr[0] != ip_self:
