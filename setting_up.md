@@ -27,11 +27,13 @@ pip3 install solcast
 pip3 install pytz
 pip3 install influxdb
 
-sudo service grafana-server enable
-sudo service grafana-server start
+sudo systemctl unmask grafana-server.service
+sudo systemctl start grafana-server
+sudo systemctl enable grafana-server.service
 
-sudo service influxdb enable
-sudo service influxdb start
+sudo systemctl unmask influxdb.service
+sudo systemctl start influxdb
+sudo systemctl enable influxdb.service
 
 sudo grafana-cli plugins install fetzerch-sunandmoon-datasource
 sudo grafana-cli plugins install blackmirror1-singlestat-math-panel

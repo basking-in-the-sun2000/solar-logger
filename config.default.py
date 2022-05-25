@@ -40,6 +40,7 @@ solcast_key = "your_key"
 install_date = "20yy-mm-dd"
 site_UUID = "xxxx-xxxx-xxxx-xxxx"
 site_UUID2 = "" #if you have a "second site" with solcast you cand add the forecasts
+site_UUID3 = ""
 soltun = True # also skipped if solfor not equals 1
 solfor = 1 # 0 off, 1 rooftop, 2 world pv power
 supla_api = ""

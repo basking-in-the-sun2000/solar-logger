@@ -210,7 +210,14 @@ def forecast(h, midnight):
         if config.debug:
             print(time.ctime(h))
 
-        forecast_time = h + int(max((t_stop - t_start) * 3600 / 24, 25 * 60))
+        if config.site_UUID3 != "":
+            i = 15
+        elif config.site_UUID2 != "":
+            i = 23
+        else:
+            i = 46
+        
+        forecast_time = h + int(max((t_stop - t_start) * 3600 / i, 25 * 60))
 
         if config.debug:
             print(t_start)
@@ -252,6 +259,13 @@ def forecast(h, midnight):
             r1 = solcast.get_rooftop_forecasts(config.site_UUID, api_key=config.solcast_key)
             if config.site_UUID2 != "":
                 r12 = solcast.get_rooftop_forecasts(config.site_UUID2, api_key=config.solcast_key)
+                for i in range(0, len(r12.content['forecasts'])):
+                    if r1.content['forecasts'][i]["period_end"] == r12.content['forecasts'][i]["period_end"]:
+                        r1.content['forecasts'][i]["pv_estimate"] = min(r1.content['forecasts'][i]["pv_estimate"] + r12.content['forecasts'][i]["pv_estimate"], config.forecast_capacity)
+                        r1.content['forecasts'][i]["pv_estimate10"] = min(r1.content['forecasts'][i]["pv_estimate10"] + r12.content['forecasts'][i]["pv_estimate10"], config.forecast_capacity)
+                        r1.content['forecasts'][i]["pv_estimate90"] = min(r1.content['forecasts'][i]["pv_estimate90"] + r12.content['forecasts'][i]["pv_estimate90"], config.forecast_capacity)
+            if config.site_UUID3 != "":
+                r12 = solcast.get_rooftop_forecasts(config.site_UUID3, api_key=config.solcast_key)
                 for i in range(0, len(r12.content['forecasts'])):
                     if r1.content['forecasts'][i]["period_end"] == r12.content['forecasts'][i]["period_end"]:
                         r1.content['forecasts'][i]["pv_estimate"] = min(r1.content['forecasts'][i]["pv_estimate"] + r12.content['forecasts'][i]["pv_estimate"], config.forecast_capacity)
