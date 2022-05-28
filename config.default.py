@@ -2,6 +2,12 @@ global loads
 loads = {}
 
 inverter_ip = "192.168.8.1" # Default ip address in case it can't find it
+inverter_type = "TCP" # connection can be TCP or RTU
+connection_port = "/dev/ptyp0"
+connection_baudrate = 9600
+connection_stopbits = 1
+connection_bytesize = 8
+connection_parity = 'E'
 inverter_port = 502
 slave = 0x00 # seems the dongle uses 0x01 for the slave id
 model = "Huawei"

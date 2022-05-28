@@ -7,7 +7,7 @@ import emails
 import config
 import utils
 import divert
-from modbustcp import connect_bus, read_registers, close_bus
+from modbus import connect_bus, read_registers, close_bus
 import time
 import datetime
 import solcast
@@ -424,24 +424,25 @@ def main():
         print("statring setup")
         print("opening modbus")
 
-    client = connect_bus(ip=config.inverter_ip,
-                         PortN = config.inverter_port,
-                         timeout = config.timeout)
+    client = connect_bus(timeout = config.timeout)
     if (client.socket == None):
-        if config.debug:
-            print("bad inverter ip")
-            print("trying to find inverter")
-        inverter_ip = inverter.inv_address()
-        print(inverter_ip)
-        if inverter_ip == "":
-            raise Exception("Can't find inverter")
-        config.inverter_ip =inverter_ip
-
-        client = connect_bus(ip=config.inverter_ip,
-                         PortN = config.inverter_port,
-                         timeout = config.timeout)
-        
-    print(config.inverter_ip)
+        if inverter_type == "TCP":
+            if config.debug:
+                print("bad inverter ip")
+                print("trying to find inverter")
+            inverter_ip = inverter.inv_address()
+            print(inverter_ip)
+            if inverter_ip == "":
+                raise Exception("Can't find inverter")
+            config.inverter_ip =inverter_ip
+    
+            client = connect_bus(ip=config.inverter_ip,
+                            PortN = config.inverter_port,
+                            timeout = config.timeout)
+            
+            print(config.inverter_ip)
+        else:
+            raise Exception("Can't connect to inverter")
 
     if config.debug:
         print("opening db")
