@@ -6,23 +6,11 @@ import emails
 # Change use to ext for type you won't use or aren't defined by your inverter
 
 _register_map =  {
-#  search by Model_ID or by 2B Request  'Model':      {'addr': '30000', 'registers': 15, 'name': 'Model',                            'scale': 1,    'type': 'str',  'units': ''    , 'use': 'info',  'method': 'hold'},
     'SN':         {'addr': '32003', 'registers': 10, 'name': 'Serial Number',                    'scale': 1,    'type': 'str',  'units': ''    , 'use': 'info',  'method': 'hold'},
-# search by Model_ID    'strings':    {'addr': '30071', 'registers': 1,  'name': 'Number of strings',                'scale': 1,    'type': 'U16',  'units': ''    , 'use': 'info',  'method': 'hold'},
-# search by Model_ID       'Pn':         {'addr': '30073', 'registers': 2,  'name': 'Rated power',                      'scale': 1000, 'type': 'U32',  'units': 'kW'  , 'use': 'info',  'method': 'hold'},
-# search by Model_ID       'Pmax':       {'addr': '30075', 'registers': 2,  'name': 'Maximum active power',             'scale': 1000, 'type': 'U32',  'units': 'kW'  , 'use': 'info',  'method': 'hold'},
-# search by Model_ID       'Smax':       {'addr': '30077', 'registers': 2,  'name': 'Maximum apparent power',           'scale': 1000, 'type': 'U32',  'units': 'kVA' , 'use': 'info',  'method': 'hold'},
-# search by Model_ID       'Qmax':       {'addr': '30079', 'registers': 2,  'name': 'Maximum reactive power to grid',   'scale': 1000, 'type': 'I32',  'units': 'kVar', 'use': 'info',  'method': 'hold'},
-  #  'Qgrid':      {'addr': '30081', 'registers': 2,  'name': 'Maximum reactive power from grid', 'scale': 1000, 'type': 'I32',  'units': 'kVar', 'use': 'info',  'method': 'hold'},
     'Insulation': {'addr': '32323', 'registers': 1,  'name': 'Insulation resistance',            'scale': 1000, 'type': 'U16',  'units': 'MΩ'  , 'use': 'info',  'method': 'hold'},
     'Start':      {'addr': '32325', 'registers': 2,  'name': 'Startup time',                     'scale': 1,    'type': 'U32',  'units': 's'   , 'use': 'info',  'method': 'hold'},
     'Shutdown':   {'addr': '32327', 'registers': 2,  'name': 'Shutdown time',                    'scale': 1,    'type': 'U32',  'units': 's'   , 'use': 'info',  'method': 'hold'},
     'Time':       {'addr': '40000', 'registers': 2,  'name': 'Current time',                     'scale': 1,    'type': 'U32',  'units': 's'   , 'use': 'info',  'method': 'hold'},
-#    'Time1?':     {'addr': '32110', 'registers': 2,  'name': 'some time 1',                      'scale': 1,    'type': 'U32',  'units': 's'   , 'use': 'ext',   'method': 'hold'},
-#    'Time2?':     {'addr': '32156', 'registers': 2,  'name': 'some time 2',                      'scale': 1,    'type': 'U32',  'units': 's'   , 'use': 'ext',   'method': 'hold'},
-#    'Time3?':     {'addr': '32160', 'registers': 2,  'name': 'some time 3',                      'scale': 1,    'type': 'U32',  'units': 's'   , 'use': 'ext',   'method': 'hold'},
-#    'Time4?':     {'addr': '35113', 'registers': 2,  'name': 'some time 4',                      'scale': 1,    'type': 'U32',  'units': 's'   , 'use': 'ext',   'method': 'hold'},
-#    'Time5?':     {'addr': '40500', 'registers': 2,  'name': 'some time 5',                      'scale': 1,    'type': 'U32',  'units': 's'   , 'use': 'ext',   'method': 'hold'},
     'State1':     {'addr': '32319', 'registers': 1,  'name': 'Status 1',                         'scale': 1,    'type': 'Bit16','units': ''    , 'use': 'stat',  'method': 'hold'},
     'State2':     {'addr': '32320', 'registers': 1,  'name': 'Status 2',                         'scale': 1,    'type': 'Bit16','units': ''    , 'use': 'stat',  'method': 'hold'},
     'State3':     {'addr': '32321', 'registers': 2,  'name': 'Status 3',                         'scale': 1,    'type': 'Bit32','units': ''    , 'use': 'stat',  'method': 'hold'},
@@ -36,17 +24,8 @@ _register_map =  {
     'Alarm8':     {'addr': '50007', 'registers': 1,  'name': 'Alarm 2',                          'scale': 1,    'type': 'Bit16','units': ''    , 'use': 'stat',  'method': 'hold'},
     'Alarm9':     {'addr': '50008', 'registers': 1,  'name': 'Alarm 3',                          'scale': 1,    'type': 'Bit16','units': ''    , 'use': 'stat',  'method': 'hold'},
     'Alarm10':     {'addr': '50009', 'registers': 1,  'name': 'Alarm 1',                          'scale': 1,    'type': 'Bit16','units': ''    , 'use': 'stat',  'method': 'hold'},
-#not use    'Alarm11':     {'addr': '50010', 'registers': 1,  'name': 'Alarm 2',                          'scale': 1,    'type': 'Bit16','units': ''    , 'use': 'stat',  'method': 'hold'},
-#not use      'Alarm12':     {'addr': '50011', 'registers': 1,  'name': 'Alarm 3',                          'scale': 1,    'type': 'Bit16','units': ''    , 'use': 'stat',  'method': 'hold'},
-#not use      'Alarm13':     {'addr': '50012', 'registers': 1,  'name': 'Alarm 1',                          'scale': 1,    'type': 'Bit16','units': ''    , 'use': 'stat',  'method': 'hold'},
-#not use      'Alarm14':     {'addr': '50013', 'registers': 1,  'name': 'Alarm 2',                          'scale': 1,    'type': 'Bit16','units': ''    , 'use': 'stat',  'method': 'hold'},
-#not use      'Alarm15':     {'addr': '50014', 'registers': 1,  'name': 'Alarm 3',                          'scale': 1,    'type': 'Bit16','units': ''    , 'use': 'stat',  'method': 'hold'},
-#not use      'Alarm16':     {'addr': '50015', 'registers': 1,  'name': 'Alarm 1',                          'scale': 1,    'type': 'Bit16','units': ''    , 'use': 'stat',  'method': 'hold'},
     'Alarm17':     {'addr': '50016', 'registers': 1,  'name': 'Alarm 2',                          'scale': 1,    'type': 'Bit16','units': ''    , 'use': 'stat',  'method': 'hold'},
     'Status':     {'addr': '32287', 'registers': 1,  'name': 'Device status',                    'scale': 1,    'type': 'U16',  'units': ''    , 'use': 'stat',  'method': 'hold'},
-#    'Fault':      {'addr': '32090', 'registers': 1,  'name': 'Fault code',                       'scale': 1,    'type': 'U16',  'units': ''    , 'use': 'stat',  'method': 'hold'},
-#    'PV_Un':      {'addr': '32016', 'registers': 1,  'name': 'PVn voltage',                      'scale': 10,   'type': 'I16',  'units': 'V'   , 'use': 'mult',  'method': 'hold'},
-#    'PV_In':      {'addr': '32017', 'registers': 1,  'name': 'PVn current',                      'scale': 100,  'type': 'I16',  'units': 'A'   , 'use': 'mult',  'method': 'hold'},
     'PV_P':       {'addr': '32294', 'registers': 2,  'name': 'Input power',                      'scale': 1000, 'type': 'U32',  'units': 'kW'  , 'use': 'data',  'method': 'hold'},
     'U_A-B':      {'addr': '32274', 'registers': 1,  'name': 'Line Voltage A-B',                 'scale': 10,   'type': 'U16',  'units': 'V'   , 'use': 'data',  'method': 'hold'},
     'U_B-C':      {'addr': '32275', 'registers': 1,  'name': 'Line Voltage B-C',                 'scale': 10,   'type': 'U16',  'units': 'V'   , 'use': 'ext' ,  'method': 'hold'},
@@ -54,9 +33,9 @@ _register_map =  {
     'U_A':        {'addr': '32277', 'registers': 1,  'name': 'Phase Voltage A',                  'scale': 10,   'type': 'U16',  'units': 'V'   , 'use': 'data',  'method': 'hold'},
     'U_B':        {'addr': '32278', 'registers': 1,  'name': 'Phase Voltage B',                  'scale': 10,   'type': 'U16',  'units': 'V'   , 'use': 'data',  'method': 'hold'},
     'U_C':        {'addr': '32279', 'registers': 1,  'name': 'Phase Voltage C',                  'scale': 10,   'type': 'U16',  'units': 'V'   , 'use': 'ext' ,  'method': 'hold'},
-    'I_A':        {'addr': '32280', 'registers': 2,  'name': 'Phase Current A',                  'scale': 1000, 'type': 'I32',  'units': 'A'   , 'use': 'data',  'method': 'hold'},
-    'I_B':        {'addr': '32281', 'registers': 2,  'name': 'Phase Current B',                  'scale': 1000, 'type': 'I32',  'units': 'A'   , 'use': 'ext' ,  'method': 'hold'},
-    'I_C':        {'addr': '32282', 'registers': 2,  'name': 'Phase Current C',                  'scale': 1000, 'type': 'I32',  'units': 'A'   , 'use': 'ext' ,  'method': 'hold'},
+    'I_A':        {'addr': '32280', 'registers': 1,  'name': 'Phase Current A',                  'scale': 1000, 'type': 'I32',  'units': 'A'   , 'use': 'data',  'method': 'hold'},
+    'I_B':        {'addr': '32281', 'registers': 1,  'name': 'Phase Current B',                  'scale': 1000, 'type': 'I32',  'units': 'A'   , 'use': 'ext' ,  'method': 'hold'},
+    'I_C':        {'addr': '32282', 'registers': 1,  'name': 'Phase Current C',                  'scale': 1000, 'type': 'I32',  'units': 'A'   , 'use': 'ext' ,  'method': 'hold'},
     'P_peak':     {'addr': '32288', 'registers': 2,  'name': 'Peak Power',                       'scale': 1000, 'type': 'I32',  'units': 'kW'  , 'use': 'data',  'method': 'hold'},
     'P_active':   {'addr': '32290', 'registers': 2,  'name': 'Active power',                     'scale': 1000, 'type': 'I32',  'units': 'kW'  , 'use': 'data',  'method': 'hold'},
     'P_reactive': {'addr': '32292', 'registers': 2,  'name': 'Reactive power',                   'scale': 1000, 'type': 'I32',  'units': 'kVar', 'use': 'data',  'method': 'hold'},
@@ -66,34 +45,10 @@ _register_map =  {
     'Temp':       {'addr': '32286', 'registers': 1,  'name': 'Internal temperature',             'scale': 10,   'type': 'I16',  'units': '°C'  , 'use': 'data',  'method': 'hold'},
     'P_accum':    {'addr': '32306', 'registers': 2,  'name': 'Accumulated energy yield',         'scale': 100,  'type': 'U32',  'units': 'kWh' , 'use': 'data',  'method': 'hold'},
     'P_daily':    {'addr': '32300', 'registers': 2,  'name': 'Daily energy yield',               'scale': 100,  'type': 'U32',  'units': 'kWh' , 'use': 'data',  'method': 'hold'},
-#    'M_status':   {'addr': '37100', 'registers': 1,  'name': 'Meter status',                     'scale': 1,    'type': 'U16',  'units': ''    , 'use': 'stat',  'method': 'hold'},
-#    'M_check':    {'addr': '37138', 'registers': 1,  'name': 'Meter detection result',           'scale': 1,    'type': 'U16',  'units': ''    , 'use': 'stat',  'method': 'hold'},
-#    'M_type':     {'addr': '37125', 'registers': 1,  'name': 'Meter type'  ,                     'scale': 1,    'type': 'U16',  'units': ''    , 'use': 'stat',  'method': 'hold'},
-#    'M_P':        {'addr': '37113', 'registers': 2,  'name': 'Active Grid power',                'scale': 1,    'type': 'I32',  'units': 'W'   , 'use': 'data',  'method': 'hold'},
-#    'M_Pr':       {'addr': '37115', 'registers': 2,  'name': 'Active Grid reactive power',       'scale': 1,    'type': 'I32',  'units': 'VAR' , 'use': 'data',  'method': 'hold'},
-#    'M_A-U':      {'addr': '37101', 'registers': 2,  'name': 'Active Grid A Voltage',            'scale': 10,   'type': 'I32',  'units': 'V'   , 'use': 'data',  'method': 'hold'},
-#    'M_B-U':      {'addr': '37103', 'registers': 2,  'name': 'Active Grid B Voltage',            'scale': 10,   'type': 'I32',  'units': 'V'   , 'use': 'data',  'method': 'hold'},
-#    'M_C-U':      {'addr': '37105', 'registers': 2,  'name': 'Active Grid C Voltage',            'scale': 10,   'type': 'I32',  'units': 'V'   , 'use': 'data',  'method': 'hold'},
-#    'M_A-I':      {'addr': '37107', 'registers': 2,  'name': 'Active Grid A Current',            'scale': 100,  'type': 'I32',  'units': 'I'   , 'use': 'data',  'method': 'hold'},
-#    'M_B-I':      {'addr': '37109', 'registers': 2,  'name': 'Active Grid B Current',            'scale': 100,  'type': 'I32',  'units': 'I'   , 'use': 'data',  'method': 'hold'},
-#    'M_C-I':      {'addr': '37111', 'registers': 2,  'name': 'Active Grid C Current',            'scale': 100,  'type': 'I32',  'units': 'I'   , 'use': 'data',  'method': 'hold'},
-#    'M_PF':       {'addr': '37117', 'registers': 1,  'name': 'Active Grid PF',                   'scale': 1000, 'type': 'I16',  'units': ''    , 'use': 'data',  'method': 'hold'},
-#    'M_Freq':     {'addr': '37118', 'registers': 1,  'name': 'Active Grid Frequency',            'scale': 100,  'type': 'I16',  'units': 'Hz'  , 'use': 'data',  'method': 'hold'},
-#    'M_PExp':     {'addr': '37119', 'registers': 2,  'name': 'Grid Exported Energy',             'scale': 100,  'type': 'I32',  'units': 'kWh' , 'use': 'data',  'method': 'hold'},
-#    'M_U_AB':     {'addr': '37126', 'registers': 2,  'name': 'Active Grid A-B Voltage',          'scale': 10,   'type': 'I32',  'units': 'V'   , 'use': 'data',  'method': 'hold'},
-#    'M_U_BC':     {'addr': '37128', 'registers': 2,  'name': 'Active Grid B-C Voltage',          'scale': 10,   'type': 'I32',  'units': 'V'   , 'use': 'data',  'method': 'hold'},
-#    'M_U_CA':     {'addr': '37130', 'registers': 2,  'name': 'Active Grid C-A Voltage',          'scale': 10,   'type': 'I32',  'units': 'V'   , 'use': 'data',  'method': 'hold'},
-#    'M_A-P':      {'addr': '37132', 'registers': 2,  'name': 'Active Grid A power',              'scale': 1,    'type': 'I32',  'units': 'W'   , 'use': 'data',  'method': 'hold'},
-#    'M_B-P':      {'addr': '37134', 'registers': 2,  'name': 'Active Grid B power',              'scale': 1,    'type': 'I32',  'units': 'W'   , 'use': 'data',  'method': 'hold'},
-#    'M_C-P':      {'addr': '37136', 'registers': 2,  'name': 'Active Grid C power',              'scale': 1,    'type': 'I32',  'units': 'W'   , 'use': 'data',  'method': 'hold'},
-#    'M_PTot':     {'addr': '37121', 'registers': 2,  'name': 'Grid Accumulated Energy',          'scale': 100,  'type': 'U32',  'units': 'kWh' , 'use': 'data',  'method': 'hold'},
-#    'M_RPTot':    {'addr': '37123', 'registers': 2,  'name': 'Grid Accumulated Reactive Energy', 'scale': 100,  'type': 'I32',  'units': 'KVarh','use': 'data',  'method': 'hold'},
     'ModelID':    {'addr': '32001', 'registers': 1,  'name': 'Model ID',                         'scale': 1,    'type': 'U16',  'units': ''    , 'use': 'info',  'method': 'hold'},
-#search by Model_ID    'MPPT_N':     {'addr': '30072', 'registers': 1,  'name': 'MPPT Number',                      'scale': 1,    'type': 'U16',  'units': ''    , 'use': 'info',  'method': 'hold'},
     'PF_comp':    {'addr': '40122', 'registers': 1,  'name': 'Reactive power compensation',      'scale': 1000, 'type': 'I16',  'units': ''    , 'use': 'data',  'method': 'hold'},
     'Q/S':        {'addr': '40123', 'registers': 1,  'name': 'Reactive power compensation(Q/S)', 'scale': 1000, 'type': 'I16',  'units': ''    , 'use': 'data',  'method': 'hold'},
     'Derating':   {'addr': '40125', 'registers': 1,  'name': 'Active power derating percent',    'scale': 10,   'type': 'U16',  'units': ''    , 'use': 'info',  'method': 'hold'},
-# not impl    'Derating_w': {'addr': '40126', 'registers': 2,  'name': 'Active power derating',            'scale': 1,    'type': 'U32',  'units': 'W'   , 'use': 'info',  'method': 'hold'},
     'Power_on':   {'addr': '40200', 'registers': 1,  'name': 'Power on',                         'scale': 1,    'type': 'U16',  'units': ''    , 'use': 'info',  'method': 'hold'},
     'Power_off':  {'addr': '40201', 'registers': 1,  'name': 'Power off',                        'scale': 1,    'type': 'U16',  'units': ''    , 'use': 'info',  'method': 'hold'},
     'Grid':       {'addr': '42072', 'registers': 1,  'name': 'Grid Code',                        'scale': 1,    'type': 'U16',  'units': ''    , 'use': 'info',  'method': 'hold'},
@@ -109,46 +64,6 @@ else:
     _register_map.update({
         'PV_Un':      {'addr': '32262', 'registers': 1,  'name': 'PVn voltage',                      'scale': 10,   'type': 'I16',  'units': 'V'   , 'use': 'mult',  'method': 'hold'},
         'PV_In':      {'addr': '32263', 'registers': 1,  'name': 'PVn current',                      'scale': 100,  'type': 'I16',  'units': 'A'   , 'use': 'mult',  'method': 'hold'}})
-
-#if (config.has_optim) :
-    #not impl
-    # _register_map.update({
-    #     'Optim_tot':  {'addr': '37200', 'registers': 1,  'name': 'Number of optimizers',             'scale': 1,    'type': 'U16',  'units': ''    , 'use': 'info',  'method': 'hold'},
-    #     'Optim_on':   {'addr': '37201', 'registers': 1,  'name': 'Number of online optimizers',      'scale': 1,    'type': 'U16',  'units': ''    , 'use': 'info',  'method': 'hold'},
-    #     'Optim_opt':  {'addr': '37202', 'registers': 1,  'name': 'Optimizer Feature data',           'scale': 1,    'type': 'U16',  'units': ''    , 'use': 'info',  'method': 'hold'}})
-
-# if (config.has_ESU) :
-#not
-#     _register_map.update({
-#         'ESU_status':  {'addr': '37000', 'registers': 1,  'name': 'ESU status',                       'scale': 1,    'type': 'U16',  'units': ''  ,   'use': 'status',  'method': 'hold'},
-#         'ESU_power':   {'addr': '37001', 'registers': 2,  'name': 'ESU power',                        'scale': 1,    'type': 'I32',  'units': 'W'   , 'use': 'data',  'method': 'hold'},
-#         'ESU_voltage': {'addr': '37003', 'registers': 1,  'name': 'ESU voltage',                      'scale': 10,   'type': 'I16',  'units': 'V'   , 'use': 'data',  'method': 'hold'},
-#         'ESU_soc':     {'addr': '37004', 'registers': 1,  'name': 'ESU SOC',                          'scale': 10,   'type': 'U16',  'units': '%'   , 'use': 'data',  'method': 'hold'},
-#         'ESU_mode':    {'addr': '37006', 'registers': 1,  'name': 'ESU working mode b',               'scale': 1,    'type': 'U16',  'units': '%'   , 'use': 'data',  'method': 'hold'},
-#         'ESU_rated_power':  {'addr': '37007', 'registers': 2,  'name': 'ESU rated power',             'scale': 1,    'type': 'U32',  'units': 'W'   , 'use': 'info',  'method': 'hold'},
-#         'ESU_rated_discharge':  {'addr': '37009', 'registers': 2,  'name': 'ESU rated discharge',     'scale': 1,    'type': 'U32',  'units': 'W'   , 'use': 'info',  'method': 'hold'},
-#         'ESU_fault':   {'addr': '37014', 'registers': 1,  'name': 'ESU fault id',                     'scale': 1,    'type': 'U16',  'units': '' ,    'use': 'stat',  'method': 'hold'},
-#         'ESU_charge':  {'addr': '37015', 'registers': 2,  'name': 'ESU Current Charge',               'scale': 100,  'type': 'U32',  'units': 'kWh' , 'use': 'data',  'method': 'hold'},
-#         'ESU_discharge':{'addr': '37017','registers': 2,  'name': 'ESU Current Discharge',            'scale': 100,  'type': 'U32',  'units': 'kWh' , 'use': 'data',  'method': 'hold'},
-#         'ESU_current': {'addr': '37021', 'registers': 1,  'name': 'ESU Current',                      'scale': 10,   'type': 'I16',  'units': 'A' ,   'use': 'data',  'method': 'hold'},
-#         'ESU_temp':    {'addr': '37022', 'registers': 1,  'name': 'ESU temperature',                  'scale': 10,   'type': 'I16',  'units': '°C' ,  'use': 'data',  'method': 'hold'},
-#         'ESU_time':    {'addr': '37025', 'registers': 1,  'name': 'ESU remaining time',               'scale': 1,    'type': 'U16',  'units': 'min' , 'use': 'data',  'method': 'hold'},
-#         'ESU_dcdc_v':  {'addr': '37026', 'registers': 10, 'name': 'ESU DC-DC version',                'scale': 1,    'type': 'str',  'units': '' ,    'use': 'info',  'method': 'hold'},
-#         'ESU_bms_v':   {'addr': '37036', 'registers': 10, 'name': 'ESU BMS version',                  'scale': 1,    'type': 'str',  'units': '' ,    'use': 'info',  'method': 'hold'},
-#         'ESU_max_charge': {'addr': '37046', 'registers': 2,  'name': 'ESU max charge power',          'scale': 1,    'type': 'U32',  'units': 'W' ,   'use': 'info',  'method': 'hold'},
-#         'ESU_max_discharge': {'addr': '37048', 'registers': 2,  'name': 'ESU max discharge power',    'scale': 1,    'type': 'U32',  'units': 'W' ,   'use': 'info',  'method': 'hold'},
-#         'ESU_serialN':  {'addr': '37052', 'registers': 10,  'name': 'ESU serial number',              'scale': 1,    'type': 'str',  'units': '' ,    'use': 'info',  'method': 'hold'},
-#         'ESU_tot_charge':  {'addr': '37066', 'registers': 2,  'name': 'ESU total charge',             'scale': 100,  'type': 'U32',  'units': 'kWh' , 'use': 'info',  'method': 'hold'},
-#         'ESU_tot_discharge':  {'addr': '37068', 'registers': 2,  'name': 'ESU total discharge',       'scale': 100,  'type': 'U32',  'units': 'kWh' , 'use': 'info',  'method': 'hold'},
-#         'ESU_model':   {'addr': '47000', 'registers': 1,  'name': 'ESU battery type',                 'scale': 1,    'type': 'U16',  'units': '' ,    'use': 'info',  'method': 'hold'},
-#         'ESU_charging':   {'addr': '47075', 'registers': 2,  'name': 'ESU max charging power',        'scale': 1,    'type': 'U32',  'units': 'W' ,    'use': 'info',  'method': 'hold'},
-#         'ESU_discharging':   {'addr': '47077', 'registers': 2,  'name': 'ESU max discharging power',  'scale': 1,    'type': 'U32',  'units': 'W' ,    'use': 'info',  'method': 'hold'},
-#         'ESU_charging_cutoff':  {'addr': '47081', 'registers': 1,  'name': 'ESU charging cutoff',     'scale': 10,   'type': 'U16',  'units': '%' ,    'use': 'info',  'method': 'hold'},
-#         'ESU_discharging_cutoff': {'addr': '47082', 'registers': 1, 'name': 'ESU discharging cutoff', 'scale': 10,   'type': 'U16',  'units': '%' ,    'use': 'info',  'method': 'hold'},
-#         'ESU_forced':  {'addr': '47083', 'registers': 1,  'name': 'ESU forced cutoff',                'scale': 1,    'type': 'U16',  'units': 'min' ,  'use': 'info',  'method': 'hold'},
-#         'ESU_mode2':   {'addr': '47086', 'registers': 1,  'name': 'ESU mode 2',                       'scale': 1,    'type': 'U16',  'units': '' ,     'use': 'info',  'method': 'hold'},
-#         'ESU_grid':    {'addr': '47087', 'registers': 1,  'name': 'ESU grid charging',                'scale': 1,    'type': 'U16',  'units': '' ,     'use': 'info',  'method': 'hold'},
-#         'ESU_excess':  {'addr': '47299', 'registers': 1,  'name': 'ESU Excess energy use',            'scale': 1,    'type': 'U16',  'units': '' ,     'use': 'info',  'method': 'hold'}})
 
 
 _status_map = {
@@ -359,73 +274,7 @@ def status(register, value):
             s += 'Abnormal String 8 | '           
     elif (register == 'Status'):
         s = _status_map[value]
-    #not impl elif (register == 'Fault'):
-    #     s = str(value)
-    # not impl elif (register == 'M_status'):
-    #     if value == 1:
-    #         s = "normal"
-    #     else:
-    #         s = "offline"
-    # elif (register == 'M_type'):
-    #     if value == 1:
-    #         s = "three phase"
-    #     else:
-    #         s = "one phase"
-    # else:
-    #     s = 'invalid status'
+ 
     if s.endswith(' | '):
         s = s[:-3]
     return s
-
-# def inv_address():
-#     udp_message = bytes([0x5a, 0x5a, 0x5a, 0x5a, 0x00, 0x41, 0x3a, 0x04])
-
-#     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
-#     sock.connect(("1.1.1.1", 80))
-#     ip = sock.getsockname()[0]
-#     ip_self = ip
-#     ip = socket.inet_aton(ip)
-#     sock.close()
-
-#     for i in ip:
-#         udp_message += bytes([i])
-#     if config.debug:
-#         print(ip)
-#         print("\n")
-#         print(udp_message)
-#         print("\n")
-
-#     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
-#     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
-#     sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-#     sock.settimeout(10.0)
-#     sock.bind(("", 6600))
-#     sock.sendto(udp_message, ('<broadcast>', 6600))
-#     i = 0
-#     while True:
-#         try:
-#             time.sleep(1)
-#             data, addr = sock.recvfrom(1024)
-# #        except socket.timeout:
-#         except Exception as e:
-#             print("huaweil inv_address error: %s" % str(e))
-#             if config.debug:
-#                 print('--> resend')
-#             sock.sendto(udp_message, ('<broadcast>', 6600))
-#             time.sleep(2)
-#             i = i + 1
-#             if i < 5:
-#                 time.sleep(5)
-#                 continue
-#             else:
-#                 if config.debug:
-#                     print("can't find inverter")
-#                 if (config.inverter_ip != ""):
-#                     return ""
-#                 emails.send_mail("can't find inverter" + str(e))
-
-#         if addr[0] != ip_self:
-#             addr = str(addr[0])
-#             if config.debug:
-#                 print("inverter address: " + addr)
-#             return(addr)
