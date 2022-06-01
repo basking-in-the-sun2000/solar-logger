@@ -1,15 +1,15 @@
 import time
 import config
-if inverter_type == "TCP":
+if config.inverter_type == "TCP":
     from pymodbus.client.sync import ModbusTcpClient as ModbusClient
-elif inverter_type == "RTU":
+elif config.inverter_type == "RTU":
     from pymodbus.client.sync import ModbusSerialClient as ModbusClient
 
 
 def connect_bus(timeout = 3):
-    if inverter_type == "TCP":
+    if config.inverter_type == "TCP":
         client = ModbusClient(host=config.inverter_ip, port=config.inverter_port, timeout=timeout, RetryOnEmpty = True, retries = 3)
-    elif inverter_type == "RTU":
+    elif config.inverter_type == "RTU":
         client = ModbusClient(method = "rtu", port=config.connection_port, timeout=timeout, stopbits = config.connection_stopbits, 
                  bytesize = config.connection_bytesize, parity = config.connection_parity, baudrate=config.connection_baudrate)        
     else:
