@@ -1,12 +1,27 @@
 {
-  "__inputs": [],
-  "__elements": [],
+  "__inputs": [
+    {
+      "name": "DS_INFLUXDB",
+      "label": "InfluxDB",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "influxdb",
+      "pluginName": "InfluxDB"
+    }
+  ],
+  "__elements": {},
   "__requires": [
     {
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "8.4.4"
+      "version": "9.2.1"
+    },
+    {
+      "type": "datasource",
+      "id": "influxdb",
+      "name": "InfluxDB",
+      "version": "1.0.0"
     },
     {
       "type": "panel",
@@ -19,7 +34,10 @@
     "list": [
       {
         "builtIn": 1,
-        "datasource": "-- Grafana --",
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -42,12 +60,18 @@
   "liveNow": false,
   "panels": [
     {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "palette-classic"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "left",
             "axisSoftMin": 0,
@@ -137,7 +161,8 @@
             "lastNotNull"
           ],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
           "mode": "multi",
@@ -147,6 +172,10 @@
       "targets": [
         {
           "alias": "div_0",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -194,6 +223,10 @@
         },
         {
           "alias": "div_1",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -242,6 +275,10 @@
         },
         {
           "alias": "div_2",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -294,7 +331,7 @@
     }
   ],
   "refresh": false,
-  "schemaVersion": 35,
+  "schemaVersion": 37,
   "style": "dark",
   "tags": [],
   "templating": {

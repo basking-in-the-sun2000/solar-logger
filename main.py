@@ -7,7 +7,7 @@ import emails
 import config
 import utils
 import divert
-from modbustcp import connect_bus, read_registers, close_bus
+from modbus import connect_bus, read_registers, close_bus
 import time
 import datetime
 import solcast
@@ -216,7 +216,7 @@ def forecast(h, midnight):
             i = 23
         else:
             i = 46
-        
+
         forecast_time = h + int(max((t_stop - t_start) * 3600 / i, 25 * 60))
 
         if config.debug:
@@ -249,6 +249,7 @@ def forecast(h, midnight):
 
     forecast_time = forehour(time.time())
     t = time.time()
+
     if (h - t > 60):
         return(h)
     elif (forecast_time - t > 60 * 60):
@@ -256,16 +257,16 @@ def forecast(h, midnight):
 
     try:
         if (config.solfor == 1):
-            r1 = solcast.get_rooftop_forecasts(config.site_UUID, api_key=config.solcast_key)
+            r1 = solcast.get_rooftop_forecasts(config.site_UUID, hours=252, api_key=config.solcast_key)
             if config.site_UUID2 != "":
-                r12 = solcast.get_rooftop_forecasts(config.site_UUID2, api_key=config.solcast_key)
+                r12 = solcast.get_rooftop_forecasts(config.site_UUID2, hours=252, api_key=config.solcast_key)
                 for i in range(0, len(r12.content['forecasts'])):
                     if r1.content['forecasts'][i]["period_end"] == r12.content['forecasts'][i]["period_end"]:
                         r1.content['forecasts'][i]["pv_estimate"] = min(r1.content['forecasts'][i]["pv_estimate"] + r12.content['forecasts'][i]["pv_estimate"], config.forecast_capacity)
                         r1.content['forecasts'][i]["pv_estimate10"] = min(r1.content['forecasts'][i]["pv_estimate10"] + r12.content['forecasts'][i]["pv_estimate10"], config.forecast_capacity)
                         r1.content['forecasts'][i]["pv_estimate90"] = min(r1.content['forecasts'][i]["pv_estimate90"] + r12.content['forecasts'][i]["pv_estimate90"], config.forecast_capacity)
             if config.site_UUID3 != "":
-                r12 = solcast.get_rooftop_forecasts(config.site_UUID3, api_key=config.solcast_key)
+                r12 = solcast.get_rooftop_forecasts(config.site_UUID3, hours=252, api_key=config.solcast_key)
                 for i in range(0, len(r12.content['forecasts'])):
                     if r1.content['forecasts'][i]["period_end"] == r12.content['forecasts'][i]["period_end"]:
                         r1.content['forecasts'][i]["pv_estimate"] = min(r1.content['forecasts'][i]["pv_estimate"] + r12.content['forecasts'][i]["pv_estimate"], config.forecast_capacity)
@@ -440,7 +441,7 @@ def main():
         client = connect_bus(ip=config.inverter_ip,
                          PortN = config.inverter_port,
                          timeout = config.timeout)
-        
+
     print(config.inverter_ip)
 
     if config.debug:

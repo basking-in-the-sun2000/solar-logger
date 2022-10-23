@@ -120,7 +120,7 @@ for key, value in enumerate(sum_array):
     if value[1] > 0:
         for key1, value1 in enumerate(sum_array[1 + key:1 + config.billing_window + key]):
             if value1[1] < 0:
-                if sum_array[key][1] > -1 * sum_array[1 +  key + key1][1]:
+                if sum_array[key][1] >= -1 * sum_array[1 +  key + key1][1]:
                     sum_array[key][1] = sum_array[key][1] + sum_array[1 + key + key1][1]
                     sum_array[1 + key + key1][1] = 0
                 elif sum_array[key][1] < -1 * sum_array[1 +  key + key1][1]:
@@ -132,4 +132,7 @@ for value in sum_array:
     print(time.ctime(value[0]), value[1])
 
 for value in sum_array:
-    utils.write_influx(flux_client, {'Bal': float(value[1])}, config.model + "_daily", config.influxdb_longterm, int(value[0] * 1000000000))
+    if value[1] > 0:
+        utils.write_influx(flux_client, {'Bal': float(value[1])}, config.model + "_daily", config.influxdb_longterm, int(value[0] * 1000000000))
+    else:
+        utils.write_influx(flux_client, {'Bal': float(0)}, config.model + "_daily", config.influxdb_longterm, int(value[0] * 1000000000))

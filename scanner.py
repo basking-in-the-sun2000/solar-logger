@@ -52,7 +52,7 @@ ip = config.inverter_ip
 PortN = config.inverter_port
 num_reg = 29000
 nb_reg = 1
-UnitID = 0
+UnitID = config.slave
 j = 0
 
 print("openning")

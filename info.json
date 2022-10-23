@@ -9,13 +9,13 @@
       "pluginName": "InfluxDB"
     }
   ],
-  "__elements": [],
+  "__elements": {},
   "__requires": [
     {
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "8.4.4"
+      "version": "9.2.1"
     },
     {
       "type": "datasource",
@@ -40,7 +40,10 @@
     "list": [
       {
         "builtIn": 1,
-        "datasource": "-- Grafana --",
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -63,6 +66,10 @@
   "liveNow": false,
   "panels": [
     {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -106,7 +113,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "8.4.4",
+      "pluginVersion": "9.2.1",
       "targets": [
         {
           "datasource": {
@@ -155,6 +162,10 @@
       "type": "stat"
     },
     {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -162,7 +173,8 @@
           },
           "custom": {
             "align": "auto",
-            "displayMode": "auto"
+            "displayMode": "auto",
+            "inspect": false
           },
           "mappings": [],
           "thresholds": {
@@ -198,7 +210,7 @@
         },
         "showHeader": true
       },
-      "pluginVersion": "8.4.4",
+      "pluginVersion": "9.2.1",
       "targets": [
         {
           "datasource": {
@@ -247,6 +259,10 @@
       "type": "table"
     },
     {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -257,8 +273,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -290,7 +305,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "8.4.4",
+      "pluginVersion": "8.4.0-beta1",
       "targets": [
         {
           "datasource": {
@@ -339,7 +354,7 @@
       "type": "stat"
     }
   ],
-  "schemaVersion": 35,
+  "schemaVersion": 37,
   "style": "dark",
   "tags": [],
   "templating": {

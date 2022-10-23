@@ -4,6 +4,29 @@ import config
 import emails
 
 # Change use to ext for type you won't use or aren't defined by your inverter
+# In case you need to create your own register map, you can use this file as a guide
+#
+# V3 means it follows the definitions for Huawei's V3 register map, not the third iteration of this file
+# V3 are usually many of the residential inverters
+#
+#index is how the logger refers to this value, and will be used to store into the db
+#addr is the address of the register to read
+#registers is the number of registers to read
+#nam is a reaable definition of the register
+#scale is a factor to divide the read value by
+#type is used to cast the read value unto a usable value by the logger
+#   the options are Bit16, Bit32, I16, I32, str, U16, U32
+#   bit16 and bit32 allow for further manipulation of the bits read
+#units is a postfix added to the read value to display it correctly
+#use is the type of use given to the value
+#   the options are data, ext, info, mult, stat
+#   data is actual data, which is updated every 30s
+#   ext is extra and not used, so you can disable some values by changing the use to ext
+#   info is an inverter info value. These are updated when there are changes
+#   mult is multiple registers. Same as data, but you don't need to read all, as in the case of PV values
+#   stat is a status value. These are updated when there are changes
+#method is how the register is read (holding 03 or input 04). Options are hold or input
+
 
 _register_map =  {
     'Model':      {'addr': '30000', 'registers': 15, 'name': 'Model',                            'scale': 1,    'type': 'str',  'units': ''    , 'use': 'info',  'method': 'hold'},
@@ -104,7 +127,7 @@ if (config.has_optim) :
 
 if (config.has_ESU) :
     _register_map.update({
-        'ESU_status':  {'addr': '37000', 'registers': 1,  'name': 'ESU status',                       'scale': 1,    'type': 'U16',  'units': ''  ,   'use': 'status',  'method': 'hold'},
+        'ESU_status':  {'addr': '37000', 'registers': 1,  'name': 'ESU status',                       'scale': 1,    'type': 'U16',  'units': ''  ,   'use': 'stat',  'method': 'hold'},
         'ESU_power':   {'addr': '37001', 'registers': 2,  'name': 'ESU power',                        'scale': 1,    'type': 'I32',  'units': 'W'   , 'use': 'data',  'method': 'hold'},
         'ESU_voltage': {'addr': '37003', 'registers': 1,  'name': 'ESU voltage',                      'scale': 10,   'type': 'I16',  'units': 'V'   , 'use': 'data',  'method': 'hold'},
         'ESU_soc':     {'addr': '37004', 'registers': 1,  'name': 'ESU SOC',                          'scale': 10,   'type': 'U16',  'units': '%'   , 'use': 'data',  'method': 'hold'},

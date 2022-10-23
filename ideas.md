@@ -14,7 +14,7 @@ These are some ideas for future changes. Most are just ideas, since most are thi
 		- For instance, normally heat it to 60°C, but overheat it to 70-75°C if tomorrow will be poor. The regular 60°C would run if the forecast is good, however the other would only run when tomorrow isn't a good forecast.
 			- This assumes you have two thermostats, or a way to change the set-point to a higher level with a logic signal
 			
-- Divert loads when the voltage rises too much. 
+- Divert loads when the voltage rises too much.
 
 - Allow seasonal control for the diverter
 	- Disable a load during a season or a repeat date

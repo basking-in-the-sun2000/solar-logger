@@ -40,7 +40,7 @@
       "description": ""
     }
   ],
-  "__elements": [],
+  "__elements": {},
   "__requires": [
     {
       "type": "panel",
@@ -64,7 +64,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "8.4.4"
+      "version": "9.2.1"
     },
     {
       "type": "panel",
@@ -107,7 +107,10 @@
     "list": [
       {
         "builtIn": 1,
-        "datasource": "-- Grafana --",
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -126,11 +129,14 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1651202578556,
   "links": [],
   "liveNow": false,
   "panels": [
     {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB}"
+      },
       "flowchartsData": {
         "flowcharts": [
           {
@@ -635,7 +641,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "State1",
@@ -674,7 +684,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "State2",
@@ -713,7 +727,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "State3",
@@ -752,7 +770,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "Status",
@@ -791,7 +813,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "ins",
@@ -834,7 +860,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         }
       ],
       "title": "Status",
@@ -889,7 +919,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.4.4",
+      "pluginVersion": "9.2.1",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1031,7 +1061,8 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "tz": "UTC"
         },
         {
           "alias": "exp production",
@@ -1312,6 +1343,10 @@
       }
     },
     {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB}"
+      },
       "flowchartsData": {
         "flowcharts": [
           {
@@ -1671,7 +1706,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "Inverter",
@@ -1710,7 +1749,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "Grid",
@@ -1755,7 +1798,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "load",
@@ -1794,7 +1841,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         }
       ],
       "title": "System",
@@ -2000,7 +2051,10 @@
       "targets": [
         {
           "alias": "Peak",
-          "datasource": "${DS_INFLUXDB}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -2039,7 +2093,10 @@
         },
         {
           "alias": "Today",
-          "datasource": "${DS_INFLUXDB}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -2078,7 +2135,10 @@
         },
         {
           "alias": "Yesterday",
-          "datasource": "${DS_INFLUXDB}",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
           "groupBy": [
             {
               "params": [
@@ -2166,6 +2226,10 @@
       "circleBackground": false,
       "colorBackground": false,
       "colorValue": true,
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB}"
+      },
       "decimals": 1,
       "defaultColor": "rgb(117, 117, 117)",
       "format": "kwatth",
@@ -2265,7 +2329,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "tot",
@@ -2304,7 +2372,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         }
       ],
       "thresholds": [
@@ -2339,6 +2411,10 @@
       "circleBackground": false,
       "colorBackground": false,
       "colorValue": true,
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB}"
+      },
       "decimals": 1,
       "defaultColor": "rgb(117, 117, 117)",
       "format": "kwatth",
@@ -2438,7 +2514,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "tot",
@@ -2477,7 +2557,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         }
       ],
       "thresholds": [
@@ -2518,6 +2602,10 @@
       "circleBackground": false,
       "colorBackground": true,
       "colorValue": true,
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB}"
+      },
       "decimals": 1,
       "defaultColor": "rgb(117, 117, 117)",
       "format": "kwatth",
@@ -2613,7 +2701,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "tot",
@@ -2652,7 +2744,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "exp0",
@@ -2690,7 +2786,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "exp",
@@ -2728,7 +2828,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         }
       ],
       "thresholds": [
@@ -2768,6 +2872,10 @@
     },
     {
       "activePatternIndex": -3,
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB}"
+      },
       "debug_mode": false,
       "defaultPattern": {
         "bgColors": "green|orange|red",
@@ -3344,7 +3452,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "Power",
@@ -3387,7 +3499,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "Power reactive",
@@ -3430,7 +3546,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "Voltage",
@@ -3467,7 +3587,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "Voltage A",
@@ -3504,7 +3628,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "Voltage B",
@@ -3541,7 +3669,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "Current",
@@ -3578,7 +3710,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "PV power",
@@ -3621,7 +3757,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "PV voltage",
@@ -3658,7 +3798,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "PV current",
@@ -3695,7 +3839,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "efficiency",
@@ -3732,7 +3880,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "Temp",
@@ -3769,7 +3921,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "PF",
@@ -3807,7 +3963,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "Frequency",
@@ -3844,7 +4004,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "Frequency Grid",
@@ -3883,7 +4047,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "Lifetime",
@@ -3920,7 +4088,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         }
       ],
       "text_alignment_firstcolumn": "left",
@@ -3931,6 +4103,10 @@
     },
     {
       "activePatternIndex": -3,
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB}"
+      },
       "defaultPattern": {
         "bgColors": "green|orange|red",
         "bgColors_overrides": "0->green|2->red|1->yellow",
@@ -4431,7 +4607,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "Power",
@@ -4468,7 +4648,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "Power A",
@@ -4505,7 +4689,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "Power B",
@@ -4542,7 +4730,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "Power C",
@@ -4579,7 +4771,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "Power Reactive",
@@ -4616,7 +4812,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "Voltage AB",
@@ -4653,7 +4853,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "Voltage BC",
@@ -4690,7 +4894,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "Voltage CA",
@@ -4727,7 +4935,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "Voltage A",
@@ -4764,7 +4976,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "Voltage B",
@@ -4801,7 +5017,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "Voltage C",
@@ -4838,7 +5058,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "Current A",
@@ -4875,7 +5099,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "Current B",
@@ -4912,7 +5140,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "Current C",
@@ -4949,7 +5181,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "PF",
@@ -4986,7 +5222,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         }
       ],
       "text_alignment_firstcolumn": "left",
@@ -5046,7 +5286,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.4.4",
+      "pluginVersion": "9.2.1",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -5688,7 +5928,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.4.4",
+      "pluginVersion": "9.2.1",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -5862,7 +6102,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.4.4",
+      "pluginVersion": "9.2.1",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -6072,12 +6312,18 @@
       }
     },
     {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "palette-classic"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -6189,7 +6435,8 @@
             "mean"
           ],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
           "mode": "single",
@@ -6235,7 +6482,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "BC",
@@ -6274,7 +6525,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "CA",
@@ -6313,7 +6568,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "reactive",
@@ -6356,7 +6615,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "reactive grid",
@@ -6393,7 +6656,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "grid power",
@@ -6431,542 +6698,29 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         }
       ],
       "title": "Voltages ø-ø",
       "type": "timeseries"
     },
     {
-      "cards": {},
-      "color": {
-        "cardColor": "#b4ff00",
-        "colorScale": "sqrt",
-        "colorScheme": "interpolateOranges",
-        "exponent": 0.25,
-        "mode": "spectrum"
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB}"
       },
-      "dataFormat": "timeseries",
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 26
-      },
-      "heatmap": {},
-      "hideZeroBuckets": false,
-      "highlightCards": true,
-      "id": 50,
-      "interval": "5m",
-      "legend": {
-        "show": true
-      },
-      "reverseYBuckets": false,
-      "targets": [
-        {
-          "groupBy": [],
-          "hide": false,
-          "measurement": "Huawei",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT \"M_U_AB\", \"M_U_CA\", \"M_U_BC\" FROM \"Huawei\" WHERE $timeFilter and \"M_U_AB\" > 150 and \"M_U_BC\" > 150 and \"M_U_CA\" > 150 tz('${tzone}')",
-          "rawQuery": true,
-          "refId": "C",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "M_U_AB"
-                ],
-                "type": "field"
-              }
-            ]
-          ],
-          "tags": []
-        },
-        {
-          "groupBy": [],
-          "hide": true,
-          "measurement": "Huawei",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT \"M_U_AB\", \"M_U_CA\", \"M_U_BC\", \"M_U_AB_p95\", \"M_U_CA_p95\", \"M_U_BC_p95\", \"M_U_AB_20\", \"M_U_CA_20\", \"M_U_BC_20\" FROM \"Huawei\" WHERE $timeFilter and \"M_U_AB\" > 150 and \"M_U_BC\" > 150 and \"M_U_CA\" > 150 tz('${tzone}')",
-          "rawQuery": true,
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "M_U_AB"
-                ],
-                "type": "field"
-              }
-            ]
-          ],
-          "tags": []
-        }
-      ],
-      "title": "Voltage History",
-      "tooltip": {
-        "show": true,
-        "showHistogram": false
-      },
-      "type": "heatmap",
-      "xAxis": {
-        "show": true
-      },
-      "xBucketSize": "",
-      "yAxis": {
-        "format": "short",
-        "logBase": 1,
-        "show": true
-      },
-      "yBucketBound": "auto",
-      "yBucketSize": 1
-    },
-    {
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "palette-classic"
           },
           "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "opacity",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": 3600000,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "volt"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "reactive"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "semi-dark-purple",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "reactive"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "short"
-              },
-              {
-                "id": "custom.lineStyle",
-                "value": {
-                  "dash": [
-                    2,
-                    3
-                  ],
-                  "fill": "dash"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "reactive grid"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "short"
-              },
-              {
-                "id": "custom.lineStyle",
-                "value": {
-                  "dash": [
-                    2,
-                    3
-                  ],
-                  "fill": "dash"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "grid power"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "short"
-              },
-              {
-                "id": "custom.lineStyle",
-                "value": {
-                  "dash": [
-                    2,
-                    3
-                  ],
-                  "fill": "dash"
-                }
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 34
-      },
-      "id": 36,
-      "interval": "30s",
-      "maxDataPoints": 2000,
-      "options": {
-        "legend": {
-          "calcs": [
-            "mean"
-          ],
-          "displayMode": "list",
-          "placement": "bottom"
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "8.1.0-beta3",
-      "targets": [
-        {
-          "alias": "A",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "Huawei",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT (\"M_A-U\") FROM \"Huawei\" WHERE $timeFilter and \"M_A-U\" > 50 fill(null) tz('${tzone}')",
-          "rawQuery": true,
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "M_A-U"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              },
-              {
-                "params": [
-                  "20"
-                ],
-                "type": "moving_average"
-              }
-            ]
-          ],
-          "tags": []
-        },
-        {
-          "alias": "B",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "none"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "Huawei",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT  (\"M_B-U\")  FROM \"Huawei\" WHERE $timeFilter and \"M_B-U\" > 50 fill(null) tz('${tzone}')",
-          "rawQuery": true,
-          "refId": "B",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "M_B-U"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              },
-              {
-                "params": [
-                  "5"
-                ],
-                "type": "moving_average"
-              }
-            ]
-          ],
-          "tags": []
-        },
-        {
-          "alias": "C",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "none"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "Huawei",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT  \"M_C-U\" FROM \"Huawei\" WHERE $timeFilter and \"M_C-U\" > 50 fill(null) tz('${tzone}')",
-          "rawQuery": true,
-          "refId": "C",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "M_C-U"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              },
-              {
-                "params": [
-                  "5"
-                ],
-                "type": "moving_average"
-              }
-            ]
-          ],
-          "tags": []
-        },
-        {
-          "alias": "reactive",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "none"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "Huawei",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "D",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "P_reactive"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              },
-              {
-                "params": [
-                  "5"
-                ],
-                "type": "moving_average"
-              },
-              {
-                "params": [
-                  "*1000"
-                ],
-                "type": "math"
-              }
-            ]
-          ],
-          "tags": []
-        },
-        {
-          "alias": "reactive grid",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "none"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "Huawei",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "E",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "M_Pr"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              },
-              {
-                "params": [
-                  "5"
-                ],
-                "type": "moving_average"
-              }
-            ]
-          ],
-          "tags": []
-        },
-        {
-          "alias": "grid power",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "none"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "Huawei",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT moving_average(mean(\"M_P\"), 5) FROM \"Huawei\" WHERE $timeFilter GROUP BY time($__interval) fill(none) tz('${tzone}')",
-          "rawQuery": true,
-          "refId": "F",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "M_P"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              },
-              {
-                "params": [
-                  "5"
-                ],
-                "type": "moving_average"
-              }
-            ]
-          ],
-          "tags": []
-        }
-      ],
-      "title": "Voltages ø-n",
-      "type": "timeseries"
-    },
-    {
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -7087,7 +6841,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 34
+        "y": 26
       },
       "id": 43,
       "options": {
@@ -7096,7 +6850,8 @@
             "max"
           ],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
           "mode": "multi",
@@ -7381,10 +7136,612 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": 3600000,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "volt"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "reactive"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "reactive"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "custom.lineStyle",
+                "value": {
+                  "dash": [
+                    2,
+                    3
+                  ],
+                  "fill": "dash"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "reactive grid"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "custom.lineStyle",
+                "value": {
+                  "dash": [
+                    2,
+                    3
+                  ],
+                  "fill": "dash"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "grid power"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "custom.lineStyle",
+                "value": {
+                  "dash": [
+                    2,
+                    3
+                  ],
+                  "fill": "dash"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 34
+      },
+      "id": 36,
+      "interval": "30s",
+      "maxDataPoints": 2000,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean"
+          ],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "8.1.0-beta3",
+      "targets": [
+        {
+          "alias": "A",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT (\"M_A-U\") FROM \"Huawei\" WHERE $timeFilter and \"M_A-U\" > 50 fill(null) tz('${tzone}')",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "M_A-U"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              },
+              {
+                "params": [
+                  "20"
+                ],
+                "type": "moving_average"
+              }
+            ]
+          ],
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
+        },
+        {
+          "alias": "B",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "none"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT  (\"M_B-U\")  FROM \"Huawei\" WHERE $timeFilter and \"M_B-U\" > 50 fill(null) tz('${tzone}')",
+          "rawQuery": true,
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "M_B-U"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              },
+              {
+                "params": [
+                  "5"
+                ],
+                "type": "moving_average"
+              }
+            ]
+          ],
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
+        },
+        {
+          "alias": "C",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "none"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT  \"M_C-U\" FROM \"Huawei\" WHERE $timeFilter and \"M_C-U\" > 50 fill(null) tz('${tzone}')",
+          "rawQuery": true,
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "M_C-U"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              },
+              {
+                "params": [
+                  "5"
+                ],
+                "type": "moving_average"
+              }
+            ]
+          ],
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
+        },
+        {
+          "alias": "reactive",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "none"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "D",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "P_reactive"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              },
+              {
+                "params": [
+                  "5"
+                ],
+                "type": "moving_average"
+              },
+              {
+                "params": [
+                  "*1000"
+                ],
+                "type": "math"
+              }
+            ]
+          ],
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
+        },
+        {
+          "alias": "reactive grid",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "none"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "E",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "M_Pr"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              },
+              {
+                "params": [
+                  "5"
+                ],
+                "type": "moving_average"
+              }
+            ]
+          ],
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
+        },
+        {
+          "alias": "grid power",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "none"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "Huawei",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT moving_average(mean(\"M_P\"), 5) FROM \"Huawei\" WHERE $timeFilter GROUP BY time($__interval) fill(none) tz('${tzone}')",
+          "rawQuery": true,
+          "refId": "F",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "M_P"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              },
+              {
+                "params": [
+                  "5"
+                ],
+                "type": "moving_average"
+              }
+            ]
+          ],
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
+        }
+      ],
+      "title": "Voltages ø-n",
+      "type": "timeseries"
+    },
+    {
+      "cards": {},
+      "color": {
+        "cardColor": "#b4ff00",
+        "colorScale": "sqrt",
+        "colorScheme": "interpolateOranges",
+        "exponent": 0.25,
+        "mode": "spectrum"
+      },
+      "dataFormat": "timeseries",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "scaleDistribution": {
+              "type": "linear"
+            }
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 34
+      },
+      "heatmap": {},
+      "hideZeroBuckets": false,
+      "highlightCards": true,
+      "id": 50,
+      "interval": "5m",
+      "legend": {
+        "show": true
+      },
+      "options": {
+        "calculate": true,
+        "calculation": {
+          "yBuckets": {
+            "mode": "size",
+            "value": "1"
+          }
+        },
+        "cellGap": 2,
+        "cellValues": {},
+        "color": {
+          "exponent": 0.5,
+          "fill": "#b4ff00",
+          "mode": "scheme",
+          "reverse": false,
+          "scale": "exponential",
+          "scheme": "Oranges",
+          "steps": 128
+        },
+        "exemplars": {
+          "color": "rgba(255,0,255,0.7)"
+        },
+        "filterValues": {
+          "le": 1e-9
+        },
+        "legend": {
+          "show": true
+        },
+        "rowsFrame": {
+          "layout": "auto"
+        },
+        "showValue": "never",
+        "tooltip": {
+          "show": true,
+          "yHistogram": false
+        },
+        "yAxis": {
+          "axisPlacement": "left",
+          "reverse": false,
+          "unit": "short"
+        }
+      },
+      "pluginVersion": "9.2.1",
+      "reverseYBuckets": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
+          "groupBy": [],
+          "hide": false,
+          "measurement": "Huawei",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT \"M_U_AB\", \"M_U_CA\", \"M_U_BC\" FROM \"Huawei\" WHERE $timeFilter and \"M_U_AB\" > 150 and \"M_U_BC\" > 150 and \"M_U_CA\" > 150 tz('${tzone}')",
+          "rawQuery": true,
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "M_U_AB"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "title": "Voltage History",
+      "tooltip": {
+        "show": true,
+        "showHistogram": false
+      },
+      "type": "heatmap",
+      "xAxis": {
+        "show": true
+      },
+      "xBucketSize": "",
+      "yAxis": {
+        "format": "short",
+        "logBase": 1,
+        "show": true
+      },
+      "yBucketBound": "auto",
+      "yBucketSize": 1
+    },
+    {
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB}"
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -7411,7 +7768,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.4.4",
+      "pluginVersion": "9.2.1",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -7599,6 +7956,10 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB}"
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -7625,7 +7986,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.4.4",
+      "pluginVersion": "9.2.1",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -7682,7 +8043,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "p",
@@ -7731,7 +8096,11 @@
               "operator": ">",
               "value": "0"
             }
-          ]
+          ],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         }
       ],
       "thresholds": [],
@@ -7769,6 +8138,10 @@
       }
     },
     {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -7810,8 +8183,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -7880,7 +8252,8 @@
             "max"
           ],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
           "mode": "multi",
@@ -8149,6 +8522,10 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB}"
+      },
       "fill": 0,
       "fillGradient": 1,
       "gridPos": {
@@ -8176,7 +8553,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.4.4",
+      "pluginVersion": "9.0.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -8245,7 +8622,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "meter",
@@ -8284,7 +8665,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "PV_U",
@@ -8322,7 +8707,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         }
       ],
       "thresholds": [],
@@ -8360,6 +8749,10 @@
       }
     },
     {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -8381,8 +8774,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -8407,7 +8799,8 @@
         "legend": {
           "calcs": [],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         }
       },
       "pluginVersion": "8.1.0-beta2",
@@ -8450,7 +8843,11 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         },
         {
           "alias": "inverter",
@@ -8495,7 +8892,11 @@
               "operator": ">",
               "value": "0"
             }
-          ]
+          ],
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          }
         }
       ],
       "title": "Frequency",
@@ -8899,8 +9300,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -8948,7 +9348,8 @@
             "max"
           ],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
           "mode": "multi",
@@ -9050,7 +9451,7 @@
     }
   ],
   "refresh": "15s",
-  "schemaVersion": 35,
+  "schemaVersion": 37,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -9090,6 +9491,6 @@
   "timezone": "",
   "title": "Solar",
   "uid": "dtVwFFPWz",
-  "version": 173,
+  "version": 174,
   "weekStart": ""
 }

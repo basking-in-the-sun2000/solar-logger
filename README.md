@@ -71,7 +71,7 @@ Some of the inverters don't work well after sunset, they disable all functions. 
 
 - `divert.py` has the load diverting code. This version will turn off lower priority loads in favor of a higher priority one
 
-- `divert1.py` has the load diverting code. This version will turn on/off loads depending on their priority, but will not turn them off in favor of a higher priority one. 
+- `divert1.py` has the load diverting code. This version will turn on/off loads depending on their priority, but will not turn them off in favor of a higher priority one.
 
 - `email.py` the mail sending code
 
@@ -99,7 +99,7 @@ After installing influxdb, grafana, the required python packages, and grafana pl
 You need to connect to the data sources in grafana. Influxdb creates three DBS: logger, logger_ds, and logger_lt (or the names you used if you changed those).
 
 #### Don't forget to set up the config.py file according to your site's values
-#### If you use a dongle, change slave to match your inverter 
+#### If you use a dongle, change slave to match your inverter
 
  
 ### Operation
@@ -113,7 +113,7 @@ If everything is working, you can get it running as a service and will autostart
 ###Notes about the Grafana dashboard
 You will need to adjust the limits, thresholds, and other values according to your site. The values for the coloring make sense for mine, but you might need to adjust according to your needs. For instance, 40 kWh a day is great for me, but a mediocre day for you or might be too high for your system
 
-There is a timezone variable, that you need to change to your site. 
+There is a timezone variable, that you need to change to your site.
 
 The display convention is that positive numbers are energies you generated, and negative those that you consumed
 
@@ -248,4 +248,3 @@ If you already have your logger running, before doing the next step you need to 
 add a retention policy (this will delete anything older than 70 days from the 30s data. You should get 5m data from the cq)
 
     ALTER RETENTION POLICY autogen on logger DURATION 70d REPLICATION 1 SHARD DURATION 15d DEFAULT
-
