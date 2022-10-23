@@ -2,7 +2,7 @@ import time
 import config
 if config.inverter_type == "TCP":
     from pymodbus.client.sync import ModbusTcpClient as ModbusClient
-elif config.iinverter_type == "RTU":
+elif config.inverter_type == "RTU":
     from pymodbus.client.sync import ModbusSerialClient as ModbusClient
 
 
