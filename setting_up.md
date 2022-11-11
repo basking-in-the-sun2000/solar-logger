@@ -11,11 +11,16 @@ sudo apt upgrade
 
 sudo apt install -y gnupg2 curl wget git python3-pip
 
-wget -qO- https://repos.influxdata.com/influxdb.key | sudo apt-key add -
-echo "deb https://repos.influxdata.com/debian buster stable" | sudo tee /etc/apt/sources.list.d/influxdb.list
+sudo mkdir -p /etc/apt/keyrings/
 
-wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -
-echo "deb https://packages.grafana.com/oss/deb stable main" | sudo tee -a /etc/apt/sources.list.d/grafana.list
+wget -q https://repos.influxdata.com/influxdb.key
+echo '23a1c8836f0afc5ed24e0486339d7cc8f6790b83886c4c96995b88a061c5bb5d influxdb.key' | sha256sum -c && cat influxdb.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/influxdb.gpg > /dev/null
+echo 'deb [signed-by=/etc/apt/trusted.gpg.d/influxdb.gpg] https://repos.influxdata.com/debian stable main' | sudo tee /etc/apt/sources.list.d/influxdata.list
+
+
+wget -q -O - https://apt.grafana.com/gpg.key | gpg --dearmor > /etc/apt/keyrings/grafana.gpg
+echo "deb [signed-by=/etc/apt/keyrings/grafana.gpg] https://apt.grafana.com stable main" | tee /etc/apt/sources.list.d/grafana.list
+
 
 sudo apt update
 sudo apt-get install -y influxdb
