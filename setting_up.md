@@ -31,6 +31,7 @@ pip3 install isodate
 pip3 install solcast
 pip3 install pytz
 pip3 install influxdb
+pip3 install gpiozero
 
 sudo systemctl unmask grafana-server.service
 sudo systemctl start grafana-server
