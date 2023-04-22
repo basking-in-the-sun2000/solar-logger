@@ -352,6 +352,7 @@ def status(register, value):
     return s
 
 def inv_address():
+    print("inv_address")
     udp_message = bytes([0x5a, 0x5a, 0x5a, 0x5a, 0x00, 0x41, 0x3a, 0x04])
 
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)

@@ -13,7 +13,7 @@ slave = 0x00 # seems the dongle uses 0x01 for the slave id
 model = "Huawei"
 location = "main"
 strings = 1
-timeout = 3
+timeout = 5
 has_optim = True # if your inverter doesn't return optimizer info
 scan_interval = 30
 info_interval = 60 * 60 * 3
@@ -49,6 +49,7 @@ site_UUID2 = "" #if you have a "second site" with solcast you cand add the forec
 site_UUID3 = ""
 soltun = True # also skipped if solfor not equals 1
 solfor = 1 # 0 off, 1 rooftop, 2 world pv power
+sol_comp = False # whether to calculate a daily adjustment to solcast's forecasts
 supla_api = ""
 supla_dev_id = 0
 #  Log in to supla account. click on your MEW-01 and You have ID. Not ID from "My supla", but ID visible after click on MEW-01 device  Thanks to bdkacz for his contribution
@@ -101,3 +102,9 @@ divert = {0: {(0, -1, 2800, -100, 0, 0, 1.35), (1, 5, 1000, 100, 0, 0, 1.35), (2
          21: {(0, -1, 2800, -100, 0, 0, 1.35), (1, 5, 1000, 100, 0, 0, 1.35), (2, 1, 1000, 200, 0, 0, 1.5)},
          22: {(0, -1, 2800, -100, 0, 0, 1.35), (1, 5, 1000, 100, 0, 0, 1.35), (2, 1, 1000, 200, 0, 0, 1.5)},
          23: {(0, -1, 2800, -100, 0, 0, 1.35), (1, 5, 1000, 100, 0, 0, 1.35), (2, 1, 1000, 200, 0, 0, 1.5)}}
+
+#don't change >>>>>>
+if (not soltun) or solfor == 0:
+   sol_comp = False
+loads = {}
+# <<<<<< don't change

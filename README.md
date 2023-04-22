@@ -14,9 +14,8 @@ So for now it is configured for Huawei's Sun2000 usl0 version but probably shoul
 This code was inspired by a series of other repositories as a guideline to create the current datalogger. Including portions from https://github.com/meltaxa/solariot/
 
 ### Changes ###
-Updated the dashboards to use timezone better
-Improved the inverter connection (previous commit)
-Some issues fixed
+- Changed modbus communication to make the connection more reliable.
+- Added an adjustment that tries to match solcast's forecast to the current production for the last week. More about in [forecasting.md](forecasting.md)
 
 ### Basics ###
 

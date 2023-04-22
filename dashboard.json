@@ -43,7 +43,7 @@
       "name": "VAR_SOLCAST_ADJ",
       "type": "constant",
       "label": "solcast_adj",
-      "value": "1.0",
+      "value": "1",
       "description": ""
     },
     {
@@ -78,7 +78,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "9.2.1"
+      "version": "9.3.2"
     },
     {
       "type": "datasource",
@@ -1725,7 +1725,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT cumulative_sum(integral(\"power90\")) * $solcast_adj  /3600   FROM \"forcast\" WHERE $timeFilter GROUP BY time($__interval) fill(linear) tz('${tzone}')",
+          "query": "SELECT cumulative_sum(integral(\"power90\")) * $solcast_adj /3600   FROM \"forcast\" WHERE $timeFilter GROUP BY time($__interval) fill(linear) tz('${tzone}')",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -1812,7 +1812,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT cumulative_sum(integral(\"power\"))   /3600 * $solcast_adj  FROM \"forcast\" WHERE $timeFilter GROUP BY time($__interval) fill(linear) tz('${tzone}')",
+          "query": "SELECT cumulative_sum(integral(\"power\"))   /3600 * $solcast_adj FROM \"forcast\" WHERE $timeFilter GROUP BY time($__interval) fill(linear) tz('${tzone}')",
           "rawQuery": true,
           "refId": "C",
           "resultFormat": "time_series",
@@ -1854,7 +1854,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT cumulative_sum(integral(\"power10\"))   /3600 * $solcast_adj  FROM \"forcast\" WHERE $timeFilter GROUP BY time($__interval) fill(linear) tz('${tzone}')",
+          "query": "SELECT cumulative_sum(integral(\"power10\"))   /3600 * $solcast_adj FROM \"forcast\" WHERE $timeFilter GROUP BY time($__interval) fill(linear) tz('${tzone}')",
           "rawQuery": true,
           "refId": "D",
           "resultFormat": "time_series",
@@ -1948,7 +1948,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT (integral(\"power90\")) * $solcast_adj  /1800  FROM \"forcast\" WHERE $timeFilter GROUP BY time($__interval) fill(linear) tz('${tzone}')",
+          "query": "SELECT (integral(\"power90\")) * $solcast_adj /1800  FROM \"forcast\" WHERE $timeFilter GROUP BY time($__interval) fill(linear) tz('${tzone}')",
           "rawQuery": true,
           "refId": "G",
           "resultFormat": "time_series",
@@ -2034,7 +2034,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT (integral(\"power\")) * $solcast_adj  /1800  FROM \"forcast\" WHERE $timeFilter GROUP BY time($__interval) fill(linear) tz('${tzone}')",
+          "query": "SELECT (integral(\"power\")) * $solcast_adj /1800  FROM \"forcast\" WHERE $timeFilter GROUP BY time($__interval) fill(linear) tz('${tzone}')",
           "rawQuery": true,
           "refId": "I",
           "resultFormat": "time_series",
@@ -2076,7 +2076,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT (integral(\"power10\")) * $solcast_adj  /1800  FROM \"forcast\" WHERE $timeFilter GROUP BY time($__interval) fill(linear) tz('${tzone}')",
+          "query": "SELECT (integral(\"power10\")) * $solcast_adj /1800  FROM \"forcast\" WHERE $timeFilter GROUP BY time($__interval) fill(linear) tz('${tzone}')",
           "rawQuery": true,
           "refId": "J",
           "resultFormat": "time_series",
@@ -2165,7 +2165,7 @@
             "tooltip": true,
             "type": "xml",
             "url": "http://<YourUrl>/<Your XML/drawio file/api>",
-            "xml": "<mxfile host=\"app.diagrams.net\" modified=\"2022-06-20T03:04:53.009Z\" agent=\"5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.5 Safari/605.1.15\" etag=\"nnFOWJgZpnXRMf6AXtXI\" version=\"20.0.1\" type=\"embed\"><diagram id=\"5sR0j5sy5Hubi7MNRoeB\" name=\"Page-1\">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</diagram></mxfile>",
+            "xml": "<mxfile host=\"app.diagrams.net\" modified=\"2023-01-31T08:52:05.398Z\" agent=\"5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36\" etag=\"c7TT7tNAn4-M1hDQmgY2\" version=\"20.8.13\" type=\"embed\"><diagram id=\"5sR0j5sy5Hubi7MNRoeB\" name=\"Page-1\">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</diagram></mxfile>",
             "zoom": "100%"
           }
         ]
@@ -2621,7 +2621,7 @@
           },
           {
             "aggregation": "current",
-            "alias": "forecast",
+            "alias": "f_ratio",
             "colors": [
               "#E02F44",
               "#C4162A",
@@ -2645,6 +2645,88 @@
             "mappingType": 1,
             "metricType": "serie",
             "order": 6,
+            "overlayIcon": false,
+            "pattern": "f_ratio",
+            "rangeData": [],
+            "reduce": true,
+            "refId": "A",
+            "sanitize": false,
+            "shapeData": [
+              {
+                "colorOn": "a",
+                "hidden": false,
+                "pattern": "60",
+                "style": "fontColor"
+              },
+              {
+                "colorOn": "a",
+                "hidden": false,
+                "pattern": "",
+                "style": "fillColor"
+              }
+            ],
+            "shapeProp": "id",
+            "shapeRegEx": true,
+            "stringThresholds": [
+              "/.*/"
+            ],
+            "textData": [
+              {
+                "hidden": false,
+                "pattern": "60",
+                "textOn": "wmd",
+                "textPattern": "/.*/",
+                "textReplace": "content"
+              }
+            ],
+            "textProp": "id",
+            "textRegEx": true,
+            "thresholds": [
+              0.5,
+              0.6,
+              0.7,
+              0.8,
+              0.9
+            ],
+            "tooltip": false,
+            "tooltipColors": false,
+            "tooltipLabel": "",
+            "tooltipOn": "a",
+            "tpDirection": "v",
+            "tpGraph": false,
+            "tpGraphScale": "linear",
+            "tpGraphSize": "100%",
+            "tpGraphType": "line",
+            "type": "number",
+            "unit": "percentunit",
+            "valueData": []
+          },
+          {
+            "aggregation": "current",
+            "alias": "forecast",
+            "colors": [
+              "#E02F44",
+              "#C4162A",
+              "#FA6400",
+              "#FFCB7D",
+              "#56A64B",
+              "#3274D9"
+            ],
+            "column": "Time",
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 1,
+            "eventData": [],
+            "eventProp": "id",
+            "eventRegEx": false,
+            "gradient": true,
+            "hidden": false,
+            "invert": false,
+            "linkData": [],
+            "linkProp": "id",
+            "linkRegEx": true,
+            "mappingType": 1,
+            "metricType": "serie",
+            "order": 7,
             "overlayIcon": false,
             "pattern": "forecast",
             "rangeData": [],
@@ -2723,7 +2805,7 @@
             "linkRegEx": true,
             "mappingType": 1,
             "metricType": "serie",
-            "order": 7,
+            "order": 8,
             "overlayIcon": false,
             "pattern": "yesterday",
             "rangeData": [],
@@ -2797,7 +2879,7 @@
             "linkRegEx": true,
             "mappingType": 1,
             "metricType": "serie",
-            "order": 8,
+            "order": 9,
             "overlayIcon": false,
             "pattern": "yet possible",
             "rangeData": [],
@@ -2869,7 +2951,7 @@
             "linkRegEx": true,
             "mappingType": 1,
             "metricType": "serie",
-            "order": 9,
+            "order": 10,
             "overlayIcon": false,
             "pattern": "Huawei.self_consumed",
             "rangeData": [],
@@ -2929,7 +3011,7 @@
             "linkRegEx": true,
             "mappingType": 1,
             "metricType": "serie",
-            "order": 10,
+            "order": 11,
             "overlayIcon": false,
             "pattern": "Huawei.load",
             "rangeData": [],
@@ -3023,7 +3105,7 @@
             "linkRegEx": false,
             "mappingType": 1,
             "metricType": "serie",
-            "order": 11,
+            "order": 12,
             "overlayIcon": false,
             "pattern": "Huawei.Inverter",
             "rangeData": [],
@@ -3130,7 +3212,7 @@
             "linkRegEx": true,
             "mappingType": 1,
             "metricType": "serie",
-            "order": 12,
+            "order": 13,
             "overlayIcon": false,
             "pattern": "Huawei.balance",
             "rangeData": [],
@@ -3224,7 +3306,7 @@
             "linkRegEx": true,
             "mappingType": 1,
             "metricType": "serie",
-            "order": 13,
+            "order": 14,
             "overlayIcon": false,
             "pattern": "Huawei.export",
             "rangeData": [],
@@ -3298,7 +3380,7 @@
             "linkRegEx": true,
             "mappingType": 1,
             "metricType": "serie",
-            "order": 14,
+            "order": 15,
             "overlayIcon": false,
             "pattern": "Huawei.from grid",
             "rangeData": [],
@@ -3385,7 +3467,7 @@
             "linkRegEx": true,
             "mappingType": 1,
             "metricType": "serie",
-            "order": 15,
+            "order": 16,
             "overlayIcon": false,
             "pattern": "off-grid",
             "rangeData": [],
@@ -3443,7 +3525,7 @@
             "linkRegEx": true,
             "mappingType": 1,
             "metricType": "serie",
-            "order": 16,
+            "order": 17,
             "overlayIcon": false,
             "pattern": "Year_Bal",
             "rangeData": [],
@@ -3522,7 +3604,7 @@
             "linkRegEx": true,
             "mappingType": 1,
             "metricType": "serie",
-            "order": 17,
+            "order": 18,
             "overlayIcon": false,
             "pattern": "Huawei.last_load_2",
             "rangeData": [],
@@ -3585,7 +3667,7 @@
             "linkRegEx": true,
             "mappingType": 1,
             "metricType": "serie",
-            "order": 18,
+            "order": 19,
             "overlayIcon": false,
             "pattern": "Huawei.last_load_1",
             "rangeData": [],
@@ -3649,7 +3731,7 @@
             "linkRegEx": true,
             "mappingType": 1,
             "metricType": "serie",
-            "order": 19,
+            "order": 20,
             "overlayIcon": false,
             "pattern": "Huawei.last_load_0",
             "rangeData": [],
@@ -3764,7 +3846,7 @@
             "linkRegEx": true,
             "mappingType": 1,
             "metricType": "serie",
-            "order": 20,
+            "order": 21,
             "overlayIcon": false,
             "pattern": "meter",
             "rangeData": [],
@@ -3821,7 +3903,7 @@
             "linkRegEx": true,
             "mappingType": 1,
             "metricType": "serie",
-            "order": 21,
+            "order": 22,
             "overlayIcon": false,
             "pattern": "CO2",
             "rangeData": [],
@@ -3885,7 +3967,7 @@
             "linkRegEx": true,
             "mappingType": 1,
             "metricType": "serie",
-            "order": 22,
+            "order": 23,
             "overlayIcon": false,
             "pattern": "trees",
             "rangeData": [],
@@ -3937,7 +4019,7 @@
             "uid": "${DS_INFLUXDB}"
           },
           "hide": false,
-          "query": "SELECT cumulative_sum(integral(\"power\")) / 3600 * $solcast_adj  FROM \"forcast\" WHERE $timeFilter and time <= now() GROUP BY time(1d) fill(linear) tz('${tzone}') ",
+          "query": "SELECT cumulative_sum(integral(\"power\")) / 3600 * $solcast_adj FROM \"forcast\" WHERE $timeFilter and time <= now() GROUP BY time(1d) fill(linear) tz('${tzone}') ",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series"
@@ -4224,6 +4306,18 @@
             ]
           ],
           "tags": []
+        },
+        {
+          "alias": "f_ratio",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_LT}"
+          },
+          "hide": false,
+          "query": "SELECT last(\"f_ratio\") FROM \"Huawei_daily\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
+          "rawQuery": true,
+          "refId": "Q",
+          "resultFormat": "time_series"
         }
       ],
       "title": "Today",
@@ -4702,7 +4796,7 @@
           "measurement": "Huawei",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT (integral(\"power\")) * $solcast_adj  /1.8  FROM \"forcast\" WHERE $timeFilter GROUP BY time($__interval) fill(linear) tz('${tzone}')",
+          "query": "SELECT (integral(\"power\")) * $solcast_adj /1.8  FROM \"forcast\" WHERE $timeFilter GROUP BY time($__interval) fill(linear) tz('${tzone}')",
           "rawQuery": true,
           "refId": "Z",
           "resultFormat": "time_series",
@@ -5649,7 +5743,7 @@
               }
             ]
           },
-          "unit": "kwatt"
+          "unit": "suffix: kW"
         },
         "overrides": []
       },
@@ -5675,7 +5769,7 @@
         "showThresholdMarkers": true,
         "text": {}
       },
-      "pluginVersion": "9.2.1",
+      "pluginVersion": "9.3.2",
       "targets": [
         {
           "alias": "Inverter",
@@ -5961,7 +6055,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.2.1",
+      "pluginVersion": "9.3.2",
       "targets": [
         {
           "alias": "forecast",
@@ -5987,7 +6081,7 @@
           "measurement": "forcast",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "select last(f) from (SELECT cumulative_sum(integral(\"power\")) / 3600 / 6 * $solcast_adj as f FROM \"forcast\" WHERE (\"time\" > ${__from}ms) AND (\"time\" < ${__from}ms + 6d)  GROUP BY time(1d) fill(linear) tz('${tzone}'))",
+          "query": "select last(f) from (SELECT cumulative_sum(integral(\"power\")) / 3600 / 6 * $solcast_adj as f FROM \"forcast\" WHERE (\"time\" > ${__from}ms) AND (\"time\" <= ${__from}ms + 6d)  GROUP BY time(1d) fill(linear) tz('${tzone}'))",
           "rawQuery": true,
           "refId": "D",
           "resultFormat": "time_series",
@@ -6192,16 +6286,14 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
                 "value": 80
               }
             ]
-          },
-          "unit": "kwatth"
+          }
         },
         "overrides": []
       },
@@ -6212,40 +6304,54 @@
         "y": 15
       },
       "id": 71,
+      "links": [],
+      "maxDataPoints": 100,
       "options": {
         "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "center",
+        "graphMode": "area",
+        "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "/^expiring$/",
+          "fields": "",
           "values": false
         },
-        "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.2.1",
+      "pluginVersion": "9.3.2",
       "targets": [
         {
           "alias": "expiring",
-          "query": "SELECT cumulative_sum(Bal)  FROM \"Huawei_daily\" where time > '${__to:date:YYYY-MM-18}' - 365d  and  time < '${__to:date:YYYY-MM-18}' - 305d   tz('${tzone}')",
-          "rawQuery": true,
-          "refId": "A",
           "datasource": {
             "type": "influxdb",
             "uid": "${DS_INFLUXDB_LT}"
-          }
+          },
+          "query": "SELECT cumulative_sum(Bal)  FROM \"Huawei_daily\" where time > '${__to:date:YYYY-MM-18}' - 365d  and  time < '${__to:date:YYYY-MM-18}' - 305d   tz('${tzone}')",
+          "rawQuery": true,
+          "refId": "A"
+        },
+        {
+          "alias": "year",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_LT}"
+          },
+          "hide": false,
+          "query": "select max(e) - max(g) from (select cumulative_sum(P_Exp) as e, cumulative_sum(P_Grid) as g from Huawei_daily where time > now() - 365d)",
+          "rawQuery": true,
+          "refId": "B",
+          "resultFormat": "time_series"
         }
       ],
+      "transformations": [],
       "type": "stat"
     },
     {
       "datasource": {
-        "type": "influxdb",
-        "uid": "${DS_INFLUXDB}"
+        "type": "datasource",
+        "uid": "-- Mixed --"
       },
       "description": "forecast",
       "fieldConfig": {
@@ -6289,12 +6395,11 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "semi-dark-yellow",
-                "value": 7.75
+                "value": 8.6
               },
               {
                 "color": "dark-blue",
@@ -6381,6 +6486,73 @@
                 "value": "hidden"
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "f_ratio"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percentunit"
+              },
+              {
+                "id": "custom.axisPlacement",
+                "value": "right"
+              },
+              {
+                "id": "custom.drawStyle",
+                "value": "line"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "decimals",
+                "value": 1
+              },
+              {
+                "id": "custom.lineInterpolation",
+                "value": "stepAfter"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "forecast_max"
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": true
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "solcast"
+            },
+            "properties": [
+              {
+                "id": "custom.lineInterpolation",
+                "value": "stepAfter"
+              },
+              {
+                "id": "custom.fillOpacity",
+                "value": 0
+              }
+            ]
           }
         ]
       },
@@ -6451,7 +6623,8 @@
               }
             ]
           ],
-          "tags": []
+          "tags": [],
+          "tz": "${tzone}"
         },
         {
           "alias": "inverter",
@@ -6538,10 +6711,114 @@
             ]
           ],
           "tags": []
+        },
+        {
+          "alias": "f_ratio",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_LT}"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "previous"
+              ],
+              "type": "fill"
+            }
+          ],
+          "hide": false,
+          "measurement": "Huawei_daily",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "D",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "f_ratio"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [],
+          "tz": "${tzone}"
+        },
+        {
+          "alias": "forecast_max",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "1d"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "linear"
+              ],
+              "type": "fill"
+            }
+          ],
+          "hide": false,
+          "measurement": "forcast",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "E",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "power"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "max"
+              }
+            ]
+          ],
+          "tags": [],
+          "tz": "${tzone}"
         }
       ],
-      "timeFrom": "+25d",
-      "timeShift": "15d",
+      "timeFrom": "+20d",
+      "timeShift": "10d",
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "solcast",
+            "binary": {
+              "left": "forecast_max",
+              "operator": "/",
+              "reducer": "sum",
+              "right": "f_ratio"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "max"
+            }
+          }
+        }
+      ],
       "type": "timeseries"
     },
     {
@@ -6590,8 +6867,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -6605,32 +6881,12 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "period"
+              "options": "balance "
             },
             "properties": [
               {
-                "id": "unit",
-                "value": "kwatth"
-              },
-              {
                 "id": "custom.axisPlacement",
-                "value": "left"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byRegexp",
-              "options": "/bal/"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "kwatth"
-              },
-              {
-                "id": "custom.axisPlacement",
-                "value": "left"
+                "value": "hidden"
               }
             ]
           }
@@ -6725,7 +6981,7 @@
           "hide": false,
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "select (CBal) + (DBal) as Acct_Bal, Bal from (select cumulative_sum(diff)  as DBal from (SELECT (\"P_Exp\") - (\"P_Grid\") + (\"Adj\") as diff FROM \"Huawei_daily\"  fill(0)) where time > '${__to:date:YYYY-MM-18}' -61d), (select cumulative_sum(Bal) as CBal from Huawei_daily where time > now() -365d ), (select Bal from Huawei_daily where time > '${__to:date:YYYY-MM-18}' -61d)  fill(previous) tz('${tzone}')",
+          "query": "select ((CBal) + (DBal)) * 1000 as Acct_Bal, Bal from (select cumulative_sum(diff)  as DBal from (SELECT (\"P_Exp\") - (\"P_Grid\") + (\"Adj\") as diff FROM \"Huawei_daily\"  fill(0)) where time > '${__to:date:YYYY-MM-18}' -61d), (select cumulative_sum(Bal) as CBal from Huawei_daily where time > now() -365d ), (select Bal from Huawei_daily where time > '${__to:date:YYYY-MM-18}' -61d)  fill(previous) tz('${tzone}')",
           "rawQuery": true,
           "refId": "B",
           "resultFormat": "time_series",
@@ -6765,7 +7021,7 @@
               "type": "fill"
             }
           ],
-          "hide": true,
+          "hide": false,
           "orderByTime": "ASC",
           "policy": "default",
           "query": "select cumulative_sum(Bal) + cumulative_sum(Adj) from Huawei_daily where time > now() -365d fill(previous) tz('${tzone}')",
@@ -6789,7 +7045,7 @@
           "tags": []
         }
       ],
-      "timeFrom": "66d",
+      "timeFrom": "67d",
       "title": "production balance",
       "transformations": [
         {
@@ -6801,7 +7057,7 @@
                   "id": "isNull",
                   "options": {}
                 },
-                "fieldName": "Huawei_daily.Bal"
+                "fieldName": "balance "
               }
             ],
             "match": "all",
@@ -6859,8 +7115,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -7378,7 +7633,7 @@
           "measurement": "Huawei_daily",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT (\"f_power\" * $solcast_adj) FROM \"Huawei_daily\" WHERE time > now() - 31d tz('${tzone}')",
+          "query": "SELECT (\"f_power\") FROM \"Huawei_daily\" WHERE time > now() - 31d tz('${tzone}')",
           "rawQuery": true,
           "refId": "B",
           "resultFormat": "time_series",
@@ -7538,8 +7793,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -7813,6 +8067,7 @@
       },
       "hideTimeOverride": true,
       "id": 45,
+      "maxDataPoints": 460,
       "options": {
         "legend": {
           "calcs": [
@@ -7851,7 +8106,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"P_daily\") FROM \"Huawei_daily\" where time >  '${__to:date:YYYY-01-01}' - 396d group by time(30d) tz('${tzone}')",
+          "query": "SELECT mean(\"P_daily\") FROM \"Huawei_daily\" where time >  '${__to:date:YYYY-MM-01}' - 451d  group by time(30d) tz('${tzone}')",
           "rawQuery": true,
           "refId": "G",
           "resultFormat": "time_series",
@@ -7893,7 +8148,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"P_Exp\") as export FROM \"Huawei_daily\" where time >  '${__to:date:YYYY-01-01}' - 396d group by time(30d) tz('${tzone}')",
+          "query": "SELECT mean(\"P_Exp\") as export FROM \"Huawei_daily\" where time >  '${__to:date:YYYY-MM-01}' - 451d group by time(30d) tz('${tzone}')",
           "rawQuery": true,
           "refId": "H",
           "resultFormat": "time_series",
@@ -7936,7 +8191,7 @@
           "measurement": "Huawei_daily",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"P_Load\") FROM \"Huawei_daily\"  where time >  '${__to:date:YYYY-01-01}' - 396d group by time(30d) tz('${tzone}')",
+          "query": "SELECT mean(\"P_Load\") FROM \"Huawei_daily\"  where time >  '${__to:date:YYYY-MM-01}' - 451d group by time(30d) tz('${tzone}')",
           "rawQuery": true,
           "refId": "E",
           "resultFormat": "time_series",
@@ -7978,7 +8233,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"P_peak\") FROM \"Huawei_daily\"  where time >  '${__to:date:YYYY-01-01}' - 396d group by time(30d) tz('${tzone}')",
+          "query": "SELECT mean(\"P_peak\") FROM \"Huawei_daily\"  where time >  '${__to:date:YYYY-MM-01}' - 451d group by time(30d) tz('${tzone}')",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -8020,7 +8275,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"P_Grid\") FROM \"Huawei_daily\"  where time >  '${__to:date:YYYY-01-01}' - 396d group by time(30d) tz('${tzone}')",
+          "query": "SELECT mean(\"P_Grid\") FROM \"Huawei_daily\"  where time >  '${__to:date:YYYY-MM-01}' - 451d group by time(30d) tz('${tzone}')",
           "rawQuery": true,
           "refId": "D",
           "resultFormat": "time_series",
@@ -8063,7 +8318,7 @@
           "measurement": "Huawei_daily",
           "orderByTime": "ASC",
           "policy": "autogen",
-          "query": "SELECT mean(\"f_power\") * $solcast_adj FROM \"Huawei_daily\"   where time >  '${__to:date:YYYY-01-01}' - 396d GROUP BY time(30d) tz('${tzone}')",
+          "query": "SELECT mean(f_power) * mean(f_ratio) FROM \"Huawei_daily\"   where time >  '${__to:date:YYYY-MM-01}' - 451d GROUP BY time(30d) tz('${tzone}')",
           "rawQuery": true,
           "refId": "C",
           "resultFormat": "time_series",
@@ -8106,7 +8361,7 @@
           "measurement": "Huawei_daily",
           "orderByTime": "ASC",
           "policy": "autogen",
-          "query": "SELECT mean(\"f_power90\") FROM \"Huawei_daily\"  where time >  '${__to:date:YYYY-01-01}' - 396d  GROUP BY time(30d) tz('${tzone}')",
+          "query": "SELECT mean(\"f_power90\") * mean(f_ratio) FROM \"Huawei_daily\"  where time >  '${__to:date:YYYY-MM-01}' - 451d  GROUP BY time(30d) tz('${tzone}')",
           "rawQuery": true,
           "refId": "B",
           "resultFormat": "time_series",
@@ -8128,6 +8383,7 @@
         }
       ],
       "timeFrom": "15M/M",
+      "timeShift": "1d",
       "title": "daily production (monthly)",
       "type": "timeseries"
     },
@@ -8182,8 +8438,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -8487,7 +8742,7 @@
           "hide": false,
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT sum(\"f_power\")  * $solcast_adj FROM \"Huawei_daily\" where time > '${__to:date:YYYY-MM-18}' -800d  group by time(30d) tz('${tzone}')",
+          "query": "SELECT sum(\"f_power\")  * mean(f_ratio) FROM \"Huawei_daily\" where time > '${__to:date:YYYY-MM-18}' -800d  group by time(30d) tz('${tzone}')",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -8692,8 +8947,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -8997,7 +9251,7 @@
           "hide": false,
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT sum(\"f_power\") * $solcast_adj FROM \"Huawei_daily\" where time >  '${__to:date:YYYY-01-01}' - 4382d group by time(365d) tz('${tzone}')",
+          "query": "SELECT sum(\"f_power\") * mean(f_ratio) FROM \"Huawei_daily\" where time >  '${__to:date:YYYY-01-01}' - 4382d group by time(365d) tz('${tzone}')",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -9164,8 +9418,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           }
@@ -9196,7 +9449,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.2.1",
+      "pluginVersion": "9.3.2",
       "targets": [
         {
           "alias": "Exports",
@@ -9393,8 +9646,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           }
@@ -9425,7 +9677,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.2.1",
+      "pluginVersion": "9.3.2",
       "targets": [
         {
           "alias": "Exports",
@@ -9622,8 +9874,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           }
@@ -9654,7 +9905,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.2.1",
+      "pluginVersion": "9.3.2",
       "targets": [
         {
           "alias": "Exports",
@@ -9851,8 +10102,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           },
@@ -9884,7 +10134,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.2.1",
+      "pluginVersion": "9.3.2",
       "targets": [
         {
           "alias": "Exports",
@@ -10115,8 +10365,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "dark-red",
-                "value": null
+                "color": "dark-red"
               },
               {
                 "color": "red",
@@ -10284,6 +10533,6 @@
   "timezone": "browser",
   "title": "dashboard",
   "uid": "k6oNQgkRz",
-  "version": 880,
+  "version": 946,
   "weekStart": ""
 }

@@ -74,7 +74,8 @@ def call_function(method_name, values):
         ok = False
         return -1
 
-def do_map(client, config, inverter):
+def do_map(config, inverter):
+    global client
     global register
     global measurement
     global info
@@ -91,12 +92,20 @@ def do_map(client, config, inverter):
     global c_stop
     global c_start
     global ok
-    time.sleep(0.5)
+
+
+    client = connect_bus(ip=config.inverter_ip,
+                     PortN = config.inverter_port,
+                     timeout = config.timeout)
+
     for register in inverter._register_map:
         k = 0
         while k < 4:
             try:
                 result = read_registers(client, config.slave, inverter._register_map[register])
+                if (result == -1) or (not ok):
+                    ok = False
+                    return False
                 if result.isError():
                     time.sleep(2)
                     k += 1
@@ -116,12 +125,9 @@ def do_map(client, config, inverter):
         if k > 3:
             return True
 
-        if (result == -1):
-            continue
-
         value = call_function(inverter._register_map[register]['type'], result.registers )
         if not ok:
-            return -1
+            return False
 
         if ((inverter._register_map[register]['type'] != 'str') and (inverter._register_map[register]['scale'] != 1)):
             value = value / inverter._register_map[register]['scale']
@@ -187,6 +193,7 @@ def do_map(client, config, inverter):
         elif inverter._register_map[register]['use'] == "info":
             info[register] = value
 
+    close_bus(client)
     return False
 
 def forecast(h, midnight):
@@ -239,9 +246,8 @@ def forecast(h, midnight):
     global flux_client
     global forecast_array
     global daily_forecast
-    global forecast_hours
-    global forecast_ratio
     global status
+    global f_ratio
 
     if config.debug:
         print("in forecast")
@@ -262,16 +268,16 @@ def forecast(h, midnight):
                 r12 = solcast.get_rooftop_forecasts(config.site_UUID2, hours=252, api_key=config.solcast_key)
                 for i in range(0, len(r12.content['forecasts'])):
                     if r1.content['forecasts'][i]["period_end"] == r12.content['forecasts'][i]["period_end"]:
-                        r1.content['forecasts'][i]["pv_estimate"] = min(r1.content['forecasts'][i]["pv_estimate"] + r12.content['forecasts'][i]["pv_estimate"], config.forecast_capacity)
-                        r1.content['forecasts'][i]["pv_estimate10"] = min(r1.content['forecasts'][i]["pv_estimate10"] + r12.content['forecasts'][i]["pv_estimate10"], config.forecast_capacity)
-                        r1.content['forecasts'][i]["pv_estimate90"] = min(r1.content['forecasts'][i]["pv_estimate90"] + r12.content['forecasts'][i]["pv_estimate90"], config.forecast_capacity)
+                        r1.content['forecasts'][i]["pv_estimate"] = min((r1.content['forecasts'][i]["pv_estimate"] + r12.content['forecasts'][i]["pv_estimate"]) * f_ratio, config.forecast_capacity)
+                        r1.content['forecasts'][i]["pv_estimate10"] = min((r1.content['forecasts'][i]["pv_estimate10"] + r12.content['forecasts'][i]["pv_estimate10"]) * f_ratio, config.forecast_capacity)
+                        r1.content['forecasts'][i]["pv_estimate90"] = min((r1.content['forecasts'][i]["pv_estimate90"] + r12.content['forecasts'][i]["pv_estimate90"]) * f_ratio, config.forecast_capacity)
             if config.site_UUID3 != "":
                 r12 = solcast.get_rooftop_forecasts(config.site_UUID3, hours=252, api_key=config.solcast_key)
                 for i in range(0, len(r12.content['forecasts'])):
                     if r1.content['forecasts'][i]["period_end"] == r12.content['forecasts'][i]["period_end"]:
-                        r1.content['forecasts'][i]["pv_estimate"] = min(r1.content['forecasts'][i]["pv_estimate"] + r12.content['forecasts'][i]["pv_estimate"], config.forecast_capacity)
-                        r1.content['forecasts'][i]["pv_estimate10"] = min(r1.content['forecasts'][i]["pv_estimate10"] + r12.content['forecasts'][i]["pv_estimate10"], config.forecast_capacity)
-                        r1.content['forecasts'][i]["pv_estimate90"] = min(r1.content['forecasts'][i]["pv_estimate90"] + r12.content['forecasts'][i]["pv_estimate90"], config.forecast_capacity)
+                        r1.content['forecasts'][i]["pv_estimate"] = min(r1.content['forecasts'][i]["pv_estimate"] + r12.content['forecasts'][i]["pv_estimate"] * f_ratio, config.forecast_capacity)
+                        r1.content['forecasts'][i]["pv_estimate10"] = min(r1.content['forecasts'][i]["pv_estimate10"] + r12.content['forecasts'][i]["pv_estimate10"] * f_ratio, config.forecast_capacity)
+                        r1.content['forecasts'][i]["pv_estimate90"] = min(r1.content['forecasts'][i]["pv_estimate90"] + r12.content['forecasts'][i]["pv_estimate90"] * f_ratio, config.forecast_capacity)
             if daily_forecast:
                 r2 = solcast.get_wpv_power_forecasts(config.latitude, config.longitude, config.forecast_capacity,
                                                     tilt=config.tilt, azimuth=config.azimuth,
@@ -318,11 +324,6 @@ def forecast(h, midnight):
 
                     sum2 = sum2 + x['pv_estimate'] * 0.5
 
-                if sum1 > 0 and sum2 > 0:
-                    forecast_hours = (t2 - t1) / t1
-                    forecast_ratio = sum2/sum1
-                    print("forcast info\n")
-                    print(forecast_hours, forecast_ratio)
 
         elif (config.solfor == 2):
             r1 = solcast.get_wpv_power_forecasts(config.latitude, config.longitude, config.forecast_capacity,
@@ -383,6 +384,70 @@ def supla():
         print("supla error: %s" % str(e))
 #        pass
 
+def do_fratio(j):
+    if config.sol_comp:
+        try:
+            if config.solfor == 1 or config.solfor == 2:
+                s = "SELECT mean(r) as m, STDDEV(r) as av from (SELECT (P_daily / f_power * f_ratio) as r FROM Huawei_daily WHERE time >= " + str(j) + "ms -7d and time <= " + str(j) + "ms fill(1) tz('"+config.time_zone+"'))"
+                if config.debug:
+                    print(s)
+
+                zeros=flux_client.query(s, database=config.influxdb_longterm)
+                m = list(zeros.get_points(measurement=config.model+"_daily"))
+                av = m[0]['m']
+                sd = m[0]['av']
+
+                if config.debug:
+                    print("f_ratio average")
+                    print(s)
+                    print(m)
+                    print(av, sd)
+
+                s= "SELECT HOLT_WINTERS_WITH_FIT(first(r), 1, 7)  from (SELECT (P_daily / f_power * f_ratio) as r FROM Huawei_daily WHERE time >=  " + str(j) +"ms -10d and time <= " + str(j) +"ms tz('"+config.time_zone+"')) group by time(1d) tz('"+config.time_zone+"')"
+
+                zeros=flux_client.query(s, database=config.influxdb_longterm, epoch="ms")
+                m = list(zeros.get_points(measurement=config.model+"_daily"))
+
+                if config.debug:
+                    print(s)
+
+                if len(m) > 0:
+                    t = m[-1]['time'] + 24 * 3600 * 1000
+
+                    if config.debug or True:
+                        print("Holt")
+                        print(s)
+                        print(m)
+
+                    if len(m) > 0 and t > 0:
+                        q = round(m[-1]['holt_winters_with_fit'],4)
+                        if av > 0.5 and av < 1:
+                            if q > av + 2 * sd:
+                                q = av + 2 * sd
+                            if q < av - 2 * sd:
+                                q = av - 2 * sd
+                        if q > 1 or q < 0.5:
+                            q = 1.0
+
+                        if config.debug or True:
+                            print("q= ", q)
+                            return(float(q))
+                else:
+                    if av < 1 and av > 0.5:
+                        print("no holt found")
+                        return(float(av))
+            else:
+                if config.debug:
+                    print("no forecasts")
+                return(1.0)
+        except Exception as e:
+            print("do_fratio error: %s" % str(e))
+            return(1.0)
+    else:
+        if config.debug:
+            print("not sol_comp")
+        return(1.0)
+
 
 def main():
     global register
@@ -407,8 +472,7 @@ def main():
     global loads
     global loops
     global daily_forecast
-    global forecast_hours
-    global forecast_ratio
+    global f_ratio
 
     config.loads = {}
     inverter_file = config.model
@@ -435,6 +499,7 @@ def main():
         inverter_ip = inverter.inv_address()
         print(inverter_ip)
         if inverter_ip == "":
+            close_bus(client)
             raise Exception("Can't find inverter")
         config.inverter_ip =inverter_ip
 
@@ -443,6 +508,8 @@ def main():
                          timeout = config.timeout)
 
     print(config.inverter_ip)
+    close_bus(client)
+    time.sleep(1)
 
     if config.debug:
         print("opening db")
@@ -486,8 +553,7 @@ def main():
     sleep = 0
     forecast_time = 0
     daily_forecast = True
-    forecast_hours = 0
-    forecast_ratio = 0
+    f_ratio = 1
 
     midnight = (int(time.mktime(time.strptime(time.strftime( "%m/%d/%Y ") + " 00:00:00", "%m/%d/%Y %H:%M:%S"))))
     s = ('SELECT %s FROM "%s" WHERE time >= %s and time <= %s and P_daily > 0') % ('max("M_PExp") as "M_PExp", max("M_PTot") as "M_PTot", max("P_accum") as "P_accum", max("P_daily") as "P_daily", max("Temp") as "Temp"', config.model, str((midnight - 24 * 3600)*1000000000), str(midnight*1000000000))
@@ -497,7 +563,7 @@ def main():
         y_exp = m[0]['M_PExp']
         y_tot = m[0]['M_PTot']
         y_gen = m[0]['P_daily']
-        tmax = m[0]['Temp']
+        tmax  = m[0]['Temp']
 
     except Exception as e:
         print("main 1 error: %s" % str(e))
@@ -522,6 +588,29 @@ def main():
 
         min_ins = 1000
 
+    if config.sol_comp:
+        try:
+            f_ratio = 1
+            s = "SELECT f_ratio FROM Huawei_daily where time >= "+ str(midnight * 1000) +  "ms fill(1) tz('"+config.time_zone+"')"
+
+            zeros=flux_client.query(s, database=config.influxdb_longterm, epoch="ms")
+            m = list(zeros.get_points(measurement=config.model+"_daily"))
+
+            if len(m) == 0 or m[0]['f_ratio'] == 1:
+                f_ratio = do_fratio(midnight * 1000)
+                measurement = {'f_ratio': f_ratio}
+                utils.write_influx(flux_client, measurement, config.model + "_daily", config.influxdb_longterm, midnight * 1000000000)
+            else:
+                f_ratio = m[0]['f_ratio']
+
+        except Exception as e:
+            print("main f_ratio error: %s" % str(e))
+            if config.debug:
+                print(s)
+            f_ratio = 1
+    else:
+        f_ratio = 1
+
     midnight = int(time.mktime(time.strptime(time.strftime( "%m/%d/%Y ") + " 23:59:59", "%m/%d/%Y %H:%M:%S"))) + 1
 
     utils.fill_blanks(flux_client, midnight)
@@ -543,7 +632,7 @@ def main():
             info = {}
             status = {}
             j = 0
-            while do_map(client, config, inverter):
+            while do_map(config, inverter):
                 j += 1
                 if config.debug:
                     print(time.ctime(), register)
@@ -684,9 +773,6 @@ def main():
                     daily['f_power90'] = float(m[0]['power'])
                     daily['f_power10'] = float(m[0]['power'])
 
-                if forecast_ratio > 0:
-                    daily['f_hours'] = float(forecast_hours)
-                    daily["f_ratio"] = float(forecast_ratio)
 
                 s = 'SELECT cumulative_sum(integral("power90")) /3600  as power90, cumulative_sum(integral("power10")) /3600  as power10, cumulative_sum(integral("power")) /3600  as power FROM "forcast" WHERE time > now() and time < now() + 22h  group by time(1d)'
                 zeros = flux_client.query(s, database=config.influxdb_database)
@@ -725,17 +811,72 @@ def main():
 
 #                utils.send_measurements(midnight - 24 * 3600 * 4, midnight, flux_client)
 
+                if config.solfor == 1 or config.solfor == 2:
+                    try:
+                        s = "SELECT P_daily, f_power FROM Huawei_daily where f_power > 0  fill(null) order by time desc limit 1 tz('"+config.time_zone+"')"
+
+                        if config.debug:
+                            print("doing forecast adjustment")
+                            print(s)
+
+                        zeros=flux_client.query(s, database=config.influxdb_longterm, epoch="ms")
+                        m = list(zeros.get_points(measurement=config.model+"_daily"))
+
+                        t = m[0]['time']
+                        f_ratio_old = f_ratio
+                        f_ratio = do_fratio(t)
+
+#                       s = "SELECT mean(r) as m, STDDEV(r) as av from (SELECT (P_daily / f_power * f_ratio) as r FROM Huawei_daily WHERE time >= now() -7d fill(1))"
+#                       if config.debug:
+#                           print(s)
+#
+#                       zeros=flux_client.query(s, database=config.influxdb_longterm, epoch="ms")
+#                       m = list(zeros.get_points(measurement=config.model+"_daily"))
+#                       av = m[0]['m']
+#                       sd = m[0]['av']
+#
+#                       s= "SELECT HOLT_WINTERS_WITH_FIT(first(r), 1, 7)  from (SELECT (P_daily / f_power * f_ratio) as r FROM Huawei_daily WHERE time >=  " + str(t) +"ms -10d and time <= " + str(t) +"ms tz('"+config.time_zone+"')) group by time(1d) tz('"+config.time_zone+"')"
+#
+#                       if config.debug:
+#                           print(s)
+#
+#
+#                       zeros=flux_client.query(s, database=config.influxdb_longterm)
+#                       m = list(zeros.get_points(measurement=config.model+"_daily"))
+#                       if config.debug:
+#                           print(m)
+
+                        if t > 0:
+                            t = t + 24 * 3600 * 1000
+                            measurement = {'f_ratio': f_ratio}
+                            t = t * 1000000
+
+                            metrics = {}
+                            tags = {}
+                            metrics['time'] = t
+                            metrics['measurement'] = config.model + "_daily"
+                            tags['location'] = config.location
+                            metrics['tags'] = tags
+                            metrics['fields'] = measurement
+                            metrics =[metrics, ]
+
+                            target=flux_client.write_points(metrics, database=config.influxdb_longterm)
+
+                    except Exception as e:
+                        print("forecast adjustment error: %s" % str(e))
+
+
                 if config.daily_reports:
                     s = "Daily values for the day of " + time.ctime(midnight - 24 * 3600) + "\r\n\r\n\r\n"
                     s = s + f"Insulation: {daily['Insulation']:3.2f}\r\n"
                     s = s + f"Temp: {daily['Temp']:2.0f}\r\n\r\n"
-                    s = s + f"Forecasted: {daily['f_power']:3.1f}\r\n"
+                    s = s + f"Forecasted: {daily['f_power']:3.1f} ({f_ratio_old:.1%})\r\n"
                     s = s + f"Daily: {daily['P_daily']:3.1f}\r\n\r\n"
                     s = s + f"Load: {daily['P_Load']:3.1f}\r\n"
                     s = s + f"Exported: {daily['P_Exp']:3.1f}\r\n"
                     s = s + f"Grid: {daily['P_Grid']:3.1f}\r\n\r\n"
                     s = s + f"Peak: {daily['P_peak']:3.1f}\r\n"
-                    s = s + f"Tomorrow: {tomorrow:3.1f}\r\n"
+                    s = s + f"Tomorrow: {tomorrow:3.1f} ({f_ratio:.1%})\r\n"
 
                     emails.send_mail(s)
 
@@ -774,8 +915,7 @@ def main():
 
                 midnight = int(time.mktime(time.strptime(time.strftime( "%m/%d/%Y ") + " 23:59:59", "%m/%d/%Y %H:%M:%S"))) + 1
                 daily_forecast = True
-                forecast_hours = 0
-                forecast_ratio = 0
+
 
             if (int(time.time()) > forecast_time):
                 forecast_time = forecast(forecast_time, midnight)
@@ -804,6 +944,8 @@ def main():
             ok = False
             return -1
 
+global client
+
 utils.check_default_files()
 emails.send_mail("Starting solar logger")
 loops = 0
@@ -813,6 +955,7 @@ while True:
     try:
         main()
         close_bus(client)
+        del client
         flux_client.close()
         del flux_client
 
@@ -822,4 +965,5 @@ while True:
         loops = loops + 1
         if loops > 9:
             emails.send_mail("Doing the loopy loop \r\n" + str(e))
+        time.sleep(150)
     print("done")
